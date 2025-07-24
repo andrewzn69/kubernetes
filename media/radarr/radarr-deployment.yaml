@@ -1,0 +1,50 @@
+# radarr deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: media
+  labels:
+    app: radarr
+spec:
+  selector:
+    matchLabels:
+      app: radarr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      nodeSelector:
+        # kubernetes.io/hostname: rocky
+      containers:
+      - name: radarr
+        image: ghcr.io/hotio/radarr
+        ports:
+        - containerPort: 7878
+        volumeMounts:
+        - mountPath: /media/Movies1
+          name: movies1
+        - mountPath: /media/Movies2
+          name: movies2
+        - mountPath: /config
+          name: radarr-config
+        - mountPath: /downloads
+          name: qbittorrent-downloads
+      volumes:
+        - name: movies1
+          nfs:
+            server: 192.168.0.113
+            path: /mnt/movies1/Movies
+        - name: movies2
+          nfs:
+            server: 192.168.0.113
+            path: /mnt/movies2/Movies
+        - name: radarr-config
+          persistentVolumeClaim:
+            claimName: radarr-config-pvc
+        - name: qbittorrent-downloads
+          persistentVolumeClaim:
+            claimName: qbittorrent-downloads-pvc
+---

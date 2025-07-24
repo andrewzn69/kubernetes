@@ -1,0 +1,14 @@
+# flaresolverr config pvc
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: flaresolverr-config-pvc
+  namespace: media
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: nfs-storage
+---

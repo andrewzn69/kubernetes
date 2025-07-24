@@ -1,0 +1,15 @@
+# bazarr Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: bazarr
+  namespace: media
+spec:
+  selector:
+    app: bazarr
+  ports:
+    - protocol: TCP
+      port: 6767
+      targetPort: 6767
+  type: LoadBalancer
+---

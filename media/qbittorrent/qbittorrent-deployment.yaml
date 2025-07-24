@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  namespace: media
+  labels:
+    app: qbittorrent
+spec:
+  selector:
+    matchLabels:
+      app: qbittorrent
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      nodeSelector:
+        # kubernetes.io/hostname: rocky
+      containers:
+      - name: qbittorrent
+        image: hotio/qbittorrent
+        ports:
+        - containerPort: 8080 # port for webui
+        - containerPort: 8999 # port for torrenting
+        env:
+        - name: QBT_WEBUI_PORT
+          value: "8080"
+        volumeMounts:
+        - mountPath: /media/Shows
+          name: external-shows
+        - mountPath: /media/Movies1
+          name: movies1
+        - mountPath: /media/Movies2
+          name: movies2
+        - mountPath: /config
+          name: qbittorrent-config
+        - mountPath: /downloads
+          name: qbittorrent-downloads
+      volumes:
+        - name: external-shows
+          nfs:
+            server: 192.168.0.113
+            path: /mnt/external/Shows
+        - name: movies1
+          nfs:
+            server: 192.168.0.113
+            path: /mnt/movies1/Movies
+        - name: movies2
+          nfs:
+            server: 192.168.0.113
+            path: /mnt/movies2/Movies
+        - name: qbittorrent-config
+          persistentVolumeClaim:
+            claimName: qbittorrent-config-pvc
+        - name: qbittorrent-downloads
+          persistentVolumeClaim:
+            claimName: qbittorrent-downloads-pvc
+---

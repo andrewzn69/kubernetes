@@ -1,0 +1,44 @@
+# sonarr deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: media
+  labels:
+    app: sonarr
+spec:
+  selector:
+    matchLabels:
+      app: sonarr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      nodeSelector:
+        # kubernetes.io/hostname: rocky
+      containers:
+      - name: sonarr
+        image: hotio/sonarr
+        ports:
+        - containerPort: 8989
+        volumeMounts:
+        - mountPath: /media/Shows
+          name: external-shows
+        - mountPath: /config
+          name: sonarr-config
+        - mountPath: /downloads
+          name: qbittorrent-downloads
+      volumes:
+        - name: external-shows
+          nfs:
+            server: 192.168.0.113
+            path: /mnt/external/Shows
+        - name: sonarr-config
+          persistentVolumeClaim:
+            claimName: sonarr-config-pvc
+        - name: qbittorrent-downloads
+          persistentVolumeClaim:
+            claimName: qbittorrent-downloads-pvc
+---
