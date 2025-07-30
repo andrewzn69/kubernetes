@@ -1,0 +1,17 @@
+{{- if .Values.cloudflared.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-cloudflared-config
+  namespace: {{ .Release.Namespace }}
+data:
+  config.yaml: |
+    tunnel: {{ .Values.cloudflared.tunnelId }}
+    credentials-file: /cloudflared/tunnel-credentials.json
+    ingress:
+      - hostname: argocd.zemn.xyz
+        service: https://argocd-server.{{ .Release.Namespace }}.svc.cluster.local:443
+        originRequest:
+          noTLSVerify: true
+      - service: http_status:404
+{{- end}}
