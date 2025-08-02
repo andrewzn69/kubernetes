@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-stoneblock
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteMany
+  nfs:
+    path: /home/zimn/cluster/stoneblock
+    server: 192.168.0.113
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-storage
+---
