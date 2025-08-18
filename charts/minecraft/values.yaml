@@ -139,7 +139,7 @@ persistence:
   labels: {}
   annotations: {}
   dataDir:
-    enabled: true
+    enabled: false
     Size: 30Gi
     accessModes:
       - ReadWriteOnce
