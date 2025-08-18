@@ -167,9 +167,9 @@ initContainers:
     volumeMounts:
     - name: datadir
       mountPath: /data
-      securityContext:
-        runAsUser: 0
-        runAsNonRoot: false
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: false
 
 sidecarContainers: []
 
