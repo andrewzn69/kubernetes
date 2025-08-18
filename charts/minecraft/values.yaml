@@ -65,6 +65,7 @@ startupProbe:
   periodSeconds: 10
 
 minecraftServer:
+  ops: "andrewzn"
   eula: "TRUE"
   version: "LATEST"
   # This can be one of "VANILLA", "FORGE", "SPIGOT", "BUKKIT", "PAPER", "FTBA", "SPONGEVANILLA", "AUTO_CURSEFORGE"
