@@ -29,7 +29,7 @@ nodeSelector:
 podSecurityContext:
   runAsUser: 1000
   runAsGroup: 3000
-  runAsNonRoot: false
+  runAsNonRoot: true
   fsGroup: 2000
   seccompProfile:
     type: RuntimeDefault
@@ -160,7 +160,16 @@ tolerations: []
 
 affinity: {}
 
-initContainers: []
+initContainers:
+  - name: fix-permissions
+    image: busybox
+    command: ['sh', '-c', 'chmod 777 /data && chown -R 1000:3000 /data']
+    volumeMounts:
+    - name: datadir
+      mountPath: /data
+      securityContext:
+        runAsUser: 0
+        runAsNonRoot: false
 
 sidecarContainers: []
 
