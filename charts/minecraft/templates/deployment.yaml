@@ -463,11 +463,12 @@ spec:
         emptyDir: {}
       {{- if .Values.persistence.dataDir.enabled }}
       - name: datadir
-				hostPath: /opt/minecraft-data
-				type: DirectoryOrCreate
-			{{- else }}
-			- name: datadir
-				emptyDir: {}
+        hostPath:
+          path: /opt/minecraft-data
+          type: DirectoryOrCreate
+      {{- else }}
+      - name: datadir
+        emptyDir: {}
       {{- end }}
       {{- if and .Values.mcbackup.persistence.backupDir.enabled .Values.mcbackup.enabled }}
       {{- if .Values.mcbackup.persistence.backupDir.existingClaim }}
