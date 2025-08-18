@@ -1,0 +1,22 @@
+apiVersion: v2
+name: minecraft
+version: 0.1.0
+appVersion: "1.16.0"
+home: https://minecraft.net/
+description: A Helm chart for Minecraft server deployment
+type: application
+keywords:
+  - minecraft
+  - gaming
+  - server
+sources:
+  - https://github.com/itzg/minecraft-server-charts
+maintainers:
+  - name: andrewzn69
+    email: ondrejzeman23@gmail.com
+annotations:
+  artifacthub.io/links: |
+    - name: Image source
+      url: https://github.com/itzg/docker-minecraft-server
+    - name: Image DockerHub
+      url: https://hub.docker.com/r/itzg/minecraft-server

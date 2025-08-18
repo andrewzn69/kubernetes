@@ -1,0 +1,161 @@
+
+image:
+  repository: itzg/minecraft-server
+  tag: latest
+  pullPolicy: IfNotPresent
+  pullSecret: ""
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 3
+    memory: 16Gi
+  limits:
+    cpu: 3
+    memory: 16Gi
+
+lifecycle:
+  postStart: []
+  preStop: []
+
+workloadAsStatefulSet: false
+
+strategyType: Recreate
+
+nodeSelector:
+  kubernetes.io/hostname: "worker-1"
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 3000
+  runAsNonRoot: true
+  fsGroup: 2000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+
+livenessProbe:
+  command:
+    - mc-health
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  failureThreshold: 20
+  successThreshold: 1
+  timeoutSeconds: 1
+readinessProbe:
+  command:
+    - mc-health
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  failureThreshold: 20
+  successThreshold: 1
+  timeoutSeconds: 1
+startupProbe:
+  command:
+    - mc-health
+  enabled: false
+  failureThreshold: 30
+  periodSeconds: 10
+
+minecraftServer:
+  eula: "TRUE"
+  version: "LATEST"
+  # This can be one of "VANILLA", "FORGE", "SPIGOT", "BUKKIT", "PAPER", "FTBA", "SPONGEVANILLA", "AUTO_CURSEFORGE"
+  type: "VANILLA"
+  difficulty: easy
+  maxPlayers: 20
+  allowNether: default
+  announcePlayerAchievements: default
+  enableCommandBlock: default
+  forcegameMode: default
+  generateStructures: default
+  hardcore: default
+  maxBuildHeight: 400
+  maxTickTime: 60000
+  spawnAnimals: default
+  spawnMonsters: default
+  spawnNPCs: default
+  spawnProtection: 0
+  viewDistance: 10
+  gameMode: survival
+  motd: "Total nigger death"
+  pvp: default
+  levelType: DEFAULT
+  worldSaveName: world
+  forceReDownload: false
+  removeOldMods: false
+  resourcePackEnforce: false
+  onlineMode: default
+  enforceSecureProfile: default
+  memory: 15000M
+  overrideServerProperties: false
+  serviceType: NodePort
+  servicePort: 25565
+
+  autoCurseForge:
+    apiKey:
+      key: "$$2a$$10$$uuUcUzCrKd.7H5TYMQ1OR.b8sJnrcgpk9OAJ1EdSGaDbr68m6pG.u"
+      existingSecret: ""
+      secretKey: cf-api-key
+    pageUrl: "https://www.curseforge.com/minecraft/modpacks/ftb-stoneblock-3"
+    slug: ""
+    fileId: "5813067"
+    filenameMatcher: ""
+    excludeMods: []
+    includeMods: []
+    excludeIncludeFile: null
+    forceSynchronize: false
+    setLevelFrom: ""
+    parallelDownloads: 4
+    overridesSkipExisting: false
+
+  rcon:
+    enabled: false
+    withGeneratedPassword: false
+    port: 25575
+    password: "nepamatujusiheslo"
+    existingSecret:
+    secretKey: rcon-password
+    serviceType: NodePort
+    nodePort:
+    clusterIP:
+    loadBalancerClass:
+    loadBalancerIP:
+
+  query:
+    enabled: false
+    port: 25565
+
+persistence:
+  labels: {}
+  annotations: {}
+  dataDir:
+    enabled: true
+    Size: 30Gi
+    accessModes:
+      - ReadWriteOnce
+
+
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
+
+
+tolerations: []
+
+affinity: {}
