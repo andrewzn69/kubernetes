@@ -178,8 +178,8 @@ extraVolumes: []
 extraDeploy: []
 
 extraPodSpec:
-  hostNetwork: true
-  dnsPolicy: ClusterFirstWithHostNet
+  hostNetwork: "true"
+  dnsPolicy: "ClusterFirstWithHostNet"
 
 envFrom: []
 
