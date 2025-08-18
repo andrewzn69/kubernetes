@@ -20,3 +20,6 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+    namespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
