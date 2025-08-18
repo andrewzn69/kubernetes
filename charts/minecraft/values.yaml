@@ -159,3 +159,15 @@ volumeMounts: []
 tolerations: []
 
 affinity: {}
+
+initContainers: []
+
+sidecarContainers: []
+
+extraVolumes: []
+
+extraDeploy: []
+
+extraPodSpec: {}
+
+envFrom: []
