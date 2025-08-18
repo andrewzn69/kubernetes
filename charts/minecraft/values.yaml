@@ -69,7 +69,7 @@ minecraftServer:
   eula: "TRUE"
   version: "LATEST"
   # This can be one of "VANILLA", "FORGE", "SPIGOT", "BUKKIT", "PAPER", "FTBA", "SPONGEVANILLA", "AUTO_CURSEFORGE"
-  type: "VANILLA"
+  type: "AUTO_CURSEFORGE"
   difficulty: easy
   maxPlayers: 20
   allowNether: default
@@ -90,8 +90,8 @@ minecraftServer:
   pvp: default
   levelType: DEFAULT
   worldSaveName: world
-  forceReDownload: false
-  removeOldMods: false
+  forceReDownload: true
+  removeOldMods: true
   resourcePackEnforce: false
   onlineMode: default
   enforceSecureProfile: default
@@ -106,9 +106,9 @@ minecraftServer:
       key: "$$2a$$10$$uuUcUzCrKd.7H5TYMQ1OR.b8sJnrcgpk9OAJ1EdSGaDbr68m6pG.u"
       existingSecret: ""
       secretKey: cf-api-key
-    pageUrl: "https://www.curseforge.com/minecraft/modpacks/ftb-stoneblock-3"
+    pageUrl: "https://www.curseforge.com/minecraft/modpacks/ftb-oceanblock-2"
     slug: ""
-    fileId: "5813067"
+    fileId: ""
     filenameMatcher: ""
     excludeMods: []
     includeMods: []
