@@ -98,7 +98,6 @@ minecraftServer:
   overrideServerProperties: false
   serviceType: NodePort
   servicePort: 25565
-  nodePort: 25565
 
   autoCurseForge:
     apiKey:
@@ -178,7 +177,9 @@ extraVolumes: []
 
 extraDeploy: []
 
-extraPodSpec: {}
+extraPodSpec:
+  hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
 
 envFrom: []
 
