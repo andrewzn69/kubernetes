@@ -462,19 +462,12 @@ spec:
       - name: tmp
         emptyDir: {}
       {{- if .Values.persistence.dataDir.enabled }}
-      {{- if .Values.persistence.dataDir.existingClaim }}
       - name: datadir
-        persistentVolumeClaim:
-          claimName: {{ .Values.persistence.dataDir.existingClaim }}
-      {{- else if (not .Values.workloadAsStatefulSet) }}
-      - name: datadir
-        persistentVolumeClaim:
-          claimName: {{ template "minecraft.fullname" . }}-datadir
-      {{- end -}}
-      {{/* if persistence enabled in stateful set without existing claim, a volume claim template will be defined */}}
-      {{- else }}
-      - name: datadir
-        emptyDir: {}
+				hostPath: /opt/minecraft-data
+				type: DirectoryOrCreate
+			{{- else }}
+			- name: datadir
+				emptyDir: {}
       {{- end }}
       {{- if and .Values.mcbackup.persistence.backupDir.enabled .Values.mcbackup.enabled }}
       {{- if .Values.mcbackup.persistence.backupDir.existingClaim }}
