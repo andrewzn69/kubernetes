@@ -20,3 +20,4 @@ annotations:
       url: https://github.com/itzg/docker-minecraft-server
     - name: Image DockerHub
       url: https://hub.docker.com/r/itzg/minecraft-server
+icon: https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/favicon-96x96.png
