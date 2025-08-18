@@ -29,7 +29,7 @@ nodeSelector:
 podSecurityContext:
   runAsUser: 1000
   runAsGroup: 3000
-  runAsNonRoot: true
+  runAsNonRoot: false
   fsGroup: 2000
   seccompProfile:
     type: RuntimeDefault
