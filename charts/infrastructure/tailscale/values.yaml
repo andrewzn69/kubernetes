@@ -8,3 +8,4 @@ tailscale-operator:
 
   operatorConfig:
     hostname: "talos-k8s-operator"
+    routes: "10.244.0.0/16"
