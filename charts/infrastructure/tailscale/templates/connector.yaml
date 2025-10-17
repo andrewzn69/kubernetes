@@ -1,0 +1,10 @@
+---
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: subnet-router
+  namespace: tailscale-system
+spec:
+  subnetRouter:
+    advertiseRoutes:
+      - "10.244.0.0/16"
