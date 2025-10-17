@@ -1,0 +1,10 @@
+tailscale-operator:
+  oauth:
+    clientId: ""
+    clientSecret: ""
+
+  apiServerProxyConfig:
+    mode: "true"
+
+  operatorConfig:
+    hostname: "talos-k8s-operator"
