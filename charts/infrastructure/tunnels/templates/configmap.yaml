@@ -1,0 +1,22 @@
+{{- if .Values.publicTunnel.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared-public-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: cloudflared-public
+data:
+  config.yaml: |
+    tunnel: {{ .Values.publicTunnel.tunnelId }}
+    credentials-file: /etc/cloudflared/credentials.json
+    metrics: 0.0.0.0:2000
+    no-autoupdate: true
+
+    ingress:
+    {{- range .Values.publicTunnel.services }}
+      - hostname: {{ .hostname }}
+        service: {{ .service }}
+    {{- end }}
+      - service: http_status:404
+{{- end }}
