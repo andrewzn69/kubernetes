@@ -1,53 +1,53 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jellyfin
+  name: {{ include "jellyfin.fullname" . }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: jellyfin
+    {{- include "jellyfin.labels" . | nindent 4 }}
 spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
   selector:
     matchLabels:
-      app: jellyfin
-  replicas: 1
+      {{- include "jellyfin.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: jellyfin
+        {{- include "jellyfin.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-      - name: jellyfin
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
-        - containerPort: 8096
+        - name: http
+          containerPort: 8096
+          protocol: TCP
+        {{- with .Values.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         volumeMounts:
-        - mountPath: /media/Shows
-          name: external-shows
-        - mountPath: /media/Movies1
-          name: movies1
-        - mountPath: /media/Movies2
-          name: movies2
-        - mountPath: /config
-          name: jellyfin-config
-        - mountPath: /cache
-          name: jellyfin-cache
+        {{- range .Values.volumes.mounts }}
+        - mountPath: {{ .mountPath }}
+          name: {{ .name }}
+          {{- if .readOnly }}
+          readOnly: {{ .readOnly }}
+          {{- end }}
+        {{- end }}
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
-        - name: external-shows
-          nfs:
-            server: {{ .Values.nfs.server }}
-            path: {{ .Values.nfs.paths.shows }}
-        - name: movies1
-          nfs:
-            server: {{ .Values.nfs.server }}
-            path: {{ .Values.nfs.paths.movies1 }}
-        - name: movies2
-          nfs:
-            server: {{ .Values.nfs.server }}
-            path: {{ .Values.nfs.paths.movies2 }}
-        - name: jellyfin-config
-          persistentVolumeClaim:
-            claimName: jellyfin-config-pvc
-        - name: jellyfin-cache
-          persistentVolumeClaim:
-            claimName: jellyfin-cache-pvc
----
+      {{- range .Values.volumes.mounts }}
+      - name: {{ .name }}
+        {{- if eq .type "nfs" }}
+        nfs:
+          server: {{ .nfs.server }}
+          path: {{ .nfs.path }}
+        {{- else if eq .type "pvc" }}
+        persistentVolumeClaim:
+          claimName: {{ .pvc.claimName }}
+        {{- end }}
+      {{- end }}

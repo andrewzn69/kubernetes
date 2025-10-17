@@ -1,23 +1,72 @@
+# chart metadata
+nameOverride: ""
+fullnameOverride: ""
+
+# kubernetes namespace
 namespace: media
 
+# container image configuration
 image:
   repository: docker.io/jellyfin/jellyfin
-  tag: latest
+  tag: "10.10.7"
+  pullPolicy: IfNotPresent
 
-storage:
-  configSize: 1Gi
-  cacheSize: 1Gi
-  storageClass: nfs-storage
+# service config
+service:
+  type: ClusterIP
+  port: 8096
+  targetPort: 8096
 
-nfs:
-  server: 192.168.0.113
-  paths:
-    config: /mnt/external/config/jellyfin/config
-    cache: /mnt/external/config/jellyfin/cache
-    shows: /mnt/external/Shows
-    movies1: /mnt/movies1/Movies
-    movies2: /mnt/movies2/Movies
+# volume config
+volumes:
+  mounts:
+    - name: jellyfin-config
+      mountPath: /config
+      type: nfs
+      readOnly: false
+      nfs:
+        server: 100.64.100.64
+        path: /storage/apps/jellyfin
+    - name: jellyfin-cache
+      mountPath: /cache
+      type: nfs
+      readOnly: false
+      nfs:
+        server: 100.64.100.64
+        path: /storage/apps/jellyfin/cache
+    - name: jellyfin-shows
+      mountPath: /media/Shows
+      type: nfs
+      readOnly: true
+      nfs:
+        server: 100.64.100.64
+        path: /storage/media/shows
+    - name: jellyfin-movies
+      mountPath: /media/Movies
+      type: nfs
+      readOnly: true
+      nfs:
+        server: 100.64.100.64
+        path: /storage/media/movies
 
+# ingress config (disabled because using direct cf tunnel)
 ingress:
+  enabled: false
+  className: nginx
   host: jellyfin.zemn.xyz
   tlsSecretName: zemn-wildcard-tls
+
+# resource limits/requests
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "2Gi"
+    cpu: "2000m"
+
+# security context
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
