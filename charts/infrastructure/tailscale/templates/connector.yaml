@@ -5,6 +5,8 @@ metadata:
   name: subnet-router
   namespace: tailscale-system
 spec:
+  tags:
+    - tag:k8s-operator
   subnetRouter:
     advertiseRoutes:
       - "10.244.0.0/16"
