@@ -1,0 +1,7 @@
+csi-driver-nfs:
+  controller:
+    replicas: 1
+  node:
+    # run on all nodes
+    tolerations:
+      - operator: Exists

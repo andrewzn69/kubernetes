@@ -1,0 +1,9 @@
+apiVersion: v2
+name: nfs-csi-driver
+description: NFS CSI driver for Kubernetes with Tailscale support
+type: application
+version: 0.1.0
+dependencies:
+  - name: csi-driver-nfs
+    version: v4.9.0
+    repository: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
