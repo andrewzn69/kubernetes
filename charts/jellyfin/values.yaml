@@ -22,32 +22,40 @@ volumes:
   mounts:
     - name: jellyfin-config
       mountPath: /config
-      type: nfs
+      type: pvc
       readOnly: false
-      nfs:
-        server: 100.64.100.64
-        path: /storage/apps/jellyfin
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/jellyfin/config"
+        size: 10Gi
+        accessMode: ReadWriteMany
     - name: jellyfin-cache
       mountPath: /cache
-      type: nfs
+      type: pvc
       readOnly: false
-      nfs:
-        server: 100.64.100.64
-        path: /storage/apps/jellyfin/cache
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/jellyfin/cache"
+        size: 50Gi
+        accessMode: ReadWriteMany
     - name: jellyfin-shows
       mountPath: /media/Shows
-      type: nfs
+      type: pvc
       readOnly: true
-      nfs:
-        server: 100.64.100.64
-        path: /storage/media/shows
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/media/shows"
+        size: 1Ti
+        accessMode: ReadOnlyMany
     - name: jellyfin-movies
       mountPath: /media/Movies
-      type: nfs
+      type: pvc
       readOnly: true
-      nfs:
-        server: 100.64.100.64
-        path: /storage/media/movies
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/media/movies"
+        size: 1Ti
+        accessMode: ReadOnlyMany
 
 # ingress config (disabled because using direct cf tunnel)
 ingress:
