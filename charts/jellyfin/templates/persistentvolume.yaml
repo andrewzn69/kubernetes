@@ -1,0 +1,23 @@
+{{- range .Values.volumes.mounts }}
+{{- if eq .type "pvc" }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .name }}-pv
+spec:
+  capacity:
+    storage: {{ .pvc.size }}
+  accessModes:
+    - {{ .pvc.accessMode }}
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: {{ .pvc.nfsServer }}#{{ .pvc.nfsPath }}#{{ .name }}
+    volumeAttributes:
+      server: {{ .pvc.nfsServer | quote }}
+      share: {{ .pvc.nfsPath | quote }}
+{{- end }}
+{{- end }}

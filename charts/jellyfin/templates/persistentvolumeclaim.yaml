@@ -1,0 +1,18 @@
+{{- range .Values.volumes.mounts }}
+{{- if eq .type "pvc" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  accessModes:
+    - {{ .pvc.accessMode }}
+  storageClassName: ""
+  volumeName: {{ .name }}-pv
+  resources:
+    requests:
+      storage: {{ .pvc.size }}
+{{- end }}
+{{- end }}
