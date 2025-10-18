@@ -5,6 +5,7 @@ metadata:
   name: subnet-router
   namespace: tailscale-system
 spec:
+  exitNode: true
   tags:
     - tag:k8s-operator
   subnetRouter:
