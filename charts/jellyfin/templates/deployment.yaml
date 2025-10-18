@@ -48,6 +48,6 @@ spec:
           path: {{ .nfs.path }}
         {{- else if eq .type "pvc" }}
         persistentVolumeClaim:
-          claimName: {{ .pvc.claimName }}
+          claimName: {{ .name }}
         {{- end }}
       {{- end }}
