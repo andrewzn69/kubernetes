@@ -8,6 +8,7 @@ argo-cd:
       ingressClassName: tailscale
       annotations:
         tailscale.com/funnel: "false"
+        tailscale.com/tags: "tag:k8s-operator"
       hosts:
         - argocd.zemn.xyz
       tls:
