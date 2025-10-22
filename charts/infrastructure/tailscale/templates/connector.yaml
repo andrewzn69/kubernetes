@@ -10,4 +10,5 @@ spec:
     - tag:k8s-operator
   subnetRouter:
     advertiseRoutes:
-      - "10.244.0.0/16"
+      - "10.244.0.0/16"  # pod network
+      - "10.96.0.0/12"   # service network (includes coredns custom at 10.104.27.74)
