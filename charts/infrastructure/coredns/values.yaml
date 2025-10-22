@@ -21,7 +21,6 @@ resources:
 
 tailscale:
   tailnetName: "hake-egret.ts.net"
-  nameserverService: "nameserver"
 
 customDomain:
   zone: "lab"

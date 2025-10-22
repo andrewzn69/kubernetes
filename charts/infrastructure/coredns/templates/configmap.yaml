@@ -1,3 +1,9 @@
+{{- $nameserverIP := "" }}
+{{- $dnsConfig := lookup "tailscale.com/v1alpha1" "DNSConfig" "tailscale-system" "ts-dns" }}
+{{- if $dnsConfig }}
+{{- $nameserverIP = $dnsConfig.status.nameserver.ip }}
+{{- end }}
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -23,8 +29,8 @@ data:
       # rewrite *.lab queries to *.ts.net
       rewrite name regex (.*)\.{{ .Values.customDomain.zone }}\. {1}.{{ .Values.tailscale.tailnetName }}.
 
-      # forward to tailscale dnsconfig nameserver
-      forward . {{ .Values.tailscale.nameserverService }} {
+      # forward to tailscale dnsconfig nameserver (dynamic ip from lookup)
+      forward . {{ $nameserverIP }} {
         max_concurrent 1000
       }
 
