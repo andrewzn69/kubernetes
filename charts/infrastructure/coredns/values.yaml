@@ -1,0 +1,42 @@
+replicaCount: 2
+
+image:
+  repository: coredns/coredns
+  tag: "1.11.1"
+  pullPolicy: IfNotPresent
+
+service:
+  name: coredns-custom
+  type: ClusterIP
+  port: 53
+  protocol: UDP
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+tailscale:
+  tailnetName: "hake-egret.ts.net"
+  nameserverService: "ts-dns.tailscale-system.svc.cluster.local"
+
+customDomain:
+  zone: "lab"
+
+upstreamDNS:
+  - 10.96.0.10 # kube-dns for cluster.local
+  - 1.1.1.1 # cf
+  - 1.0.0.1
+
+plugins:
+  errors: true
+  log: true
+  ready: true
+  prometheus: true
+  cache:
+    ttl: 30
+  reload: true
+  loadbalance: true

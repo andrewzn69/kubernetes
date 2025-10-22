@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+data:
+  Corefile: |
+    # custom *.{{ .Values.customDomain.zone }} domain - rewrites to tailscale magicdns
+    {{ .Values.customDomain.zone }} {
+      {{- if .Values.plugins.errors }}
+      errors
+      {{- end }}
+      {{- if .Values.plugins.log }}
+      log
+      {{- end }}
+      {{- if .Values.plugins.ready }}
+      ready
+      {{- end }}
+
+      # rewrite *.lab queries to *.ts.net
+      rewrite name regex (.*)\.{{ .Values.customDomain.zone }}\/ {1}.{{ .Values.tailscale.tailnetName }}.
+
+      # forward to tailscale dnsconfig nameserver
+      forward . {{ .Values.tailscale.nameserverService }} {
+        max_concurrent 1000
+      }
+
+      {{- if .Values.plugins.prometheus }}
+      prometheus :9153
+      {{- end }}
+      cache {{ .Values.plugins.cache.ttl }}
+      {{- if .Values.plugins.reload }}
+      reload
+      {{- end }}
+      {{- if .Values.plugins.loadbalance }}
+      {{- end }}
+    }
+
+    # forward all other queries to upstream dns
+    . {
+      {{- if .Values.plugins.errors}}
+      errors
+      {{- end }}
+      {{- if .Values.plugins.health }}
+      health {
+        lameduck 5s
+      }
+      {{- end }}
+      {{- if .Values.plugins.log }}
+      log
+      {{- end }}
+      
+      # forward to kube-dns first, then external
+      forward . {{- range .Values.upstreamDNS }} {{ . }}{{- end }} {
+        max_concurrent 1000
+      }
+
+      {{- if .Values.plugins.prometheus}}
+      prometheus :9153
+      {{- end }}
+      cache {{ .Values.plugins.cache.ttl }}
+      {{- if .Values.plugins.reload }}
+      reload
+      {{- end }}
+      {{- if .Values.plugins.loadbalance }}
+      loadbalance
+      {{- end }}
+    }
