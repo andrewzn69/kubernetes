@@ -21,6 +21,8 @@ resources:
 
 tailscale:
   tailnetName: "hake-egret.ts.net"
+  # this ip is stable - only changes if dnsconfig is deleted/recreated
+  nameserverIP: "10.97.176.239"
 
 customDomain:
   zone: "lab"
