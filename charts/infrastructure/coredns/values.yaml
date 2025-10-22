@@ -21,7 +21,7 @@ resources:
 
 tailscale:
   tailnetName: "hake-egret.ts.net"
-  nameserverService: "ts-dns.tailscale-system.svc.cluster.local"
+  nameserverService: "nameserver"
 
 customDomain:
   zone: "lab"
@@ -35,6 +35,7 @@ plugins:
   errors: true
   log: true
   ready: true
+  health: true
   prometheus: true
   cache:
     ttl: 30

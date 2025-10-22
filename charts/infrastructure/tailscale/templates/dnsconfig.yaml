@@ -7,4 +7,4 @@ spec:
   nameserver:
     image:
       repo: tailscale/k8s-nameserver
-      tag: v1.78.3
+      tag: unstable
