@@ -1,6 +1,6 @@
 argo-cd:
   global:
-    domain: argocd.lab
+    domain: argocd.zemn.xyz
   server:
     insecure: false
     ingress:
@@ -10,7 +10,7 @@ argo-cd:
         tailscale.com/funnel: "false"
         tailscale.com/tags: "tag:k8s-operator"
       hosts:
-        - argocd.lab
+        - argocd.zemn.xyz
       tls:
         - hosts:
-            - argocd.lab
+            - argocd.zemn.xyz
