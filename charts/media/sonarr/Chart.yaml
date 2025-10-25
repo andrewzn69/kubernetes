@@ -1,0 +1,13 @@
+apiVersion: v2
+name: sonarr
+description: Sonarr TV show manager for *arr stack
+type: application
+version: 1.0.0
+appVersion: "4.0.15"
+keywords:
+  - sonarr
+  - tv
+  - media
+home: https://sonarr.tv
+maintainers:
+  - name: andrewzn69

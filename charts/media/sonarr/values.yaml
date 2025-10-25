@@ -1,0 +1,70 @@
+# chart metadata
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: media
+
+image:
+  repository: docker.io/linuxserver/sonarr
+  tag: "4.0.15"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8989
+  targetPort: 8989
+
+volumes:
+  mounts:
+    - name: sonarr-config
+      mountPath: /config
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/sonarr/config"
+        size: 5Gi
+        accessMode: ReadWriteMany
+    - name: sonarr-tv
+      mountPath: /tv
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/media/shows"
+        size: 1Ti
+        accessMode: ReadWriteMany
+    - name: sonarr-downloads
+      mountPath: /downloads
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/downloads"
+        size: 500Gi
+        accessMode: ReadWriteMany
+
+ingress:
+  enabled: true
+  className: nginx
+  host: sonarr.zemn.xyz
+  tlsSecretName: zemn-wildcard-tls
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 1000m
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+  - name: TZ
+    value: "Europe/Prague"
