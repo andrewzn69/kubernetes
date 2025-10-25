@@ -43,9 +43,6 @@ resources:
     memory: 512Mi
     cpu: 500m
 
-securityContext:
-  fsGroup: 1000
-
 env:
   - name: PUID
     value: "1000"
