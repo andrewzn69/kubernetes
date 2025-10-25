@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/andrewzn69/kubernetes
     targetRevision: HEAD
-    path: charts/jellyfin
+    path: charts/media/jellyfin
     helm:
       releaseName: jellyfin
   destination:
