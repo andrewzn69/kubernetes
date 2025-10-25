@@ -1,0 +1,13 @@
+apiVersion: v2
+name: prowlarr
+description: Prowlarr indexer manager for *arr stack
+type: application
+version: 1.0.0
+appVersion: "1.31.0"
+keywords:
+  - prowlarr
+  - indexer
+  - media
+home: https://prowlarr.com
+maintainers:
+  - name: andrewzn69

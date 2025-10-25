@@ -1,0 +1,57 @@
+# chart metadata
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: media
+
+image:
+  repository: docker.io/linuxserver/prowlarr
+  tag: "1.31.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 9696
+  targetPort: 9696
+
+volumes:
+  mounts:
+    - name: prowlarr-config
+      mountPath: /config
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/prowlarr/config"
+        size: 5Gi
+        accessMode: ReadWriteMany
+
+ingress:
+  enabled: true
+  className: nginx
+  host: prowlarr.zemn.xyz
+  tlsSecretName: zemn-wildcard-tls
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 500m
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+  - name: TZ
+    value: "Europe/Prague"
