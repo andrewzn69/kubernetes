@@ -44,16 +44,7 @@ resources:
     cpu: 500m
 
 securityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
   fsGroup: 1000
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  capabilities:
-    drop:
-      - ALL
-  seccompProfile:
-    type: RuntimeDefault
 
 env:
   - name: PUID
