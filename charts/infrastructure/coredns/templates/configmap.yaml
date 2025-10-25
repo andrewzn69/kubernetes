@@ -21,7 +21,7 @@ data:
       {{- end }}
 
       # rewrite *.lab queries to *.ts.net
-      rewrite name regex (.*)\.{{ .Values.customDomain.zone }}\. {1}.{{ .Values.tailscale.tailnetName }}.
+      rewrite name regex (.*)\.{{ .Values.customDomain.zone }}\. {1}.{{ .Values.tailscale.tailnetName }}. answer auto
 
       # forward to tailscale dnsconfig nameserver
       forward . {{ .Values.tailscale.nameserverIP }} {
