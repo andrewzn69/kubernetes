@@ -1,0 +1,70 @@
+# chart metadata
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: media
+
+image:
+  repository: docker.io/linuxserver/radarr
+  tag: "5.28.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 7878
+  targetPort: 7878
+
+volumes:
+  mounts:
+    - name: radarr-config
+      mountPath: /config
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/radarr/config"
+        size: 5Gi
+        accessMode: ReadWriteMany
+    - name: radarr-movies
+      mountPath: /movies
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/media/movies"
+        size: 1Ti
+        accessMode: ReadWriteMany
+    - name: radarr-downloads
+      mountPath: /downloads
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/downloads"
+        size: 500Gi
+        accessMode: ReadWriteMany
+
+ingress:
+  enabled: true
+  className: nginx
+  host: radarr.zemn.xyz
+  tlsSecretName: zemn-wildcard-tls
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 1000m
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+  - name: TZ
+    value: "Europe/Prague"
