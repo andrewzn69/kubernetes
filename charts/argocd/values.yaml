@@ -5,12 +5,10 @@ argo-cd:
     insecure: false
     ingress:
       enabled: true
-      ingressClassName: tailscale
-      annotations:
-        tailscale.com/funnel: "false"
-        tailscale.com/tags: "tag:k8s-operator"
+      ingressClassName: nginx
       hosts:
         - argocd.zemn.xyz
       tls:
+        - secretName: zemn-wildcard-tls
         - hosts:
             - argocd.zemn.xyz
