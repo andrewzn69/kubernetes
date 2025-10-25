@@ -1,6 +1,0 @@
-apiVersion: v2
-name: coredns
-description: CoreDNS server for custom domain resolution on Tailscale
-type: application
-version: 1.0.0
-appVersion: "1.11.1"
