@@ -15,6 +15,10 @@ spec:
       labels:
         {{- include "jellyfin.selectorLabels" . | nindent 8 }}
     spec:
+      {{- with .Values.securityContext }}
+      securityContext:
+        fsGroup: {{ .fsGroup }}
+      {{- end }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
