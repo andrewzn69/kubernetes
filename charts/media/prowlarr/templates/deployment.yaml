@@ -18,6 +18,9 @@ spec:
       {{- with .Values.securityContext }}
       securityContext:
         fsGroup: {{ .fsGroup }}
+        runAsNonRoot: {{ .runAsNonRoot }}
+        seccompProfile:
+          {{- toYaml .seccompProfile | nindent 10 }}
       {{- end }}
       containers:
       - name: {{ .Chart.Name }}
@@ -33,7 +36,11 @@ spec:
         {{- end }}
         {{- with .Values.securityContext }}
         securityContext:
-          {{- toYaml . | nindent 10 }}
+          runAsUser: {{ .runAsUser }}
+          runAsGroup: {{ .runAsGroup }}
+          allowPrivilegeEscalation: {{ .allowPrivilegeEscalation }}
+          capabilities:
+            {{- toYaml .capabilities | nindent 12 }}
         {{- end }}
         volumeMounts:
         {{- range .Values.volumes.mounts }}

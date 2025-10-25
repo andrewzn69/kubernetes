@@ -8,7 +8,7 @@ Expand the name of the chart.
 {{/*
 Create a default fully qualified app name.
 Trunctuate at 63 chars because some kubernetes name fields are limited to
-this (by the dns namic spec)
+this (by the dns naming spec)
 */}}
 {{- define "prowlarr.fullname" -}}
 {{- if .Values.fullnameOverride }}
@@ -27,7 +27,7 @@ this (by the dns namic spec)
 Create chart name and version as used by the chart label.
 */}}
 {{- define "prowlarr.chart" -}}
-{{- printf "%s-%s" .Chart.name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -47,5 +47,5 @@ Selector labels
 */}}
 {{- define "prowlarr.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "prowlarr.name" . }}
-app.kubernetes.io/instance: {{ .Release.name }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
