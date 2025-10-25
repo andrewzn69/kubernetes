@@ -1,0 +1,31 @@
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: media
+
+image:
+  repository: docker.io/flaresolverr/flaresolverr
+  tag: "v3.4.2"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8191
+  targetPort: 8191
+
+ingress:
+  enabled: false
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 100m
+  limits:
+    memory: 1Gi
+    cpu: 500m
+
+env:
+  - name: LOG_LEVEL
+    value: "info"
+  - name: "TZ"
+    value: "Europe/Prague"
