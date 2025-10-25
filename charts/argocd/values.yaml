@@ -1,6 +1,9 @@
 argo-cd:
   global:
     domain: argocd.zemn.xyz
+  configs:
+    params:
+      server.insecure: "true"
   server:
     insecure: true
     ingress:
