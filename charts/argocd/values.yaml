@@ -10,7 +10,7 @@ argo-cd:
         tailscale.com/funnel: "false"
         tailscale.com/tags: "tag:k8s-operator"
       hosts:
-        - argocd.zemn.xyz
+        - argocd.lab
       tls:
         - hosts:
-            - argocd.zemn.xyz
+            - argocd.lab
