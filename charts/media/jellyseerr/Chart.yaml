@@ -1,0 +1,8 @@
+apiVersion: v2
+name: jellyseerr
+description: Jellyseerr media request management
+type: application
+version: 1.0.0
+appVersion: "2.7.3"
+maintainers:
+  - name: andrewzn69

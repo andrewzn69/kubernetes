@@ -1,0 +1,42 @@
+# chart metadata
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: media
+
+image:
+  repository: docker.io/fallenbagel/jellyseerr
+  tag: "2.7.3"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5055
+  targetPort: 5055
+
+volumes:
+  mounts:
+    - name: jellyseerr-config
+      mountPath: /app/config
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/jellyseerr/config"
+        size: 5Gi
+        accessMode: ReadWriteMany
+
+ingress:
+  enabled: false
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 200m
+  limits:
+    memory: 512Mi
+    cpu: 500m
+
+env:
+  - name: TZ
+    value: "Europe/Prague"
