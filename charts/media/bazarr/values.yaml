@@ -1,0 +1,70 @@
+# chart metadata
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: media
+
+image:
+  repository: docker.io/linuxserver/bazarr
+  tag: "1.5.3"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 6767
+  targetPort: 6767
+
+volumes:
+  mounts:
+    - name: bazarr-config
+      mountPath: /config
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/bazarr/config"
+        size: 5Gi
+        accessMode: ReadWriteMany
+    - name: bazarr-tv
+      mountPath: /tv
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/media/shows"
+        size: 1Ti
+        accessMode: ReadWriteMany
+    - name: bazarr-movies
+      mountPath: /movies
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/media/movies"
+        size: 1Ti
+        accessMode: ReadWriteMany
+
+ingress:
+  enabled: true
+  className: nginx
+  host: bazarr.zemn.xyz
+  tlsSecretName: zemn-wildcard-tls
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 500m
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+  - name: TZ
+    value: "Europe/Prague"
