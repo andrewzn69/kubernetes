@@ -22,7 +22,7 @@ volumes:
       readOnly: false
       pvc:
         nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/bazarr/config"
+        nfsPath: "/storage/apps/bazarr"
         size: 5Gi
         accessMode: ReadWriteMany
     - name: bazarr-tv
