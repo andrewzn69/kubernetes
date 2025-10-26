@@ -1,6 +1,6 @@
 apiVersion: v2
 name: argocd
-description: Helm chart for ArgoCD and its cloudflared tunnel
+description: Helm chart for ArgoCD with Tailscale ingress
 type: application
 version: 0.1.0
 appVersion: v3.0.12
