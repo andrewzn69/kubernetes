@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "qbittorrent.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "qbittorrent.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "qbittorrent.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "qbittorrent.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository}}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.targetPort }}
+          protocol: TCP
+        {{- with .Values.env }}
+        env:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        {{- range .Values.volumes.mounts }}
+        - mountPath: {{ .mountPath }}
+          name: {{ .name }}
+          {{- if .readOnly }}
+          readOnly: {{ .readOnly }}
+          {{- end }}
+        {{- end }}
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      volumes:
+      {{- range .Values.volumes.mounts }}
+      - name: {{ .name }}
+        {{- if eq .type "nfs" }}
+        nfs:
+          server: {{ .nfs.server }}
+          path: {{ .nfs.path }}
+        {{- else if eq .type "pvc" }}
+        persistentVolumeClaim:
+          claimName: {{ .name }}
+        {{- end }}
+      {{- end }}

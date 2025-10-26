@@ -1,0 +1,13 @@
+apiVersion: v2
+name: qbittorrent
+description: qBittorrent torrent client for *arr stack
+type: application
+version: 1.0.0
+appVersion: "5.1.2"
+keywords:
+  - qbittorrent
+  - torrent
+  - download
+home: https://www.qbittorrent.org
+maintainers:
+  - name: andrewzn69
