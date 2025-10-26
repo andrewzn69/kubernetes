@@ -7,3 +7,5 @@ publicTunnel:
   services:
     - hostname: jellyfin.zemn.xyz
       service: http://jellyfin.media.svc.cluster.local:8096
+    - hostname: jellyseerr.zemn.xyz
+      service: http://jellyseerr.media.svc.cluster.local:5055
