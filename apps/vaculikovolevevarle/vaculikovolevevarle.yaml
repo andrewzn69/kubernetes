@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vaculikovolevevarle
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/andrewzn69/vaculikovolevevarle
+      targetRevision: master
+      path: chart
+      helm:
+        releaseName: vaculikovolevevarle
+    - repoURL: https://github.com/andrewzn69/kubernetes
+      targetRevision: master
+      path: apps/vaculikovolevevarle
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vaculikovolevevarle
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

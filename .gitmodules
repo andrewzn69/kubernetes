@@ -1,0 +1,4 @@
+[submodule "charts/vaculikovolevevarle"]
+	path = charts/vaculikovolevevarle
+	url = https://github.com/andrewzn69/vaculikovolevevarle
+	branch = master
