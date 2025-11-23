@@ -1,0 +1,74 @@
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      retention: 15d
+      resources:
+        requests:
+          memory: 512Mi
+          cpu: 250m
+        limits:
+          memory: 2Gi
+          cpu: 1000m
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ["ReadWriteMany"]
+            resources:
+              requests:
+                storage: 50Gi
+            selector:
+              matchLabels:
+                app: prometheus
+
+  grafana:
+    persistence:
+      enabled: true
+      existingClaim: grafana-data
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - grafana.zemn.xyz
+
+  alertmanager:
+    alertmanagerSpec:
+      storage:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ["ReadWriteMany"]
+            resources:
+              requests:
+                storage: 5Gi
+            selector:
+              matchLabels:
+                app: alertmanager
+      resources:
+        requests:
+          memory: 64Mi
+          cpu: 50m
+        limits:
+          memory: 256Mi
+          cpu: 200m
+
+  # disabled - not accessible on talos
+  kubeEtcd:
+    enabled: false
+  kubeControllerManager:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+  kubeProxy:
+    enabled: false
+
+  nodeExporter:
+    enabled: true
+  kubeStateMetrics:
+    enabled: true
+
