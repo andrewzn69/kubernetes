@@ -21,6 +21,8 @@ kube-prometheus-stack:
                 app: prometheus
 
   grafana:
+    initChownData:
+      enabled: false
     persistence:
       enabled: true
       existingClaim: grafana-data
@@ -71,4 +73,3 @@ kube-prometheus-stack:
     enabled: true
   kubeStateMetrics:
     enabled: true
-
