@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: prowlarr-api-key
+  namespace: media
+spec:
+  encryptedData:
+    api-key: AgAArS6Q4RH6Eu1/ktQxgpIKgFJ+reUCvUhXaf68i65CEH9NdpVfxXWrpgEvxVky8+o/C1ckxBZrhYzFqPgNWz7K0oIksGo3SuIXTFPuDd4BNJphzAa/yPcSxyN4QGJ1M5d5ycMEjFGh8jC+JK5QX/W2yWsB/XiLJzh1siIK02KHQrnfY0icvwg2jJcbuYgOnC1DK5dJPOqosLfzn9Vg2Vko835EhuDp7sC+IWaAsUXZk2fVIwctKYXdsQJySEroPmlK9yPb4bPCKMkChEXwfXrXFPJyR47Jb2N6tU9D6itXRN0N1fB3ZItqjtSB6kzAxRVImthGfn88RuG+q70xkYwMSAasfZr4ah3pF7v+4IryJDtbXDpZPYKtKcN0xCSjRm0jZ+U0fu4spd/Uuk7ZrCNETbZ6IMOD5cBclPfjBhUwd06zWqg4zTp2t0AMCDistjoCov4PkpZyqPhUdi9xYVITr5h5vmmFUh4OOmgWDV/WI2eSV/5aFHsx5PuLhS0iWU7MZ8VZE+T7MVj+67elajThV3rBnyMBuwmftEylFIpnkyDLSY2TfrH8RXGCfeXfA/rs6yvZm+ybm5oNf5yF6BbZCDaoOiX2JEeg1g84mUQVxA318EwrZtDeQHipD/ri/bOd6qm9+SLObw2axccIixno0n+Jy+BKtkoqCPwuhMrHncOtAFLq0RpryZxQgPi+xhMMziIEiaS+FxehgnE3bYE9/LEg0Wp+v1UWeAJfQmovBA==
+  template:
+    metadata:
+      name: prowlarr-api-key
+      namespace: media
