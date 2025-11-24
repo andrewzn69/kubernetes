@@ -42,6 +42,14 @@ spec:
                 - source_labels: [__meta_kubernetes_service_name]
                   regex: kube-state-metrics
                   action: keep
+
+            - job_name: sonarr-exportarr
+              kubernetes_sd_configs:
+                - role: endpoints
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_service_name]
+                  regex: sonarr-exportarr
+                  action: keep
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
