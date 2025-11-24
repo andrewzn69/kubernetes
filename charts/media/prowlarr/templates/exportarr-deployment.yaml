@@ -33,6 +33,8 @@ spec:
               value: "{{ .Values.exportarr.port }}"
             - name: ENABLE_ADDITIONAL_METRICS
               value: "{{ .Values.exportarr.additionalMetrics }}"
+            - name: BACKFILL
+              value: "{{ .Values.exportarr.backfill }}"
           ports:
             - containerPort: {{ .Values.exportarr.port }}
               name: metrics
