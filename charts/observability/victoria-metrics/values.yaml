@@ -13,7 +13,7 @@ service:
   port: 8428
   targetPort: 8428
 
-retention: 90d
+retention: 5y
 
 volumes:
   mounts:
