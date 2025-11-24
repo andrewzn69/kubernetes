@@ -1,0 +1,41 @@
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: observability
+
+image:
+  repository: victoriametrics/victoria-logs
+  tag: "v1.3.0-victorialogs"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 9428
+  targetPort: 9428
+
+retention: 90d
+
+volumes:
+  mounts:
+    - name: victoria-logs-data
+      mountPath: /victoria-logs-data
+      type: pvc
+      readOnly: false
+      pvc:
+        nfsServer: "100.64.100.64"
+        nfsPath: "/storage/apps/victoria-logs/data"
+        size: 50Gi
+        accessMode: ReadWriteMany
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 1Gi
+    cpu: 1000m
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
