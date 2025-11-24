@@ -31,6 +31,8 @@ spec:
                   key: api-key
             - name: PORT
               value: "{{ .Values.exportarr.port }}"
+            - name: ENABLE_ADDITIONAL_METRICS
+              value: "{{ .Values.exportarr.additionalMetrics }}"
           ports:
             - containerPort: {{ .Values.exportarr.port }}
               name: metrics
