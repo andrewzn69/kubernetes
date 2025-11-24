@@ -34,6 +34,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.admin.existingSecret }}
                   key: {{ .Values.admin.passwordKey }}
+            - name: GF_PATHS_PROVISIONING
+              value: /etc/grafana/provisioning
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
@@ -44,6 +46,9 @@ spec:
               mountPath: {{ .mountPath }}
               readOnly: {{ .readOnly }}
             {{- end }}
+            - name: datasources
+              mountPath: /etc/grafana/provisioning/datasources
+              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           livenessProbe:
@@ -64,3 +69,6 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .name }}
         {{- end }}
+        - name: datasources
+          configMap:
+            name: {{ include "grafana.fullname" . }}-datasources

@@ -49,3 +49,13 @@ securityContext:
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
+
+datasources:
+  - name: VictoriaMetrics
+    type: prometheus
+    url: http://victoria-metrics.observability.svc:8428
+  - name: VictoriaLogs
+    type: loki
+    url: http://victoria-logs.observability.svc:9428
+    access: proxy
+    isDefault: false
