@@ -68,3 +68,13 @@ env:
     value: "1000"
   - name: TZ
     value: "Europe/Prague"
+
+exportarr:
+  enabled: true
+  type: radarr
+  port: 9708
+  apiKeySecret: radarr-api-key
+  image:
+    repository: ghcr.io/onedr0p/exportarr
+    tag: v2.0
+  additionalMetrics: true
