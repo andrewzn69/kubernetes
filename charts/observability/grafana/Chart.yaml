@@ -1,0 +1,13 @@
+apiVersion: v2
+name: grafana
+description: Helm chart for Grafana dashboards
+type: application
+version: 1.0.0
+appVersion: "12.3.0"
+keywords:
+  - grafana
+  - dashboards
+  - monitoring
+home: https://grafana.com
+maintainers:
+  - name: andrewzn69
