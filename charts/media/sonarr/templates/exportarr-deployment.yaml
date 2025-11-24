@@ -1,0 +1,44 @@
+{{- if .Values.exportarr.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sonarr.fullname" . }}-exportarr
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ include "sonarr.fullname" . }}-exportarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "sonarr.fullname" . }}-exportarr
+  template:
+    metadata:
+      labels:
+        app: {{ include "sonarr.fullname" . }}-exportarr
+    spec:
+      containers:
+        - name: exportarr
+          image: "{{ .Values.exportarr.image.repository }}:{{ .Values.exportarr.image.tag }}"
+          args:
+            - {{ .Values.exportarr.type }}
+          env:
+            - name: URL
+              value: "http://{{ include "sonarr.fullname" . }}.{{ .Values.namespace }}.svc:{{ .Values.service.port }}"
+            - name: APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.exportarr.apiKeySecret }}
+                  key: api-key
+            - name: PORT
+              value: "{{ .Values.exportarr.port }}"
+          ports:
+            - containerPort: {{ .Values.exportarr.port }}
+              name: metrics
+          resources:
+            requests:
+              memory: 32Mi
+              cpu: 10m
+            limits:
+              memory: 64Mi
+              cpu: 50m
+{{- end }}
