@@ -56,6 +56,12 @@ volumes:
         nfsPath: "/storage/media/movies"
         size: 1Ti
         accessMode: ReadOnlyMany
+    - name: jellyfin-tmp
+      mountPath: /tmp/jellyfin
+      type: emptyDir
+      readOnly: false
+      emptyDir:
+        sizeLimit: 5Gi
 
 # ingress config (disabled because using direct cf tunnel)
 ingress:

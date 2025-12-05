@@ -54,5 +54,10 @@ spec:
         {{- else if eq .type "pvc" }}
         persistentVolumeClaim:
           claimName: {{ .name }}
+        {{- else if eq .type "emptyDir" }}
+        emptyDir:
+          {{- if .emptyDir.sizeLimit }}
+          sizeLimit: {{ .emptyDir.sizeLimit }}
+          {{- end }}
         {{- end }}
       {{- end }}
