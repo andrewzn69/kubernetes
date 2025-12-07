@@ -8,6 +8,8 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4.1
   csi:
     driver: nfs.csi.k8s.io
     volumeHandle: {{ .Values.persistence.worldData.nfsServer }}#{{ .Values.persistence.worldData.nfsPath }}#terraria-world-data
