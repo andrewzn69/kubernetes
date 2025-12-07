@@ -2,7 +2,7 @@ namespace: terraria
 
 image:
   repository: ryshe/terraria
-  tag: latest
+  tag: vanilla
   pullPolicy: IfNotPresent
 
 replicaCount: 1
