@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: terraria-config
+  namespace: {{ .Values.namespace }}
+data:
+  serverconfig.txt: |
+    world=/root/.local/share/Terraria/Worlds/{{ .Values.terraria.worldName }}.wld
+    autocreate=2
+    seed=
+    worldname={{ .Values.terraria.worldName }}
+    difficulty=2
+    maxplayers={{ .Values.terraria.maxPlayers }}
+    password=PLACEHOLDER_PASSWORD
+    motd=Pukáš Lohanka je kůň
+    port=7777
+    npcstream=60
+    priority=1
+    language=en-US

@@ -1,0 +1,43 @@
+namespace: terraria
+
+image:
+  repository: ryshe/terraria
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  capabilities:
+    drop:
+      - ALL
+  allowPrivilegeEscalation: false
+
+service:
+  type: ClusterIP
+  port: 7777
+
+persistence:
+  worldData:
+    nfsServer: "100.64.100.64"
+    nfsPath: "/storage/apps/terraria"
+    storage: 10Gi
+
+terraria:
+  worldName: "TajoPohiiiiiii"
+  maxPlayers: 8
