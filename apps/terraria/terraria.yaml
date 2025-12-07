@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: terraria-novigrad
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/andrewzn69/kubernetes
+    targetRevision: HEAD
+    path: charts/terraria
+  destination:
+    server: https://130.61.47.29:6443
+    namespace: terraria
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+      - RespectIgnoreDifferences=false
+      - ServerSideApply=true
