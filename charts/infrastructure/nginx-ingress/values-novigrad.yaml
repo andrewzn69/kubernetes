@@ -7,6 +7,7 @@ ingress-nginx:
           7777: 30777
     tcp:
       7777: "terraria/terraria:7777"
+    tcpConfigMapNamespace: ingress-nginx
     resources:
       requests:
         cpu: 100m
