@@ -53,15 +53,15 @@ spec:
               mountPath: /config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-    volumes:
-      - name: world-data
-        persistentVolumeClaim:
-          claimName: terraria-world-data
-      - name: config-template
-        configMap:
-          name: terraria-config
-      - name: config
-        emptyDir: {}
-      - name: password-secret
-        secret:
-          secretName: terraria-password
+      volumes:
+        - name: world-data
+          persistentVolumeClaim:
+            claimName: terraria-world-data
+        - name: config-template
+          configMap:
+            name: terraria-config
+        - name: config
+          emptyDir: {}
+        - name: password-secret
+          secret:
+            secretName: terraria-password
