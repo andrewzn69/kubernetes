@@ -44,12 +44,48 @@ spec:
                   action: keep
 
             - job_name: sonarr-exportarr
+              scrape_interval: 30s
+              scrape_timeout: 15s
               kubernetes_sd_configs:
                 - role: endpoints
               relabel_configs:
                 - source_labels: [__meta_kubernetes_service_name]
                   regex: sonarr-exportarr
                   action: keep
+
+            - job_name: radarr-exportarr
+              scrape_interval: 30s
+              scrape_timeout: 15s
+              kubernetes_sd_configs:
+                - role: endpoints
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_service_name]
+                  regex: radarr-exportarr
+                  action: keep
+
+            - job_name: prowlarr-exportarr
+              scrape_interval: 30s
+              scrape_timeout: 15s
+              kubernetes_sd_configs:
+                - role: endpoints
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_service_name]
+                  regex: prowlarr-exportarr
+                  action: keep
+
+            - job_name: kubelet-cadvisor
+              kubernetes_sd_configs:
+                - role: node
+              scheme: https
+              tls_config:
+                insecure_skip_verify: true
+              bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+              relabel_configs:
+                - target_label: __address__
+                  replacement: kubernetes.default.svc:443
+                - source_labels: [__meta_kubernetes_node_name]
+                  target_label: __metrics_path__
+                  replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
