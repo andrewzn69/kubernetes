@@ -45,7 +45,7 @@ spec:
                 command:
                   - sh
                   - -c
-                  - pkill -TERM mono && sleep 10
+                  - kill -TERM 1 && sleep 30
           env:
             - name: WORLD_FILENAME
               value: "{{ .Values.terraria.worldName }}.wld"
