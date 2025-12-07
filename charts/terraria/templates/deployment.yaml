@@ -39,6 +39,13 @@ spec:
             - name: terraria
               containerPort: 7777
               protocol: TCP
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - pkill -TERM mono && sleep 10
           env:
             - name: WORLD_FILENAME
               value: "{{ .Values.terraria.worldName }}.wld"
