@@ -33,6 +33,8 @@ spec:
         - name: terraria
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          stdin: true
+          tty: true
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           ports:
