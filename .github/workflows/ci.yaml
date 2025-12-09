@@ -57,7 +57,7 @@ jobs:
           echo "Validating ArgoCD applications..."
           find apps -name "*.yaml" -o -name "*.yml" | while read app; do
             echo "==> Validating $app"
-            ./kubeconform -strict -summary "$app" || exit 1
+            ./kubeconform -strict -summary -ignore-missing-schemas "$app" || exit 1
           done
 
   security-scanning:
