@@ -96,7 +96,7 @@ jobs:
           output_path: 'kics-results'
           output_formats: 'sarif'
           platform_type: 'kubernetes'
-          fail_on: ''
+          fail_on: 'high,critical'
           enable_comments: false
 
       - name: Upload KICS results to GitHub Security
