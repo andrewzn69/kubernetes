@@ -152,7 +152,7 @@ jobs:
   summary:
     name: CI Summary
     runs-on: ubuntu-latest
-    needs: [helm-validation, argocd-apps-validation, security-scanning, yaml-lint]
+    needs: [helm-validation, argocd-apps-validation, security-scanning, yaml-lint, image-scanning]
     if: always()
     steps:
       - name: Check results
