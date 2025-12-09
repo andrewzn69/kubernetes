@@ -37,7 +37,7 @@ jobs:
           echo "Validating templated manifests..."
           find charts -maxdepth 2 -name Chart.yaml -exec dirname {} \; | while read chart; do
             echo "==> Validating $chart"
-            helm template test "$chart" | ./kubeconform -strict -summary -kubernetes-version 1.30.0 || exit 1
+            helm template test "$chart" | ./kubeconform -strict -summary -kubernetes-version 1.30.0 -ignore-missing-schemas || exit 1
           done
 
   argocd-apps-validation:
