@@ -92,7 +92,7 @@ jobs:
       - name: Run KICS security scan
         uses: checkmarx/kics-github-action@v2.1.2
         with:
-          path: 'charts,apps'
+          path: '.'
           output_path: 'kics-results'
           output_formats: 'sarif'
           platform_type: 'kubernetes'
