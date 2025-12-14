@@ -10,7 +10,7 @@ commonLabels: {}
 commonAnnotations: {}
 
 # replica count
-replicaCount: 1
+replicaCount: 0
 
 # container image
 image:
