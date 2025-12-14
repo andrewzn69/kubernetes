@@ -51,6 +51,12 @@ metadata:
   {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.private.className }}
+  {{- if .Values.ingress.private.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.private.tls.secretName }}
+  {{- end }}
   rules:
     - host: {{ .Values.ingress.host }}
       http:

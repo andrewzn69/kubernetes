@@ -108,7 +108,11 @@ ingress:
     annotations: {}
 
   private:
-    className: tailscale
+    className: nginx
+    tls:
+      enabled: false
+      secretName: ""
+      clusterIssuer: letsencrypt-prod
     annotations: {}
 
 # init containers

@@ -6,7 +6,11 @@ Release: {{ .Release.Name }}
 {{- if .Values.ingress.enabled }}
 
 Access via:
-  {{if .Values.ingress.tls }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}
+{{- if eq .Values.ingress.type "public" }}
+  {{if .Values.ingress.public.tls.enabled }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}
+{{- else if eq .Values.ingress.type "private" }}
+  {{- if .Values.ingress.private.tls.enabled }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}
+{{- end }}
 
 {{- else }}
 
