@@ -217,7 +217,7 @@ spec:
           {{- end }}
         {{- end }}
 
-        {{- if and .Values.volumes.mounts .Values.configMap.enabled }}
+        {{- if or .Values.volumes.mounts .Values.configMap.enabled }}
         volumes:
           {{- range .Values.volumes.mounts }}
           - name: {{ .name }}
