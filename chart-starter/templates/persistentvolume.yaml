@@ -1,0 +1,23 @@
+{{- range .Values.volumes.mounts }}
+{{- if eq $.Values.storage.type "nfs" }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .name }}-pv
+spec:
+  capacity:
+    storage: {{ .size }}
+  accessModes:
+    - {{ .accessMode }}
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    volumeHandle: {{ .nfsServer }}#{{ .nfsPath }}#{{ .name }}
+    volumeAttributes:
+      server: {{ .nfsServer | quote }}
+      share: {{ .nfsPath | quote }}
+{{- end }}
+{{- end }}

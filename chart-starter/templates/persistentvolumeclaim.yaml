@@ -1,0 +1,20 @@
+{{- range .Values.volumes.mounts }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  accessModes:
+    - {{ .accessMode }}
+  {{- if eq $.Values.storage.type "nfs" }}
+  storageClassName: ""
+  volumeName: {{ .name }}-pv
+  {{- else }}
+  storageClassName: {{ $.Values.storage.class }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .size }}
+{{- end }}

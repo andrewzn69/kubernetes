@@ -1,0 +1,240 @@
+# metadata
+namespace: default
+nameOverride: ""
+fullnameOverride: ""
+
+# optional labels
+component: ""      # server, exporter, worker
+partOf: ""         # media-stack, homelab, productivity
+commonLabels: {}
+commonAnnotations: {}
+
+# replica count
+replicaCount: 1
+
+# container image
+image:
+  repository: nginx
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+# storage backend
+storage:
+  type: nfs        # nfs | ceph
+  class: ""        # storageClass for ceph/iscsi
+
+# volumes
+volumes:
+  mounts: []
+    # - name: data
+    #   mountPath: /data
+    #   size: 10Gi
+    #   accessMode: ReadWriteMany
+    #   # NFS-specific (ignored if type != nfs)
+    #   nfsServer: "100.64.100.64"
+    #   nfsPath: "/storage/apps/app-name/data"
+
+# secrets
+secrets:
+  type: sops       # sops | sealed | infisical | external
+
+  # sops mode
+  sops:
+    enabled: true
+
+  # infisical mode
+  infisical:
+    enabled: false
+    secretsPath: /prod/app-name
+    projectId: ""
+
+  # external secrets mode (aws/azure/gcp)
+  external:
+    enabled: false
+    provider: aws
+    secretStore: aws-secret-store
+    remoteRefs: []
+      # - key: /prod/app/password
+      #   property: password
+
+# environment variables
+env: []
+  # - name: PORT
+  #   value: "8080"
+
+# environment variables from configmap
+envConfigMap:
+  enabled: false
+  data: {}
+    # DATABASE_URL: "postgres://..."
+    # LOG_LEVEL: "info"
+
+# config files from configmap
+configMap:
+  enabled: false
+  mountPath: /config
+  files: {}
+    # app.conf: |
+    #   [server]
+    #   port = 8080
+
+# service
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  protocol: TCP
+  name: http
+
+  additionalPorts: []
+    # - name: metrics
+    #   port: 9090
+    #   targetPort: 9090
+
+# ingress
+ingress:
+  enabled: false
+  type: private    # public | private
+  host: app.example.com
+  path: /
+  pathType: Prefix
+
+  public:
+    className: nginx
+    tls:
+      enabled: true
+      secretName: ""
+      clusterIssuer: letsencrypt-prod
+    annotations: {}
+
+  private:
+    className: tailscale
+    annotations: {}
+
+# init containers
+initContainers:
+  fixPermissions:
+    enabled: false
+    volumeName: data
+    path: /data
+    uid: 1000
+    gid: 1000
+
+  waitForService:
+    enabled: false
+    host: postgres
+    port: 5432
+    timeout: 300
+
+  dbMigration:
+    enabled: false
+    image: ""
+    command: []
+
+  custom: []
+
+# health probes
+probes:
+  liveness:
+    enabled: false
+    type: httpGet
+    httpGet:
+      path: /health
+      port: http
+      scheme: HTTP
+    tcpSocket:
+      port: 8080
+    exec:
+      command: []
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 3
+
+  readiness:
+    enabled: false
+    type: httpGet
+    httpGet:
+      path: /ready
+      port: http
+      scheme: HTTP
+    tcpSocket:
+      port: 8080
+    exec:
+      command: []
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 3
+
+  startup:
+    enabled: false
+    type: httpGet
+    httpGet:
+      path: /startup
+      port: http
+      scheme: HTTP
+    tcpSocket:
+      port: 8080
+    exec:
+      command: []
+    initialDelaySeconds: 0
+    periodSeconds: 10
+    timeoutSeconds: 3
+    successThreshold: 1
+    failureThreshold: 30
+
+# metrics
+metrics:
+  enabled: false
+  port: 9090
+  path: /metrics
+
+  serviceAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+    prometheus.io/path: "/metrics"
+
+  sidecar:
+    enabled: false
+    image: ""
+    port: 9707
+    env: []
+
+# resources
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+
+# pod-level security context
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+# container-level security context
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+    add: []
+
+# node selector
+nodeSelector: {}
+
+# affinity
+affinity: {}
+
+# tolerations:
+tolerations: []
