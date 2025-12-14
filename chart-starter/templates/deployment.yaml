@@ -217,16 +217,16 @@ spec:
           {{- end }}
         {{- end }}
 
-        {{- if or .Values.volumes.mounts .Values.configMap.enabled }}
-        volumes:
-          {{- range .Values.volumes.mounts }}
-          - name: {{ .name }}
-            persistentVolumeClaim:
-              claimName: {{ .name }}
-          {{- end }}
-          {{- if .Values.configMap.enabled }}
-          - name: config-files
-            configMap:
-              name: {{ include "app.fullname" . }}-files
-          {{- end }}
+      {{- if or .Values.volumes.mounts .Values.configMap.enabled }}
+      volumes:
+        {{- range .Values.volumes.mounts }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{ .name }}
         {{- end }}
+        {{- if .Values.configMap.enabled }}
+        - name: config-files
+          configMap:
+            name: {{ include "app.fullname" . }}-files
+        {{- end }}
+      {{- end }}
