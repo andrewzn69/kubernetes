@@ -102,7 +102,7 @@ ingress:
   public:
     className: nginx
     tls:
-      enabled: true
+      enabled: false
       secretName: ""
       clusterIssuer: letsencrypt-prod
     annotations: {}
