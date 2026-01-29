@@ -1,0 +1,9 @@
+apiVersion: v2
+name: reflector
+description: Kubernetes secret and configmap reflector
+type: application
+version: '0.1.0'
+dependencies:
+  - name: reflector
+    version: 10.0.3
+    repository: https://emberstack.github.io/helm-charts
