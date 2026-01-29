@@ -2,7 +2,10 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: zemn-wildcard
-  namespace: default
+  namespace: cert-manager
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+    reflector.v1.k8s.emberstack.com/reflection-allowd-namespaces: "media,productivity,default"
 spec:
   secretName: zemn-wildcard-tls
   issuerRef:
