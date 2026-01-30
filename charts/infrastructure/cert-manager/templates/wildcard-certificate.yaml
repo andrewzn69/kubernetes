@@ -3,11 +3,12 @@ kind: Certificate
 metadata:
   name: zemn-wildcard
   namespace: cert-manager
-  annotations:
-    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "media,argocd,observability,productivity,default"
 spec:
   secretName: zemn-wildcard-tls
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "media,argocd,observability,productivity,default"
   issuerRef:
     name: letsencrypt-cloudflare
     kind: ClusterIssuer
