@@ -8,7 +8,8 @@ spec:
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "media,argocd,observability,productivity,default"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "media,argocd,observability,productivity"
   issuerRef:
     name: letsencrypt-cloudflare
     kind: ClusterIssuer
