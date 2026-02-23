@@ -4,8 +4,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 # optional labels
-component: ""      # server, exporter, worker
-partOf: ""         # media-stack, homelab, productivity
+component: "" # server, exporter, worker
+partOf: "" # media-stack, homelab, productivity
 commonLabels: {}
 commonAnnotations: {}
 
@@ -20,8 +20,8 @@ image:
 
 # storage backend
 storage:
-  type: nfs        # nfs | ceph
-  class: ""        # storageClass for ceph/iscsi
+  type: nfs # nfs | ceph
+  class: "" # storageClass for ceph/iscsi
 
 # volumes
 volumes:
@@ -36,26 +36,22 @@ volumes:
 
 # secrets
 secrets:
-  type: sops       # sops | sealed | infisical | external
+  enabled: true
+  type: infisical # could be vault, aws-sm, etc. in the future
 
-  # sops mode
-  sops:
-    enabled: true
-
-  # infisical mode
   infisical:
-    enabled: false
-    secretsPath: /prod/app-name
-    projectId: ""
+    # required fields
+    projectSlug: ""
+    secretsPath: ""
 
-  # external secrets mode (aws/azure/gcp)
-  external:
-    enabled: false
-    provider: aws
-    secretStore: aws-secret-store
-    remoteRefs: []
-      # - key: /prod/app/password
-      #   property: password
+    # defaults (override if needed)
+    envSlug: prod
+    hostAPI: https://eu.infisical.com/api
+    auth:
+      credentialsSecretName: infisical-universal-auth
+      credentialsSecretNamespace: infisical-system
+    managedSecret:
+      creationPolicy: Orphan
 
 # environment variables
 env: []
@@ -94,7 +90,7 @@ service:
 # ingress
 ingress:
   enabled: false
-  type: private    # public | private
+  type: private # public | private
   host: app.example.com
   path: /
   pathType: Prefix
