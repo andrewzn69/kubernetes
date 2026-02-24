@@ -113,12 +113,6 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
 
-          {{- if .Values.envConfigMap.enabled }}
-          envFrom:
-            - configMapRef:
-                name: {{ include "app.fullname" . }}-env
-          {{- end }}
-
           {{- if .Values.probes.liveness.enabled }}
           livenessProbe:
             {{- if eq .Values.probes.liveness.type "httpGet" }}
