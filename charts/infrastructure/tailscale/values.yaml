@@ -25,7 +25,5 @@ connector:
 
 # tailscale operator config
 tailscale-operator:
-  oauth:
-    secretName: tailscale-oauth
   operatorConfig:
     hostname: "vizima-k8s-operator"
