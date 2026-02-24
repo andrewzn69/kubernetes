@@ -89,6 +89,10 @@ service:
   protocol: TCP
   name: http
 
+  nodePort: ""
+  loadBalancerIP: ""
+  annotations: {}
+
   additionalPorts: []
     # - name: metrics
     #   port: 9090
