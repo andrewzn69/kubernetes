@@ -123,19 +123,6 @@ initContainers:
     uid: 1000
     gid: 1000
 
-  waitForService:
-    enabled: false
-    host: postgres
-    port: 5432
-    timeout: 300
-
-  dbMigration:
-    enabled: false
-    image: ""
-    command: []
-
-  custom: []
-
 # health probes
 probes:
   liveness:
@@ -199,12 +186,6 @@ metrics:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9090"
     prometheus.io/path: "/metrics"
-
-  sidecar:
-    enabled: false
-    image: ""
-    port: 9707
-    env: []
 
 # resources
 resources:
