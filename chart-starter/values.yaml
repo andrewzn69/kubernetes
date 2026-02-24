@@ -94,29 +94,21 @@ service:
     #   port: 9090
     #   targetPort: 9090
 
-# ingress
-ingress:
+# httproute (private services via cilium gateway)
+gateway:
   enabled: false
-  type: private # public | private
-  host: app.example.com
+  hostname: app.internal.zemn.xyz
+  gatewayName: cilium-gateway
+  gatewayNamespace: cilium-system
   path: /
   pathType: Prefix
 
-  public:
-    className: nginx
-    tls:
-      enabled: false
-      secretName: ""
-      clusterIssuer: letsencrypt-prod
-    annotations: {}
-
-  private:
-    className: nginx
-    tls:
-      enabled: false
-      secretName: ""
-      clusterIssuer: letsencrypt-prod
-    annotations: {}
+# cloudflare tunnel (public services)
+cloudflare:
+  enabled: false
+  hostname: app.zemn.xyz
+  path: /
+  pathType: Prefix
 
 # init containers
 initContainers:
