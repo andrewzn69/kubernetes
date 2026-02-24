@@ -14,12 +14,8 @@ spec:
     helm:
       releaseName: tailscale-operator
       values: |
-        tailscale-operator:
-          oauth:
-            clientId: ""
-            clientSecret: ""
-          operatorConfig:
-            hostname: "talos-k8s-operator"
+        infisical:
+          projectId: "481ebc3e-b9ed-40e7-9417-07aafe84aad1"
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale-system
