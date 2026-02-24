@@ -43,7 +43,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end}}
 
-      {{- if or .Values.initContainers.fixPermissions.enabled .Values.initContainers.waitForService.enabled .Values.initContainers.dbMigration.enabled .Values.initContainers.custom }}
+      {{- if or .Values.initContainers.fixPermissions.enabled .Values.initContainers.custom }}
       initContainers:
         {{- if .Values.initContainers.fixPermissions.enabled }}
         - name: fix-permissions
@@ -58,31 +58,6 @@ spec:
           volumeMounts:
             - name: {{ .Values.initContainers.fixPermissions.volumeName }}
               mountPath: {{ .Values.initContainers.fixPermissions.path }}
-        {{- end }}
-
-        {{- if .Values.initContainers.waitForService.enabled }}
-        - name: wait-for-service
-          image: busybox:latest
-          command:
-            - sh
-            - -c
-            - |
-              echo "Waiting for {{ .Values.initContainers.waitForService.host }}:{{ .Values.initContainers.waitForService.port }}"
-              timeout {{ .Values.initContainers.waitForService.timeout }} sh -c 'until nc -z {{ .Values.initContainers.waitForService.host }} {{ .Values.initContainers.waitForService.port }}; do sleep 1; done'
-              echo "Service is ready"
-        {{- end }}
-
-        {{- if .Values.initContainers.dbMigration.enabled }}
-        - name: db-migration
-          image: {{ .Values.initContainers.dbMigration.image | default (printf "%s:%s" .Values.image.repository .Values.image.tag) }}
-          {{- with .Values.initContainers.dbMigration.command }}
-          command:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.env }}
-          env:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
         {{- end }}
 
         {{- with .Values.initContainers.custom }}
