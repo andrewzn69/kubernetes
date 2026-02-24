@@ -1,14 +1,21 @@
+{{- if .Values.connector.enabled }}
 ---
 apiVersion: tailscale.com/v1alpha1
 kind: Connector
 metadata:
-  name: subnet-router
-  namespace: tailscale-system
+  name: {{ .Values.connector.name }}
+  namespace: {{ .Release.Namespace }}
 spec:
-  exitNode: true
+  exitNode: {{ .Values.connector.exitNode }}
+  {{- with .Values.connector.tags }}
   tags:
-    - tag:k8s-operator
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.connector.subnetRouter.enabled }}
   subnetRouter:
     advertiseRoutes:
-      - "10.244.0.0/16"  # pod network
-      - "10.96.0.0/12"   # service network
+      {{- range .Values.connector.subnetRouter.advertiseRoutes }}
+      - {{ . | quote }}
+      {{- end }}
+  {{- end }}
+{{- end }}
