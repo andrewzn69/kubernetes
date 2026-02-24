@@ -1,19 +1,16 @@
-{{- range .Values.volumes.mounts }}
+{{- range .Values.volumes.pvc }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .name }}
+  name: {{ include "app.fullname" $ }}-{{ .name }}
   namespace: {{ $.Values.namespace }}
+  labels:
+    {{- include "app.labels" $ | nindent 4 }}
 spec:
   accessModes:
     - {{ .accessMode }}
-  {{- if eq $.Values.storage.type "nfs" }}
-  storageClassName: ""
-  volumeName: {{ .name }}-pv
-  {{- else }}
-  storageClassName: {{ $.Values.storage.class }}
-  {{- end }}
+  storageClassName: {{ .storageClassName }}
   resources:
     requests:
       storage: {{ .size }}

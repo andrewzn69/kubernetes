@@ -18,21 +18,28 @@ image:
   tag: "latest"
   pullPolicy: IfNotPresent
 
-# storage backend
-storage:
-  type: nfs # nfs | ceph
-  class: "" # storageClass for ceph/iscsi
-
 # volumes
 volumes:
-  mounts: []
-    # - name: data
-    #   mountPath: /data
-    #   size: 10Gi
-    #   accessMode: ReadWriteMany
-    #   # NFS-specific (ignored if type != nfs)
-    #   nfsServer: "100.64.100.64"
-    #   nfsPath: "/storage/apps/app-name/data"
+  # dynamic provisioning - databases, configs, app data
+  pvc: []
+    # - name: config
+    #   mountPath: /config
+    #   size: 5Gi
+    #   storageClassName: longhorn
+    #   accessMode: ReadWriteOnce
+    # - name: cache
+    #   mountPath: /cache
+    #   size: 20Gi
+    #   storageClassName: longhorn
+    #   accessMode: ReadWriteOnce
+
+  # direct nfs mounts - media library
+  nfs: []
+    # - name: media
+    #   mountPath: /media
+    #   server: "100.64.100.64"
+    #   path: "/storage/media"
+    #   readOnly: true
 
 # secrets
 secrets:

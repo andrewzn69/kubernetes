@@ -190,9 +190,16 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
 
-          {{- if or .Values.volumes.mounts .Values.configMap.enabled }}
+          {{- if or .Values.volumes.pvc .Values.volumes.nfs .Values.configMap.enabled }}
           volumeMounts:
-            {{- range .Values.volumes.mounts }}
+            {{- range .Values.volumes.pvc }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              {{- if .readOnly }}
+              readOnly: {{ .readOnly }}
+              {{- end }}
+            {{- end }}
+            {{- range .Values.volumes.nfs}}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
               {{- if .readOnly }}
@@ -217,16 +224,23 @@ spec:
           {{- end }}
         {{- end }}
 
-      {{- if or .Values.volumes.mounts .Values.configMap.enabled }}
+      {{- if or .Values.volumes.pvc .Values.volumes.nfs .Values.configMap.enabled }}
       volumes:
-        {{- range .Values.volumes.mounts }}
+        {{- range .Values.volumes.pvc }}
         - name: {{ .name }}
           persistentVolumeClaim:
-            claimName: {{ .name }}
+            claimName: {{ include "app.fullname" $ }}-{{ .name }}
+        {{- end}}
+        {{- range .Values.volumes.nfs }}
+        - name: {{ .name }}
+          nfs:
+            server: {{ .server }}
+            path: {{ .path }}
+            readOnly: {{ .readOnly | default false }}
         {{- end }}
         {{- if .Values.configMap.enabled }}
         - name: config-files
           configMap:
             name: {{ include "app.fullname" . }}-files
         {{- end }}
-      {{- end }}
+      {{- end}}
