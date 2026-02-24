@@ -3,14 +3,15 @@ Application {{ include "app.fullname" . }} deployed successfully!
 Namespace: {{ .Values.namespace }}
 Release: {{ .Release.Name }}
 
-{{- if .Values.ingress.enabled }}
+{{- if .Values.cloudflare.enabled }}
 
-Access via:
-{{- if eq .Values.ingress.type "public" }}
-  {{if .Values.ingress.public.tls.enabled }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}
-{{- else if eq .Values.ingress.type "private" }}
-  {{- if .Values.ingress.private.tls.enabled }}https{{ else }}http{{ end }}://{{ .Values.ingress.host }}
-{{- end }}
+Access via Cloudflare Tunnel:
+  https://{{ .Values.cloudflare.hostname }}
+
+{{- else if .Values.gateway.enabled }}
+
+Access via Cilium Gateway (Tailscale only):
+  https://{{ .Values.gateway.hostname }}
 
 {{- else }}
 
@@ -29,12 +30,7 @@ Metrics available at:
 
 {{- end }}
 
-{{- if eq .Values.secrets.type "sops" }}
+{{- if .Values.volumes.nfs }}
 
-NOTE: Make sure SOPS secrets are encrypted before committing to git.
-{{- end }}
-
-{{- if eq .Values.storage.type "nfs" }}
-
-NOTE: Using NFS storage. Make sure NFS server is accessible and paths exist.
+NOTE: Using NFS volumes. Make sure NFS server is accessible and paths exist.
 {{- end }}
