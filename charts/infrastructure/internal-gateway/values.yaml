@@ -1,0 +1,14 @@
+tailscale:
+  hostname: vizima-internal-gateway
+
+gateway:
+  name: internal
+  namespace: kube-system
+  gatewayClassName: cilium-internal
+  controllerName: io.cilium/gateway-controller
+  loadBalancerClass: tailscale
+  listener:
+    port: 80
+    protocol: HTTP
+  allowedRoutes:
+    namespaces: All
