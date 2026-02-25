@@ -1,11 +1,11 @@
 apiVersion: v2
 name: argocd
-description: Helm chart for ArgoCD with Tailscale ingress
+description: ArgoCD GitOps controller
 type: application
-version: 0.1.0
-appVersion: v3.0.12
+version: 1.0.0
+appVersion: v3.3.2
 icon: https://raw.githubusercontent.com/argoproj/argo-cd/master/docs/assets/logo.png
 dependencies:
   - name: argo-cd
-    version: 8.2.5
+    version: 9.4.4
     repository: https://argoproj.github.io/argo-helm
