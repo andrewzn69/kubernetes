@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/andrewzn69/kubernetes
     targetRevision: HEAD
-    path: charts/argocd
+    path: charts/infrastructure/argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
