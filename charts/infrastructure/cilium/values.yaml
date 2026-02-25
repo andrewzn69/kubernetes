@@ -1,53 +1,54 @@
-# address management
-# this tells cilium to let kubernetes assign pod ips instead of cilium managing its own ip pools:
-ipam:
-  mode: kubernetes
+cilium:
+  # address management
+  # this tells cilium to let kubernetes assign pod ips instead of cilium managing its own ip pools:
+  ipam:
+    mode: kubernetes
 
-# cilium replaces kube-proxy using ebpf.
-# cilium must therefore handle all service routing
-kubeProxyReplacement: true
-# kupeprism
-k8sServiceHost: localhost
-k8sServicePort: 7445
+  # cilium replaces kube-proxy using ebpf.
+  # cilium must therefore handle all service routing
+  kubeProxyReplacement: true
+  # kupeprism
+  k8sServiceHost: localhost
+  k8sServicePort: 7445
 
-# talos 1.8+ forwards kube-dns through the host network stack.
-# cilium native ebpf routing intercepts these packets and breaks dns.
-# this forces cilium to use the kernel routing stack for host traffic instead,
-# keeping dns functional.
-bpf:
-  hostLegacyRouting: true
+  # talos 1.8+ forwards kube-dns through the host network stack.
+  # cilium native ebpf routing intercepts these packets and breaks dns.
+  # this forces cilium to use the kernel routing stack for host traffic instead,
+  # keeping dns functional.
+  bpf:
+    hostLegacyRouting: true
 
-# talos mounts /sys/fs/cgroup itself during boot.
-# if cilium tries to mount it again it conflicts.
-# this tells cilium to skip mounting and use the existing mount at hostroot instead.
-cgroup:
-  autoMount:
-    enabled: false
-  hostRoot: /sys/fs/cgroup
+  # talos mounts /sys/fs/cgroup itself during boot.
+  # if cilium tries to mount it again it conflicts.
+  # this tells cilium to skip mounting and use the existing mount at hostroot instead.
+  cgroup:
+    autoMount:
+      enabled: false
+    hostRoot: /sys/fs/cgroup
 
-# linux capabilities cilium needs to manipulate ebpf mapsc,
-# network interfaces and process traffic.
-# SYS_MODULE is excluded - talos does not allow workloads to load kernel modules
-securityContext:
-  capabilities:
-    ciliumAgent:
-      - CHOWN
-      - KILL
-      - NET_ADMIN
-      - NET_RAW
-      - IPC_LOCK
-      - SYS_ADMIN
-      - SYS_RESOURCE
-      - DAC_OVERRIDE
-      - FOWNER
-      - SETGID
-      - SETUID
-    cleanCiliumState:
-      - NET_ADMIN
-      - SYS_ADMIN
-      - SYS_RESOURCE
+  # linux capabilities cilium needs to manipulate ebpf mapsc,
+  # network interfaces and process traffic.
+  # SYS_MODULE is excluded - talos does not allow workloads to load kernel modules
+  securityContext:
+    capabilities:
+      ciliumAgent:
+        - CHOWN
+        - KILL
+        - NET_ADMIN
+        - NET_RAW
+        - IPC_LOCK
+        - SYS_ADMIN
+        - SYS_RESOURCE
+        - DAC_OVERRIDE
+        - FOWNER
+        - SETGID
+        - SETUID
+      cleanCiliumState:
+        - NET_ADMIN
+        - SYS_ADMIN
+        - SYS_RESOURCE
 
-# enable gateway api support
-# cilium will install gateway api crds and enable the gateway controller
-gatewayAPI:
-  enabled: true
+  # enable gateway api support
+  # cilium will install gateway api crds and enable the gateway controller
+  gatewayAPI:
+    enabled: true
