@@ -27,3 +27,31 @@ cert-manager:
       limits:
         cpu: 100m
         memory: 128Mi
+
+infisical:
+  enabled: true
+  hostAPI: https://eu.infisical.com
+  projectId: ""
+  envSlug: prod
+  secretsPath: "/infrastructure/cert-manager"
+  resyncInterval: 60
+  credentialsSecret:
+    name: infisical-universal-auth
+    namespace: infisical-system
+
+clusterIssuer:
+  name: letsencrypt-cloudflare
+  email: ondrejzeman23@gmail.com
+  cloudflare:
+    zoneID: 7c1bb64051482ab8850aa01d418eff9a
+    tokenSecretName: cert-manager-cloudflare-dns-token
+  dnsZones:
+    - "zemn.xyz"
+
+  certificate:
+    name: zemn-wildcard
+    secretName: zemn-wildcard-tls
+    dnsNames:
+      - "zemn.xyz"
+      - "*.zemn.xyz"
+      - "*.internal.zemn.xyz"
