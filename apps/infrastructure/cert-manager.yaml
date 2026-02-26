@@ -27,3 +27,7 @@ spec:
       jsonPointers:
         - /data
         - /metadata/annotations
+    - group: cert-manager.io
+      kind: ClusterIssuer
+      jsonPointers:
+        - /status
