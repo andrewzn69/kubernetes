@@ -9,6 +9,7 @@ spec:
       kind: Gateway
       name: {{ .Values.gateway.name }}
       namespace: {{ .Values.gateway.namespace }}
+      sectionName: https
   hostnames:
     - {{ .Values.route.hostname }}
   rules:
