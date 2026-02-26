@@ -8,9 +8,18 @@ metadata:
 spec:
   gatewayClassName: {{ .Values.gateway.gatewayClassName }}
   listeners:
-    - name: http
-      port: {{ .Values.gateway.listener.port }}
-      protocol: {{ .Values.gateway.listener.protocol }}
+    {{- range .Values.gateway.listeners }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      protocol: {{ .protocol }}
+      {{- if .tls }}
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: {{ .tls.secretName }}
+            namespace: {{ .tls.secretNamespace }}
+      {{- end }}
       allowedRoutes:
         namespaces:
-          from: {{ .Values.gateway.allowedRoutes.namespaces }}
+          from: {{ $.Values.gateway.allowedRoutes.namespaces }}
+  {{- end }}

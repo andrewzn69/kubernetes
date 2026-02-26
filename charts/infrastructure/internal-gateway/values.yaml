@@ -7,8 +7,12 @@ gateway:
   gatewayClassName: cilium-internal
   controllerName: io.cilium/gateway-controller
   loadBalancerClass: tailscale
-  listener:
-    port: 80
-    protocol: HTTP
+  listeners:
+    - name: https
+      port: 443
+      protocol: HTTPS
+      tls:
+        secretName: zemn-wildcard-tls
+        secretNamespace: cert-manager
   allowedRoutes:
     namespaces: All
