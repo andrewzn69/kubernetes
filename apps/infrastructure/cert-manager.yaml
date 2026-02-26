@@ -20,3 +20,10 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+  ignoreDifferences:
+    - kind: Secret
+      name: cert-manager-cloudflare-dns-token
+      namespace: cert-manager
+      jsonPointers:
+        - /data
+        - /metadata/annotations
