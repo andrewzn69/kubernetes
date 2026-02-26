@@ -55,3 +55,6 @@ certificate:
     - "zemn.xyz"
     - "*.zemn.xyz"
     - "*.internal.zemn.xyz"
+
+gateway:
+  namespace: kube-system
