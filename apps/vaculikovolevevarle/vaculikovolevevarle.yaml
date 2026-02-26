@@ -13,6 +13,18 @@ spec:
       path: chart
       helm:
         releaseName: vaculikovolevevarle
+        values: |
+          sealedSecrets:
+            enabled: false
+          persistence:
+            lavalink:
+              plugins:
+                enabled: false
+              logs:
+                enabled: false
+            bot:
+              logs:
+                enabled: false
     - repoURL: https://github.com/andrewzn69/kubernetes
       targetRevision: master
       path: apps/vaculikovolevevarle
