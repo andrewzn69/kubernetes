@@ -5,11 +5,20 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   parentRefs:
-    - name: {{ .Values.gateway.name }}
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: {{ .Values.gateway.name }}
       namespace: {{ .Values.gateway.namespace }}
   hostnames:
     - {{ .Values.route.hostname }}
   rules:
-    - backendRefs:
-        - name: {{ .Values.route.service.name }}
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: {{ .Values.route.service.name }}
           port: {{ .Values.route.service.port }}
+          weight: 1
