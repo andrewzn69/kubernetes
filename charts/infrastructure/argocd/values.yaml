@@ -73,3 +73,13 @@ argo-cd:
       limits:
         memory: 1Gi
         cpu: 500m
+
+gateway:
+  name: internal
+  namespace: kube-system
+
+route:
+  hostname: argocd.internal.zemn.xyz
+  service:
+    name: argocd-server
+    port: 80
