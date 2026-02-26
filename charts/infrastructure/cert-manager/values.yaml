@@ -43,7 +43,6 @@ clusterIssuer:
   name: letsencrypt-cloudflare
   email: ondrejzeman23@gmail.com
   cloudflare:
-    zoneID: 7c1bb64051482ab8850aa01d418eff9a
     tokenSecretName: cert-manager-cloudflare-dns-token
   dnsZones:
     - "zemn.xyz"

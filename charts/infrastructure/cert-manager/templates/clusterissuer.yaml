@@ -14,7 +14,6 @@ spec:
           apiTokenSecretRef:
             name: {{ .Values.clusterIssuer.cloudflare.tokenSecretName }}
             key: api-token
-          zoneID: {{ .Values.clusterIssuer.cloudflare.zoneID }}
       selector:
         dnsZones:
           {{- range .Values.clusterIssuer.dnsZones }}
