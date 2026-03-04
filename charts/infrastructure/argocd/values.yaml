@@ -9,8 +9,6 @@ argo-cd:
   server:
     insecure: true
     replicas: 1
-    extraArgs:
-      - --grpc-web-root-path=/
     resources:
       requests:
         memory: 128Mi
