@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/andrewzn69/kubernetes
+    targetRevision: HEAD
+    path: charts/infrastructure/longhorn
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-novigrad.yaml
+  destination:
+    server: https://141.147.38.249:6443
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
