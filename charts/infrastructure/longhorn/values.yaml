@@ -11,3 +11,6 @@ longhorn:
 
   ingress:
     enabled: false
+
+  preUpgradeChecker:
+    jobEnabled: false
