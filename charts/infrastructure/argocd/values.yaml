@@ -5,6 +5,7 @@ argo-cd:
   configs:
     params:
       server.insecure: "true"
+      server.url: "https://argocd.internal.zemn.xyz"
 
   server:
     insecure: true
