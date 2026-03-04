@@ -52,3 +52,11 @@ cilium:
   # cilium will install gateway api crds and enable the gateway controller
   gatewayAPI:
     enabled: true
+
+  # enable hubble for observability and traffic visualization
+  hubble:
+    enabled: true
+    relay:
+      enabled: true
+    ui:
+      enabled: true
