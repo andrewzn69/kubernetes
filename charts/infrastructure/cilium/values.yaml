@@ -52,6 +52,7 @@ cilium:
   # cilium will install gateway api crds and enable the gateway controller
   gatewayAPI:
     enabled: true
+    enableAlpn: true  # required for grpc to work through gateway
 
   # enable hubble for observability and traffic visualization
   hubble:
