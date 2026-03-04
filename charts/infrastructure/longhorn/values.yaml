@@ -1,0 +1,13 @@
+longhorn:
+  defaultSettings:
+    backupTarget: ""
+    defaultReplicaCount: 2
+    guaranteedInstanceManagerCPU: 5
+    createDefaultDiskLabeledNodes: true
+
+  persistence:
+    defaultClass: true
+    defaultClassReplicaCount: 2
+
+  ingress:
+    enabled: false
