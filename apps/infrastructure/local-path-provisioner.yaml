@@ -17,6 +17,8 @@ spec:
           repository: docker.io/rancher/local-path-provisioner
         helperImage:
           repository: docker.io/busybox
+        storageClass:
+          defaultClass: true
   destination:
     server: https://130.162.228.5:6443
     namespace: local-path-provisioner
