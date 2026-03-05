@@ -10,7 +10,13 @@ spec:
   source:
     repoURL: https://github.com/rancher/local-path-provisioner
     targetRevision: v0.0.34
-    path: deploy
+    path: deploy/chart
+    helm:
+      values: |
+        image:
+          repository: docker.io/rancher/local-path-provisioner
+        helperImage:
+          repository: docker.io/busybox
   destination:
     server: https://130.162.228.5:6443
     namespace: local-path-provisioner
