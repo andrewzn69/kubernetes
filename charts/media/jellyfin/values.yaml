@@ -1,7 +1,3 @@
-# chart metadata
-nameOverride: ""
-fullnameOverride: ""
-
 # kubernetes namespace
 namespace: media
 
@@ -19,50 +15,32 @@ service:
 
 # volume config
 volumes:
-  mounts:
-    - name: jellyfin-config
+  pvc:
+    - name: config
       mountPath: /config
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/jellyfin/config"
-        size: 10Gi
-        accessMode: ReadWriteMany
-    - name: jellyfin-cache
+      size: 10Gi
+      accessMode: ReadWriteOnce
+    - name: cache
       mountPath: /cache
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/jellyfin/cache"
-        size: 50Gi
-        accessMode: ReadWriteMany
-    - name: jellyfin-shows
-      mountPath: /media/Shows
-      type: pvc
-      readOnly: true
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/media/shows"
-        size: 1Ti
-        accessMode: ReadOnlyMany
-    - name: jellyfin-movies
-      mountPath: /media/Movies
-      type: pvc
-      readOnly: true
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/media/movies"
-        size: 1Ti
-        accessMode: ReadOnlyMany
+      size: 20Gi
+      accessMode: ReadWriteOnce
 
-# ingress config (disabled because using direct cf tunnel)
-ingress:
+  nfs:
+    - name: movies
+      mountPath: /media/Movies
+      server: "100.64.100.64"
+      path: "/storage/media/movies"
+      readOnly: true
+    - name: shows
+      mountPath: /media/Shows
+      server: "100.64.100.64"
+      path: "/storage/media/shows"
+      readOnly: true
+
+# cf tunnels ingress
+cloudflare:
   enabled: false
-  className: nginx
-  host: jellyfin.zemn.xyz
-  tlsSecretName: zemn-wildcard-tls
+  hostname: jellyfin.zemn.xyz
 
 # resource limits/requests
 resources:
