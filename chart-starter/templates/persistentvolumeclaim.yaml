@@ -10,7 +10,9 @@ metadata:
 spec:
   accessModes:
     - {{ .accessMode }}
+  {{- if .storageClassName }}
   storageClassName: {{ .storageClassName }}
+  {{- end }}
   resources:
     requests:
       storage: {{ .size }}
