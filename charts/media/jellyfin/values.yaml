@@ -12,6 +12,12 @@ service:
   type: ClusterIP
   port: 8096
   targetPort: 8096
+  protocol: TCP
+  name: http
+  nodePort: ""
+  loadBalancerIP: ""
+  annotations: {}
+  additionalPorts: []
 
 # volume config
 volumes:
@@ -41,6 +47,8 @@ volumes:
 cloudflare:
   enabled: false
   hostname: jellyfin.zemn.xyz
+  path: /
+  pathType: Prefix
 
 # resource limits/requests
 resources:
@@ -51,8 +59,57 @@ resources:
     memory: 3Gi
     cpu: 3000m
 
-# security context
+# container security context
 securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+# pod security context
+podSecurityContext:
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+# replica count
+replicaCount: 1
+
+# env variables
+env: []
+
+# config map
+configMap:
+  enabled: false
+
+# secrets
+secrets:
+  enabled: false
+
+# init containers
+initContainers:
+  fixPermissions:
+    enabled: false
+
+# probes
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+# metrics
+metrics:
+  enabled: false
+  port: 9090
+  path: /metrics
+  serviceAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+    prometheus.io/path: "/metrics"
