@@ -23,4 +23,7 @@ cloudflare-tunnel-ingress-controller:
   cloudflare:
     secret: cloudflare-tunnel-controller
     tunnelName: novigrad-tunnel
-  cloudflaredImage: docker.io/cloudflare/cloudflared:latest
+  cloudflared:
+    image:
+      repository: docker.io/cloudflare/cloudflared
+      tag: latest
