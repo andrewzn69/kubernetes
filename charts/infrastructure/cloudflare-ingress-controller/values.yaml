@@ -18,5 +18,5 @@ secrets:
 # cloudflare tunnel controller config
 cloudflare-tunnel-ingress-controller:
   cloudflare:
-    secret: cloudflare-api
+    secret: cloudflare-tunnel-controller
     tunnelName: novigrad-tunnel
