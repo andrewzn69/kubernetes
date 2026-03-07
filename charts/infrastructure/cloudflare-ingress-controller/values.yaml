@@ -1,5 +1,8 @@
 namespace: cloudflare-tunnel-controller
 
+# override fullname to match expected secret name
+fullnameOverride: cloudflare-api
+
 # secret config
 secrets:
   enabled: true
