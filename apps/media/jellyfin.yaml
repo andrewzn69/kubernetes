@@ -14,7 +14,7 @@ spec:
     helm:
       releaseName: jellyfin
   destination:
-    server: https://kubernetes.default.svc
+    server: https://130.162.228.5:6443
     namespace: media
   syncPolicy:
     automated:
