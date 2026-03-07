@@ -1,6 +1,8 @@
 secrets-operator:
   controllerManager:
     manager:
+      image:
+        repository: docker.io/infisical/kubernetes-operator
       resources:
         requests:
           cpu: 50m
