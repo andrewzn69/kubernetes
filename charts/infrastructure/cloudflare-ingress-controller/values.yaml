@@ -8,7 +8,7 @@ secrets:
     hostAPI: https://eu.infisical.com
     projectSlug: novigrad
     envSlug: prod
-    secretsPath: /infrastructure/tunnels
+    secretsPath: /infrastructure/cloudflare
     auth:
       credentialsSecretName: infisical-universal-auth
       credentialsSecretNamespace: infisical-system
