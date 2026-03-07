@@ -1,0 +1,36 @@
+Application {{ include "app.fullname" . }} deployed successfully!
+
+Namespace: {{ .Values.namespace }}
+Release: {{ .Release.Name }}
+
+{{- if .Values.cloudflare.enabled }}
+
+Access via Cloudflare Tunnel:
+  https://{{ .Values.cloudflare.hostname }}
+
+{{- else if .Values.gateway.enabled }}
+
+Access via Cilium Gateway (Tailscale only):
+  https://{{ .Values.gateway.hostname }}
+
+{{- else }}
+
+To access the application:
+
+  kubectl port-forward -n {{ .Values.namespace }} svc/{{ include "app.fullname" . }} 8080:{{ .Values.service.port }}
+
+Then visit: http://localhost:8080
+
+{{- end }}
+
+{{- if .Values.metrics.enabled }}
+
+Metrics available at:
+  http://{{ include "app.fullname" . }}.{{ .Values.namespace }}.svc:{{ .Values.metrics.port }}{{ .Values.metrics.path }}
+
+{{- end }}
+
+{{- if .Values.volumes.nfs }}
+
+NOTE: Using NFS volumes. Make sure NFS server is accessible and paths exist.
+{{- end }}
