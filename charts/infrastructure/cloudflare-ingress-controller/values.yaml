@@ -1,0 +1,22 @@
+namespace: cloudflare-tunnel-controller
+
+# secret config
+secrets:
+  enabled: true
+  type: infisical
+  infisical:
+    hostAPI: https://eu.infisical.com
+    projectSlug: novigrad
+    envSlug: prod
+    secretsPath: /infrastructure/tunnels
+    auth:
+      credentialsSecretName: infisical-universal-auth
+      credentialsSecretNamespace: infisical-system
+    managedSecret:
+      creationPolicy: Owner
+
+# cloudflare tunnel controller config
+cloudflare-tunnel-ingress-controller:
+  cloudflare:
+    secret: cloudflare-tunnel-controller
+    tunnelName: novigrad-tunnel

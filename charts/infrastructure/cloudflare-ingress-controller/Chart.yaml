@@ -1,0 +1,12 @@
+apiVersion: v2
+name: cloudflare-tunnel-controller
+description: Cloudflare Tunnel Ingress Controller
+type: application
+version: 0.1.0
+dependencies:
+  - name: common
+    version: 1.0.1
+    repository: oci://ghcr.io/andrewzn69
+  - name: cloudflare-tunnel-ingress-controller
+    version: 0.0.22
+    repository: https://helm.strrl.dev
