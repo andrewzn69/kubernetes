@@ -27,3 +27,6 @@ cloudflare-tunnel-ingress-controller:
     image:
       repository: docker.io/cloudflare/cloudflared
       tag: latest
+    extraArgs:
+      - --protocol
+      - http2
