@@ -45,7 +45,7 @@ volumes:
 
 # cf tunnels ingress
 cloudflare:
-  enabled: false
+  enabled: true
   hostname: jellyfin.zemn.xyz
   path: /
   pathType: Prefix
