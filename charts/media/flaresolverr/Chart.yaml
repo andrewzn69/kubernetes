@@ -2,7 +2,7 @@ apiVersion: v2
 name: flaresolverr
 description: Flaresolverr proxy server for bypassing Cloudflare protection
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "3.4.2"
 keywords:
   - flaresolverr
@@ -11,3 +11,7 @@ keywords:
 home: https://github.com/FlareSolverr/FlareSolverr
 maintainers:
   - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.2
+    repository: oci://ghcr.io/andrewzn69

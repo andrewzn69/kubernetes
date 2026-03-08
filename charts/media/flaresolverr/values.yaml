@@ -1,6 +1,3 @@
-nameOverride: ""
-fullnameOverride: ""
-
 namespace: media
 
 image:
@@ -12,9 +9,20 @@ service:
   type: ClusterIP
   port: 8191
   targetPort: 8191
+  protocol: TCP
+  name: http
+  nodePort: ""
+  loadBalancerIP: ""
+  annotations: {}
+  additionalPorts: []
 
-ingress:
-  enabled: false
+gateway:
+  enabled: true
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: flaresolverr.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
 
 resources:
   requests:
@@ -23,6 +31,20 @@ resources:
   limits:
     memory: 512Mi
     cpu: 500m
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+podSecurityContext:
+  runAsNonRoot: false
+  seccompProfile:
+    type: RuntimeDefault
+
+replicaCount: 1
 
 env:
   - name: LOG_LEVEL
