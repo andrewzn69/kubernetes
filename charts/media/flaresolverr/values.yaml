@@ -11,10 +11,6 @@ service:
   targetPort: 8191
   protocol: TCP
   name: http
-  nodePort: ""
-  loadBalancerIP: ""
-  annotations: {}
-  additionalPorts: []
 
 gateway:
   enabled: true
