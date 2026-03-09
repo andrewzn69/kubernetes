@@ -3,7 +3,7 @@ longhorn:
     defaultDataPath: /var/mnt/longhorn
     defaultReplicaCount: 2
     guaranteedInstanceManagerCPU: 5
-    createDefaultDiskLabeledNodes: true
+    createDefaultDiskLabeledNodes: false
     storageMinimalAvailablePercentage: 10
     backupTarget: ""
 
