@@ -24,7 +24,7 @@ volumes:
       mountPath: /app/config
       size: 5Gi
       accessMode: ReadWriteOnce
-      storageClassName: longhorn
+      storageClassName: local-path
 
 resources:
   requests:
