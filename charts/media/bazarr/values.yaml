@@ -28,7 +28,6 @@ volumes:
       readOnly: false
       accessMode: ReadWriteOnce
       storageClassName: longhorn
-    - name: bazarr-tv
 
   nfs:
     - name: shows
