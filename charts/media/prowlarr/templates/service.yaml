@@ -1,16 +1,1 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "prowlarr.fullname" . }}
-  namespace: {{ .Values.namespace }}
-  labels:
-    {{- include "prowlarr.labels" . | nindent 4 }}
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
-      protocol: TCP
-      name: http
-  selector:
-    {{- include "prowlarr.selectorLabels" . | nindent 4 }}
+{{- include "common.service" . }}
