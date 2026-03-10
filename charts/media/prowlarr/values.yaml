@@ -14,7 +14,7 @@ service:
 
 gateway:
   enabled: true
-  gatewaytname: internal
+  gatewayName: internal
   gatewayNamespace: kube-system
   hostname: prowlarr.internal.zemn.xyz
   path: /
