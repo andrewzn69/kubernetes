@@ -1,1 +1,1 @@
-{{- include "common.httproute" . }}
+{{- include "common.persistentvolumeclaim" . }}
