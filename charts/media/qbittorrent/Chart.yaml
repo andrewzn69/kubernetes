@@ -1,8 +1,8 @@
 apiVersion: v2
 name: qbittorrent
-description: qBittorrent torrent client for *arr stack
+description: qBittorrent torrent client
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "5.1.2"
 keywords:
   - qbittorrent
@@ -11,3 +11,7 @@ keywords:
 home: https://www.qbittorrent.org
 maintainers:
   - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.3
+    repository: oci://ghcr.io/andrewzn69
