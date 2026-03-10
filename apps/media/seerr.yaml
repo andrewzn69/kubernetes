@@ -10,9 +10,9 @@ spec:
   source:
     repoURL: https://github.com/andrewzn69/kubernetes
     targetRevision: HEAD
-    path: charts/media/jellyseerr
+    path: charts/media/seerr
     helm:
-      releaseName: jellyseerr
+      releaseName: seerr
   destination:
     server: https://130.162.228.5:6443
     namespace: media
