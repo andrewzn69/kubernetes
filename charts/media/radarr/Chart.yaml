@@ -3,7 +3,7 @@ name: radarr
 description: Radar movie manager for *arr stack
 type: application
 version: 1.0.0
-appVersion: "5.28.0"
+appVersion: "6.0.4"
 keywords:
   - radarr
   - movies
