@@ -1,7 +1,3 @@
-# chart metadata
-nameOverride: ""
-fullnameOverride: ""
-
 namespace: media
 
 image:
@@ -13,45 +9,37 @@ service:
   type: ClusterIP
   port: 8989
   targetPort: 8989
+  protocol: TCP
+  name: http
+
+gateway:
+  enabled: true
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: sonarr.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
 
 volumes:
-  mounts:
-    - name: sonarr-config
+  pvc:
+    - name: config
       mountPath: /config
-      type: pvc
+      size: 5Gi
       readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/sonarr/config"
-        size: 5Gi
-        accessMode: ReadWriteMany
-    - name: sonarr-tv
-      mountPath: /tv
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/media/shows"
-        size: 1Ti
-        accessMode: ReadWriteMany
-    - name: sonarr-downloads
-      mountPath: /downloads
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/downloads"
-        size: 500Gi
-        accessMode: ReadWriteMany
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
 
-ingress:
-  enabled: true
-  className: nginx
-  host: sonarr.zemn.xyz
-  tlsSecretName: zemn-wildcard-tls
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  nfs:
+    - name: shows
+      mountPath: /tv
+      server: "100.64.100.64"
+      path: "/storage/media/shows"
+      readOnly: false
+    - name: downloads
+      mountPath: /downloads
+      server: "100.64.100.64"
+      path: "/storage/downloads"
+      readOnly: false
 
 resources:
   requests:
@@ -69,12 +57,32 @@ env:
   - name: TZ
     value: "Europe/Prague"
 
-exportarr:
-  enabled: true
-  type: sonarr
-  port: 9707
-  apiKeySecret: sonarr-api-key
-  image:
-    repository: ghcr.io/onedr0p/exportarr
-    tag: v2.0
-  additionalMetrics: true
+replicaCount: 1
+
+configMap:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false
+
+# exportarr:
+#   enabled: true
+#   type: sonarr
+#   port: 9707
+#   apiKeySecret: sonarr-api-key
+#   image:
+#     repository: ghcr.io/onedr0p/exportarr
+#     tag: v2.0
+#   additionalMetrics: true
