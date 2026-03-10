@@ -1,1 +1,1 @@
-{{- include "common.persistentvolumeclaim" . }}
+{{- include "common.service" . }}
