@@ -5,7 +5,11 @@ longhorn:
     guaranteedInstanceManagerCPU: 5
     createDefaultDiskLabeledNodes: false
     storageMinimalAvailablePercentage: 10
+
+  defaultBackupStore:
     backupTarget: ""
+    backupTargetCredentialSecret: ""
+    pollInterval: "0"
 
   persistence:
     defaultClass: true
