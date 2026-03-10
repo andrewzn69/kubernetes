@@ -3,7 +3,7 @@ name: flaresolverr
 description: Flaresolverr proxy server for bypassing Cloudflare protection
 type: application
 version: 1.0.1
-appVersion: "3.4.2"
+appVersion: "3.4.6"
 keywords:
   - flaresolverr
   - proxy

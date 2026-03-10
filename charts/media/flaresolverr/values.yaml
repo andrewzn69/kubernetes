@@ -2,7 +2,7 @@ namespace: media
 
 image:
   repository: docker.io/flaresolverr/flaresolverr
-  tag: "v3.4.2"
+  tag: "v3.4.6"
   pullPolicy: IfNotPresent
 
 service:
