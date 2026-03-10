@@ -3,7 +3,7 @@ name: sonarr
 description: Sonarr TV show manager for *arr stack
 type: application
 version: 1.0.0
-appVersion: "4.0.15"
+appVersion: "4.0.16"
 keywords:
   - sonarr
   - tv
