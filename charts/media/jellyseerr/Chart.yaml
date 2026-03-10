@@ -6,3 +6,7 @@ version: 1.0.0
 appVersion: "2.7.3"
 maintainers:
   - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.3
+    repository: oci://ghcr.io/andrewzn69

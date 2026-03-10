@@ -1,7 +1,3 @@
-# chart metadata
-nameOverride: ""
-fullnameOverride: ""
-
 namespace: media
 
 image:
@@ -13,21 +9,22 @@ service:
   type: ClusterIP
   port: 5055
   targetPort: 5055
+  protocol: TCP
+  name: http
+
+cloudflare:
+  enabled: true
+  hostname: jellyseerr.zemn.xyz
+  path: /
+  pathType: Prefix
 
 volumes:
-  mounts:
-    - name: jellyseerr-config
+  pvc:
+    - name: config
       mountPath: /app/config
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/jellyseerr/config"
-        size: 5Gi
-        accessMode: ReadWriteMany
-
-ingress:
-  enabled: false
+      size: 5Gi
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
 
 resources:
   requests:
@@ -40,3 +37,23 @@ resources:
 env:
   - name: TZ
     value: "Europe/Prague"
+
+replicaCount: 1
+
+configMap:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false
