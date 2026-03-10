@@ -3,7 +3,7 @@ name: jellyfin
 description: Jellyfin media server
 type: application
 version: 1.0.1
-appVersion: "10.10.7"
+appVersion: "10.11.6"
 keywords:
   - jellyfin
   - media

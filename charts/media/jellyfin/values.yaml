@@ -4,7 +4,7 @@ namespace: media
 # container image configuration
 image:
   repository: docker.io/jellyfin/jellyfin
-  tag: "10.11.0"
+  tag: "10.11.6"
   pullPolicy: IfNotPresent
 
 # service config
