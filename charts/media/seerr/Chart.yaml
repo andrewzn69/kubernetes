@@ -3,7 +3,7 @@ name: seerr
 description: Seerr media request management
 type: application
 version: 1.0.0
-appVersion: "3.0.0"
+appVersion: "v3.1.0"
 maintainers:
   - name: andrewzn69
 dependencies:
