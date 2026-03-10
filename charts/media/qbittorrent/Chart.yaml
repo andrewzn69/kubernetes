@@ -3,7 +3,7 @@ name: qbittorrent
 description: qBittorrent torrent client
 type: application
 version: 1.0.1
-appVersion: "5.1.2"
+appVersion: "5.1.4"
 keywords:
   - qbittorrent
   - torrent

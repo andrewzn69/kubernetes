@@ -2,7 +2,7 @@ namespace: media
 
 image:
   repository: docker.io/linuxserver/qbittorrent
-  tag: "5.1.2"
+  tag: "5.1.4"
   pullPolicy: IfNotPresent
 
 service:
