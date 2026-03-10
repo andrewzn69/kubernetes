@@ -1,8 +1,8 @@
 namespace: media
 
 image:
-  repository: docker.io/fallenbagel/jellyseerr
-  tag: "3.1.0"
+  repository: ghcr.io/seerr-team/seerr
+  tag: "3.0.0"
   pullPolicy: IfNotPresent
 
 service:
@@ -14,7 +14,7 @@ service:
 
 cloudflare:
   enabled: true
-  hostname: jellyseerr.zemn.xyz
+  hostname: seerr.zemn.xyz
   path: /
   pathType: Prefix
 
