@@ -1,6 +1,3 @@
-nameOverride: ""
-fullnameOverride: ""
-
 namespace: observability
 
 image:
@@ -12,50 +9,106 @@ service:
   type: ClusterIP
   port: 3000
   targetPort: 3000
+  protocol: TCP
+  name: http
 
-ingress:
+gateway:
   enabled: true
-  className: nginx
-  host: grafana.zemn.xyz
-  tlsSecretName: zemn-wildcard-tls
-  annotations: {}
-
-admin:
-  existingSecret: grafana-admin
-  userKey: admin-user
-  passwordKey: admin-password
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: grafana.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
 
 volumes:
-  mounts:
-    - name: grafana-data
+  pvc:
+    - name: data
       mountPath: /var/lib/grafana
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/grafana/data"
-        size: 10Gi
-        accessMode: ReadWriteMany
+      size: 10Gi
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
+
+configMap:
+  enabled: true
+  mountPath: /etc/grafana/provisioning/datasources
+  files:
+    datasources.yaml: |
+      apiVersion: 1
+      datasources:
+        - name: VictoriaMetrics
+          type: prometheus
+          url: http://victoria-metrics.observability.svc:8428
+          isDefault: true
+        - name: VictoriaLogs
+          type: loki
+          url: http://victoria-logs.observability.svc:9428
+          access: proxy
+          isDefault: false
+
+secrets:
+  enabled: true
+  type: infisical
+  infisical:
+    hostAPI: https://eu.infisical.com
+    projectSlug: vizima
+    envSlug: prod
+    secretsPath: /observability/grafana
+    auth:
+      credentialsSecretName: infisical-universal-auth
+      credentialsSecretNamespace: infisical-system
+    managedSecret:
+      creationPolicy: Owner
+
+env:
+  - name: GF_SECURITY_ADMIN_USER
+    valueFrom:
+      secretKeyRef:
+        name: grafana
+        key: GF_SECURITY_ADMIN_USER
+  - name: GF_SECURITY_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: grafana
+        key: GF_SECURITY_ADMIN_PASSWORD
+  - name: GF_PATHS_PROVISIONING
+    value: /etc/grafana/provisioning
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
 
 resources:
   requests:
     memory: 128Mi
     cpu: 100m
   limits:
-    memory: 512Gi
+    memory: 512Mi
     cpu: 500m
 
-securityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
+replicaCount: 1
 
-datasources:
-  - name: VictoriaMetrics
-    type: prometheus
-    url: http://victoria-metrics.observability.svc:8428
-  - name: VictoriaLogs
-    type: loki
-    url: http://victoria-logs.observability.svc:9428
-    access: proxy
-    isDefault: false
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false

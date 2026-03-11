@@ -11,3 +11,7 @@ keywords:
 home: https://grafana.com
 maintainers:
   - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.4
+    repository: oci://ghcr.io/andrewzn69
