@@ -1,6 +1,3 @@
-nameOverride: ""
-fullnameOverride: ""
-
 namespace: observability
 
 image:
@@ -12,20 +9,43 @@ service:
   type: ClusterIP
   port: 8428
   targetPort: 8428
+  protocol: TCP
+  name: http
 
-retention: 5y
+gateway:
+  enabled: true
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: victoria-metrics.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
+
+args:
+  - -retentionPeriod=5y
+  - -storageDataPath=/victoria-metrics-data
 
 volumes:
-  mounts:
-    - name: victoria-metrics-data
+  pvc:
+    - name: data
       mountPath: /victoria-metrics-data
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/victoria-metrics/data"
-        size: 50Gi
-        accessMode: ReadWriteMany
+      size: 50Gi
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
 
 resources:
   requests:
@@ -35,7 +55,22 @@ resources:
     memory: 1Gi
     cpu: 1000m
 
-securityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
+replicaCount: 1
+
+configMap:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false
