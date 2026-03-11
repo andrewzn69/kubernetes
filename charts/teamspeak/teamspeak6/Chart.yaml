@@ -1,0 +1,12 @@
+apiVersion: v2
+name: teamspeak6
+description: Teamspeak 6 voice server
+type: application
+version: 1.0.0
+appVersion: "beta8"
+maintainers:
+  - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.5
+    repository: oci://ghcr.io/andrewzn69

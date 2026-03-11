@@ -1,0 +1,78 @@
+namespace: teamspeak
+
+image:
+  repository: codeberg.org/indogermane/teamspeak6-server-arm
+  tag: "beta8"
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 9987
+  targetPort: 9987
+  protocol: UDP
+  name: voice
+  annotations:
+    oci.oraclecloud.com/load-balancer-type: "nlb"
+  additionalPorts:
+    - name: filetransfer
+      port: 30033
+      targetPort: 30033
+      protocol: TCP
+
+volumes:
+  pvc:
+    - name: data
+      mountPath: /data
+      size: 5Gi
+      accessMode: ReadWriteOnce
+      storageClassName: local-path
+
+env:
+  - name: TSSERVER_LICENSE_ACCEPTED
+    value: "accept"
+
+resources:
+  requests:
+    memory: 2Gi
+    cpu: 1000m
+  limits:
+    memory: 4Gi
+    cpu: 2000m
+
+replicaCount: 1
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+configMap:
+  enabled: false
+
+secrets:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false
