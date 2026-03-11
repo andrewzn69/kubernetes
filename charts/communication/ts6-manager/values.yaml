@@ -47,7 +47,7 @@ backend:
     - name: SIDECAR_URL
       value: "http://ts6-manager-sidecar:9800"
     - name: DATABASE_URL
-      value: "file:./data/ts6webui.db"
+      value: "file:/app/packages/backend/data/ts6webui.db"
     - name: JWT_SECRET
       valueFrom:
         secretKeyRef:
