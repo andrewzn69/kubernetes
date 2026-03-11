@@ -38,9 +38,15 @@ spec:
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
             {{- end }}
+            - name: youtube-patch
+              mountPath: /app/packages/backend/dist/voice/audio/youtube.js
+              subPath: youtube.js
       volumes:
         {{- range .Values.backend.volumes.pvc }}
         - name: {{ .name }}
           persistentVolumeClaim:
             claimName: {{ include "common.fullname" $ }}-{{ .name }}
         {{- end }}
+        - name: youtube-patch
+          configMap:
+            name: {{ include "common.fullname" . }}-youtube-patch
