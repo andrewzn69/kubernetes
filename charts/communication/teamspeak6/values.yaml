@@ -34,6 +34,8 @@ env:
     value: "true"
   - name: TSSERVER_QUERY_HTTP_PORT
     value: "10080"
+  - name: TSSERVER_QUERY_ALLOW_LIST
+    value: "/ts6/config/query_ip_allowlist.txt"
 
 resources:
   requests:
@@ -61,7 +63,11 @@ securityContext:
       - ALL
 
 configMap:
-  enabled: false
+  enabled: true
+  mountPath: /ts6/config
+  files:
+    query_ip_allowlist.txt: |
+      10.244.0.0/24
 
 secrets:
   enabled: false
