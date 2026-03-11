@@ -1,4 +1,4 @@
-namespace: teamspeak
+namespace: communication
 
 image:
   repository: codeberg.org/indogermane/teamspeak6-server-arm
