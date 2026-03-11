@@ -1,6 +1,3 @@
-nameOverride: ""
-fullnameOverride: ""
-
 namespace: observability
 
 image:
@@ -12,20 +9,28 @@ service:
   type: ClusterIP
   port: 9428
   targetPort: 9428
+  protocol: TCP
+  name: http
 
-retention: 90d
+gateway:
+  enabled: true
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: victoria-logs.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
+
+args:
+  - -retentionPeriod=90d
+  - -storageDataPath=/victoria-logs-data
 
 volumes:
-  mounts:
-    - name: victoria-logs-data
+  pvc:
+    - name: data
       mountPath: /victoria-logs-data
-      type: pvc
-      readOnly: false
-      pvc:
-        nfsServer: "100.64.100.64"
-        nfsPath: "/storage/apps/victoria-logs/data"
-        size: 50Gi
-        accessMode: ReadWriteMany
+      size: 50Gi
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
 
 resources:
   requests:
@@ -35,7 +40,37 @@ resources:
     memory: 1Gi
     cpu: 1000m
 
-securityContext:
+podSecurityContext:
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+replicaCount: 1
+
+configMap:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false
