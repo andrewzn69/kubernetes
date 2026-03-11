@@ -28,7 +28,7 @@ volumes:
   pvc:
     - name: data
       mountPath: /victoria-metrics-data
-      size: 20Gi
+      size: 10Gi
       accessMode: ReadWriteOnce
       storageClassName: longhorn
 
