@@ -30,8 +30,6 @@ volumes:
 env:
   - name: TSSERVER_LICENSE_ACCEPTED
     value: "accept"
-  - name: TSSERVER_FILE_TRANSFER_IP
-    value: "130.61.114.200"
 
 resources:
   requests:
