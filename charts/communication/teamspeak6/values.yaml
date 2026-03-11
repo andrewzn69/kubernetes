@@ -36,6 +36,8 @@ env:
     value: "10080"
   - name: TSSERVER_QUERY_ALLOW_LIST
     value: "/ts6/config/query_ip_allowlist.txt"
+  - name: TSSERVER_QUERY_ADMIN_PASSWORD
+    value: "test"
 
 resources:
   requests:
