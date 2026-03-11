@@ -38,6 +38,8 @@ env:
     value: "/ts6/config/query_ip_allowlist.txt"
   - name: TSSERVER_QUERY_ADMIN_PASSWORD
     value: "test"
+  - name: TSSERVER_QUERY_SSH_ENABLED
+    value: "true"
 
 resources:
   requests:
