@@ -28,7 +28,7 @@ volumes:
   pvc:
     - name: data
       mountPath: /victoria-logs-data
-      size: 50Gi
+      size: 10Gi
       accessMode: ReadWriteOnce
       storageClassName: longhorn
 
