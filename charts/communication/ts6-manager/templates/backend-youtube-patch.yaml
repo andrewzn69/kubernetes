@@ -19,7 +19,7 @@ data:
         return ytCookieFile;
     }
     export function getCookieArgs() {
-        const args = [];
+        const args = ["--js-runtimes", "node"];
         if (ytCookieFile) {
             args.push("--cookies", ytCookieFile);
         }
