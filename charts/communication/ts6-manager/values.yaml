@@ -18,7 +18,7 @@ cloudflare:
 
 frontend:
   image:
-    repository: clusterzx/ts6-manager
+    repository: docker.io/clusterzx/ts6-manager
     tag: "frontend"
     pullPolicy: IfNotPresent
   resources:
@@ -31,7 +31,7 @@ frontend:
 
 backend:
   image:
-    repository: clusterzx/ts6-manager
+    repository: docker.io/clusterzx/ts6-manager
     tag: "backend"
     pullPolicy: IfNotPresent
   service:
@@ -70,7 +70,7 @@ backend:
 
 sidecar:
   image:
-    repository: clusterzx/ts6-manager
+    repository: docker.io/clusterzx/ts6-manager
     tag: "sidecar"
     pullPolicy: IfNotPresent
   service:
