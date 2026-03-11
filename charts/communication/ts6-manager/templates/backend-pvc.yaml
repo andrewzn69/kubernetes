@@ -1,0 +1,17 @@
+{{- range .Values.backend.volumes.pvc }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "common.fullname" $ }}-{{ .name }}
+  namespace: {{ $.Values.namespace }}
+  labels:
+    {{- include "common.labels" $ | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .accessMode }}
+  storageClassName: {{ .storageClassName }}
+  resources:
+    requests:
+      storage: {{ .size }}
+{{- end }}

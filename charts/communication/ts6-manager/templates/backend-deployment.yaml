@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "common.fullname" . }}-backend
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "common.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: backend
+  template:
+    metadata:
+      labels:
+        {{- include "common.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: backend
+    spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.backend.service.targetPort }}
+              protocol: TCP
+          env:
+            {{- toYaml .Values.backend.env | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          volumeMounts:
+            {{- range .Values.backend.volumes.pvc }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+            {{- end }}
+      volumes:
+        {{- range .Values.backend.volumes.pvc }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{ include "common.fullname" $ }}-{{ .name }}
+        {{- end }}

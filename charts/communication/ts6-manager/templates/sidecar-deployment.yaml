@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "common.fullname" . }}-sidecar
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/component: sidecar
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "common.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: sidecar
+  template:
+    metadata:
+      labels:
+        {{- include "common.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: sidecar
+    spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: sidecar
+          image: "{{ .Values.sidecar.image.repository }}:{{ .Values.sidecar.image.tag }}"
+          imagePullPolicy: {{ .Values.sidecar.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.sidecar.service.targetPort }}
+              protocol: TCP
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          resources:
+            {{- toYaml .Values.sidecar.resources | nindent 12 }}

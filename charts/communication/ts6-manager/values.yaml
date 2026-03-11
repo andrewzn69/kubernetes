@@ -1,0 +1,116 @@
+namespace: communication
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+  protocol: TCP
+  name: http
+
+gateway:
+  enabled: false
+
+cloudflare:
+  enabled: true
+  hostname: ts-manager.zemn.xyz
+  path: /
+  pathType: Prefix
+
+frontend:
+  image:
+    repository: clusterzx/ts6-manager
+    tag: "frontend"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 200m
+
+backend:
+  image:
+    repository: clusterzx/ts6-manager
+    tag: "backend"
+    pullPolicy: IfNotPresent
+  service:
+    port: 3001
+    targetPort: 3001
+  env:
+    - name: NODE_ENV
+      value: "production"
+    - name: PORT
+      value: "3001"
+    - name: FRONTEND_URL
+      value: "https://ts-manager.internal.zemn.xyz"
+    - name: SIDECAR_URL
+      value: "http://ts6-manager-sidecar:9800"
+    - name: DATABASE_URL
+      value: "file:./data/ts6webui.db"
+    - name: JWT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: ts6-manager
+          key: JWT_SECRET
+  volumes:
+    pvc:
+      - name: data
+        mountPath: /app/packages/backend/data
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        storageClassName: local-path
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 200m
+    limits:
+      memory: 512Mi
+      cpu: 500m
+
+sidecar:
+  image:
+    repository: clusterzx/ts6-manager
+    tag: "sidecar"
+    pullPolicy: IfNotPresent
+  service:
+    port: 9800
+    targetPort: 9800
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 200m
+
+secrets:
+  enabled: true
+  type: infisical
+  infisical:
+    hostAPI: https://eu.infisical.com
+    projectSlug: novigrad
+    envSlug: prod
+    secretsPath: /communication/ts6-manager
+    auth:
+      credentialsSecretName: infisical-universal-auth
+      credentialsSecretNamespace: infisical-system
+    managedSecret:
+      creationPolicy: Owner
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+replicaCount: 1
