@@ -39,10 +39,10 @@ volumes:
 resources:
   requests:
     memory: 128Mi
-    cpu: 100m
+    cpu: 25m
   limits:
     memory: 512Mi
-    cpu: 300m
+    cpu: 200m
 
 env:
   - name: ND_MUSICFOLDER
