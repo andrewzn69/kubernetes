@@ -1,0 +1,17 @@
+apiVersion: v2
+name: navidrome
+description: Navidrome self-hosted music streaming server
+type: application
+version: 1.0.0
+appVersion: "v0.60.3"
+keywords:
+  - navidrome
+  - music
+  - streaming
+home: https://www.navidrome.org
+maintainers:
+  - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.5
+    repository: oci://ghcr.io/andrewzn69

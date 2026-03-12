@@ -1,0 +1,77 @@
+namespace: media
+
+image:
+  repository: deluan/navidrome
+  tag: "0.60.3"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 4533
+  targetPort: 4533
+  protocol: TCP
+  name: http
+
+gateway:
+  enabled: true
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: navidrome.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
+
+volumes:
+  pvc:
+    - name: data
+      mountPath: /data
+      size: 2Gi
+      readOnly: false
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
+
+  nfs:
+    - name: music
+      mountPath: /music
+      server: "100.64.100.64"
+      path: "/storage/media/music"
+      readOnly: true
+
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 300m
+
+env:
+  - name: ND_MUSICFOLDER
+    value: "/music"
+  - name: ND_DATAFOLDER
+    value: "/data"
+  - name: ND_PORT
+    value: "4533"
+  - name: ND_LOGLEVEL
+    value: "info"
+  - name: ND_SCANSCHEDULE
+    value: "@hourly"
+
+replicaCount: 1
+
+configMap:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false
