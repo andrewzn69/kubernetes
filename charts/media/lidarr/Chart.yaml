@@ -1,0 +1,17 @@
+apiVersion: v2
+name: lidarr
+description: Lidarr music manager for *arr stack
+type: application
+version: 1.0.0
+appVersion: "3.1.0"
+keywords:
+  - lidarr
+  - music
+  - media
+home: https://lidarr.audio
+maintainers:
+  - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.5
+    repository: oci://ghcr.io/andrewzn69

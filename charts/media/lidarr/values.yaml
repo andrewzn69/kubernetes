@@ -1,0 +1,73 @@
+namespace: media
+
+image:
+  repository: docker.io/linuxserver/lidarr
+  tag: "3.1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8989
+  targetPort: 8989
+  protocol: TCP
+  name: http
+
+gateway:
+  enabled: true
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: lidarr.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
+
+volumes:
+  pvc:
+    - name: config
+      mountPath: /config
+      size: 5Gi
+      readOnly: false
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
+
+  nfs:
+    - name: music
+      mountPath: /music
+      server: "100.64.100.64"
+      path: "/storage/media/shows"
+      readOnly: false
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 500m
+
+env:
+  - name: PUID
+    value: "1000"
+  - name: PGID
+    value: "1000"
+  - name: TZ
+    value: "Europe/Prague"
+
+replicaCount: 1
+
+configMap:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false
