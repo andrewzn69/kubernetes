@@ -1,0 +1,84 @@
+namespace: media
+
+image:
+  repository: docker.io/slskd/slskd
+  tag: "0.24.5"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5030
+  targetPort: 5030
+  protocol: TCP
+  name: http
+
+gateway:
+  enabled: true
+  gatewayName: internal
+  gatewayNamespace: kube-system
+  hostname: slskd.internal.zemn.xyz
+  path: /
+  pathType: PathPrefix
+
+volumes:
+  pvc:
+    - name: data
+      mountPath: /app
+      size: 1Gi
+      readOnly: false
+      accessMode: ReadWriteOnce
+      storageClassName: longhorn
+
+  nfs:
+    - name: downloads
+      mountPath: /downloads
+      server: "100.64.100.64"
+      path: "/storage/downloads"
+      readOnly: false
+
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 300m
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+env:
+  - name: SLSKD_REMOTE_CONFIGURATION
+    value: true
+
+replicaCount: 1
+
+configMap:
+  enabled: false
+
+initContainers:
+  fixPermissions:
+    enabled: false
+
+probes:
+  liveness:
+    enabled: false
+  readiness:
+    enabled: false
+  startup:
+    enabled: false
+
+metrics:
+  enabled: false

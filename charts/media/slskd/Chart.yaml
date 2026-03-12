@@ -1,0 +1,17 @@
+apiVersion: v2
+name: slskd
+description: Soulseek client with web ui
+type: application
+version: 1.0.0
+appVersion: "0.24.5"
+keywords:
+  - slskd
+  - soulseek
+  - music
+home: https://github.com/slskd/slskd/
+maintainers:
+  - name: andrewzn69
+dependencies:
+  - name: common
+    version: 1.0.5
+    repository: oci://ghcr.io/andrewzn69
