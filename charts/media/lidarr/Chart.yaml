@@ -3,7 +3,7 @@ name: lidarr
 description: Lidarr music manager for *arr stack
 type: application
 version: 1.0.0
-appVersion: "3.1.0"
+appVersion: "develop"
 keywords:
   - lidarr
   - music

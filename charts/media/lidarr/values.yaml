@@ -2,7 +2,7 @@ namespace: media
 
 image:
   repository: docker.io/linuxserver/lidarr
-  tag: "3.1.0"
+  tag: "develop"
   pullPolicy: IfNotPresent
 
 service:
