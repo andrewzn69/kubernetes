@@ -7,8 +7,8 @@ image:
 
 service:
   type: ClusterIP
-  port: 8989
-  targetPort: 8989
+  port: 8686
+  targetPort: 8686
   protocol: TCP
   name: http
 
