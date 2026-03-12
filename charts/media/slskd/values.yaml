@@ -61,7 +61,7 @@ podSecurityContext:
 
 env:
   - name: SLSKD_REMOTE_CONFIGURATION
-    value: true
+    value: "true"
 
 replicaCount: 1
 
