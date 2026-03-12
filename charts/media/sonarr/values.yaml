@@ -44,10 +44,10 @@ volumes:
 resources:
   requests:
     memory: 256Mi
-    cpu: 200m
+    cpu: 25m
   limits:
-    memory: 1Gi
-    cpu: 500m
+    memory: 500Mi
+    cpu: 200m
 
 env:
   - name: PUID
