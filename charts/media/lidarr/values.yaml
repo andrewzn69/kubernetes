@@ -2,7 +2,7 @@ namespace: media
 
 image:
   repository: docker.io/linuxserver/lidarr
-  tag: "develop"
+  tag: "nightly"
   pullPolicy: IfNotPresent
 
 service:
