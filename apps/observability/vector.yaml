@@ -42,6 +42,8 @@ spec:
               request:
                 headers:
                   VL-Stream-Fields: stream
+                  VL-Msg-Field: "message"
+                  VL-Time-Field: "timestamp"
 
   destination:
     server: https://kubernetes.default.svc
