@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vector
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://helm.vector.dev
+    chart: vector
+    targetRevision: 0.51.0
+    helm:
+      releaseName: vector
+      values: |
+        role: Agent
+
+        resources:
+          requests:
+            memory: 64Mi
+            cpu: 25m
+          limits:
+            memory: 256Mi
+            cpu: 200m
+
+        customConfig:
+          data_dir: /vector-data-dir
+          sources:
+            kubernetes_logs:
+              type: kubernetes_logs
+          sinks:
+            victoria_logs:
+              type: elasticsearch
+              inputs: [kubernetes_logs]
+              endpoints: ["http://victoria-logs.observability.svc:9428/insert/elasticsearch"]
+              bulk:
+                index: "kubernetes"
+              request:
+                headers:
+                  VL-Stream-Fields: stream
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
