@@ -14,6 +14,12 @@ spec:
     helm:
       releaseName: vmagent
       values: |
+        rbac:
+          extraRules:
+            - apiGroups: [""]
+              resources: ["nodes/proxy"]
+              verbs: ["get"]
+
         remoteWrite:
           - url: http://victoria-metrics.observability.svc:8428/api/v1/write
 
