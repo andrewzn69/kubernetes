@@ -16,6 +16,9 @@ spec:
       values: |
         role: Agent
 
+        service:
+          enabled: false
+
         resources:
           requests:
             memory: 64Mi
