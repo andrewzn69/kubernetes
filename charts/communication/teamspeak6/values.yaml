@@ -32,14 +32,6 @@ env:
     value: "accept"
   - name: TSSERVER_QUERY_HTTP_ENABLED
     value: "true"
-  - name: TSSERVER_QUERY_HTTP_PORT
-    value: "10080"
-  - name: TSSERVER_QUERY_ALLOW_LIST
-    value: "/ts6/config/query_ip_allowlist.txt"
-  - name: TSSERVER_QUERY_ADMIN_PASSWORD
-    value: "test"
-  - name: TSSERVER_QUERY_SSH_ENABLED
-    value: "true"
 
 resources:
   requests:
