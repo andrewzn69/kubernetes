@@ -59,6 +59,15 @@ env:
 
 replicaCount: 1
 
+securityContext:
+  runAsNonRoot: false
+  runAsUser: 0
+  runAsGroup: 0
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
 configMap:
   enabled: false
 
