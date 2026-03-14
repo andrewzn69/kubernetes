@@ -1,0 +1,94 @@
+name: Security Scanning
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  security-scanning:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy scan (show results)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: "config"
+          scan-ref: "."
+          format: "table"
+          severity: "CRITICAL,HIGH"
+          exit-code: 0
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: "config"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH,MEDIUM"
+          exit-code: 0
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: "trivy-results.sarif"
+          category: "trivy"
+
+      - name: Run KICS security scan
+        uses: checkmarx/kics-github-action@v2.1.2
+        with:
+          path: "."
+          output_path: "kics-results"
+          output_formats: "sarif"
+          platform_type: "kubernetes"
+          fail_on: "high,critical"
+          enable_comments: false
+
+      - name: Upload KICS results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('kics-results/results.sarif') != ''
+        with:
+          sarif_file: "kics-results/results.sarif"
+          category: "kics"
+
+  image-scanning:
+    name: Scan Container Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: |
+          wget -qO ./yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod +x ./yq
+
+      - name: Extract and scan images
+        run: |
+          echo "Extracting images from values files..."
+
+          find charts -name "values.yaml" | while read values; do
+            repo=$(./yq eval '.image.repository' "$values")
+            tag=$(./yq eval '.image.tag' "$values")
+
+            if [ "$repo" != "null" ] && [ "$tag" != "null" ]; then
+              image="$repo:$tag"
+              echo "==> Scanning $image"
+
+              docker run --rm aquasec/trivy image \
+                --severity HIGH,CRITICAL \
+                --format table \
+                "$image" || true
+            fi
+          done
