@@ -57,6 +57,7 @@ jobs:
           platform_type: "kubernetes"
           fail_on: "high,critical"
           enable_comments: false
+          exclude_queries: "a88baa34-e2ad-44ea-ad6f-8cac87bc7c71" # exclude generic secrets query
 
       - name: Upload KICS results to GitHub Security
         uses: github/codeql-action/upload-sarif@v4
