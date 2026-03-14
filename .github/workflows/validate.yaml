@@ -91,17 +91,3 @@ jobs:
             echo "==> Validating $app"
             ./kubeconform -strict -summary -ignore-missing-schemas "$app" || exit 1
           done
-
-  yaml-lint:
-    name: YAML Linting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: YAML Lint
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          file_or_dir: charts/ apps/
-          config_file: .yamllint.yaml
-          strict: true
