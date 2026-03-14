@@ -28,6 +28,10 @@ volumes:
       accessMode: ReadWriteOnce
       storageClassName: longhorn
 
+  emptyDir:
+    - name: tmp
+      mountPath: /tmp
+
 configMap:
   enabled: true
   mountPath: /etc/grafana/provisioning/datasources
@@ -83,7 +87,7 @@ podSecurityContext:
 
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   capabilities:
     drop:
       - ALL

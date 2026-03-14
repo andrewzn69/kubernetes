@@ -31,6 +31,9 @@ volumes:
       size: 10Gi
       accessMode: ReadWriteOnce
       storageClassName: longhorn
+  emptyDir:
+    - name: tmp
+      mountPath: /tmp
 
 resources:
   requests:
@@ -50,7 +53,7 @@ podSecurityContext:
 
 securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   capabilities:
     drop:
       - ALL
