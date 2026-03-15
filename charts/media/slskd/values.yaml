@@ -36,6 +36,10 @@ volumes:
       path: "/storage/downloads"
       readOnly: false
 
+  emptyDir:
+    - name: dotnet
+      mountPath: /.net
+
 resources:
   requests:
     memory: 128Mi
