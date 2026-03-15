@@ -29,6 +29,23 @@ volumes:
     - name: app
       mountPath: /app
 
+initContainers:
+  custom:
+    - name: copy-app
+      image: docker.io/flaresolverr/flaresolverr:v3.4.6
+      command: ["sh", "-c", "cp -a /app/. /app-copy"]
+      volumeMounts:
+        - name: app
+          mountPath: /app-copy
+      securityContext:
+        runAsUser: 10001
+        runAsGroup: 10001
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+
 resources:
   requests:
     memory: 256Mi
