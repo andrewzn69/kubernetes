@@ -1,5 +1,8 @@
 # longhorn - distributed block storage (csi driver)
 
+# runs as root - csi driver components need root for volume operations
+KSV-0012 charts/infrastructure/longhorn
+
 # readOnlyRootFilesystem - csi components need writable fs
 KSV-0014 charts/infrastructure/longhorn
 
