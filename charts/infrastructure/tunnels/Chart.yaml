@@ -1,6 +1,0 @@
-apiVersion: v2
-name: tunnels
-description: Cloudflare Tunnels for public services
-type: application
-version: 0.1.0
-appVersion: "2025.8.1"
