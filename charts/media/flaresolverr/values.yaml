@@ -24,6 +24,8 @@ volumes:
   emptyDir:
     - name: tmp
       mountPath: /tmp
+    - name: local
+      mountPath /.local
 
 resources:
   requests:
