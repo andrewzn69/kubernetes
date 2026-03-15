@@ -1,7 +1,7 @@
 namespace: media
 
 image:
-  repository: docker.io/linuxserver/qbittorrent
+  repository: ghcr.io/home-operations/qbittorrent
   tag: "5.1.4"
   pullPolicy: IfNotPresent
 
