@@ -60,10 +60,12 @@ env:
 replicaCount: 1
 
 securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
   runAsNonRoot: true
-  runAsUser: 0
-  runAsGroup: 0
   allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
   capabilities:
     drop:
       - ALL
