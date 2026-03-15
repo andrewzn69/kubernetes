@@ -44,9 +44,9 @@ resources:
 
 env:
   - name: PUID
-    value: "1000"
+    value: "10001"
   - name: "PGID"
-    value: "1000"
+    value: "10001"
   - name: TZ
     value: "Europe/Prague"
   - name: WEBUI_PORT
@@ -55,9 +55,9 @@ env:
 replicaCount: 1
 
 securityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
   runAsNonRoot: true
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true

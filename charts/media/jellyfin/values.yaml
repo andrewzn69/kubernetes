@@ -60,9 +60,9 @@ resources:
     cpu: 3000m
 
 securityContext:
-  runAsUser: 1000
-  runAsGroup: 1000
-  fsGroup: 1000
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
   runAsNonRoot: true
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true

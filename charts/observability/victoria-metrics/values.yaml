@@ -36,9 +36,9 @@ volumes:
       mountPath: /tmp
 
 podSecurityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
+  runAsUser: 100011
+  runAsGroup: 100011
+  fsGroup: 100011
   runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
