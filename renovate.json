@@ -7,9 +7,6 @@
 	"schedule": [
 		"every weekend"
 	],
-	"helm": {
-		"enabled": true
-	},
 	"commitMessageAction": "Update",
 	"commitMessageTopic": "dependency {{depName}}",
 	"commitMessageExtra": "to {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
