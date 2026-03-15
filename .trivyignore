@@ -6,6 +6,9 @@ KSV-0014 charts/infrastructure/longhorn
 # privileged containers - required for volume management
 KSV-0017 charts/infrastructure/longhorn
 
+# delete pod logs - upstream chart permission (really though?)
+KSV-0042 charts/infrastructure/longhorn
+
 # manage secrets - backup credentials, encryption keys
 KSV-0041 charts/infrastructure/longhorn
 
