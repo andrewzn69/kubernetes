@@ -1,1 +1,28 @@
-charts/infrastructure/tunnels/public-tunnel.txt
+charts/*/charts/*.tgz
+
+# secrets and creds
+*.key
+*.pam
+*.crt
+.env
+.env.*
+
+# temp files
+*.tmp
+*.swp
+*~
+*.bak
+*.backup
+
+# ide
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
+
+# os
+.DS_Store
+Thumbs.tb
+desktop.ini
