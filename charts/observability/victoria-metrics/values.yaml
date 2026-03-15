@@ -2,7 +2,7 @@ namespace: observability
 
 image:
   repository: victoriametrics/victoria-metrics
-  tag: "v1.130.0"
+  tag: "v1.137.0"
   pullPolicy: IfNotPresent
 
 service:
