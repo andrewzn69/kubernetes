@@ -1,6 +1,60 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:recommended"
+	],
+	"timezone": "Europe/Prague",
+	"schedule": [
+		"every weekend"
+	],
+	"helm": {
+		"enabled": true
+	},
+	"packageRules": [
+		{
+			"description": "Auto-merge common library minor/patch updates",
+			"matchDatasources": [
+				"helm"
+			],
+			"matchPackageNames": [
+				"common"
+			],
+			"automerge": true,
+			"automergeType": "pr",
+			"matchUpdateTypes": [
+				"minor",
+				"patch"
+			]
+		},
+		{
+			"description": "Group all common library updates in one PR",
+			"matchDatasources": [
+				"helm"
+			],
+			"matchPackageNames": [
+				"common"
+			],
+			"groupName": "common library"
+		},
+		{
+			"description": "Auto-merge container image patch updates",
+			"matchDatasources": [
+				"docker"
+			],
+			"automerge": true,
+			"automergeType": "pr",
+			"matchUpdateTypes": [
+				"patch"
+			]
+		},
+		{
+			"description": "Group GitHub Actions updates",
+			"matchManagers": [
+				"github-actions"
+			],
+			"groupName": "github actions",
+			"automerge": true,
+			"automergeType": "pr"
+		}
+	]
 }
