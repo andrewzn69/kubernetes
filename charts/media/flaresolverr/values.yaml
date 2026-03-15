@@ -29,16 +29,15 @@ resources:
     cpu: 200m
 
 securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFilesystem: true
   capabilities:
     drop:
       - ALL
-
-podSecurityContext:
-  runAsNonRoot: false
-  seccompProfile:
-    type: RuntimeDefault
 
 replicaCount: 1
 
