@@ -59,22 +59,16 @@ resources:
     memory: 3Gi
     cpu: 3000m
 
-# container security context
 securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
-  capabilities:
-    drop:
-      - ALL
-
-# pod security context
-podSecurityContext:
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
   runAsNonRoot: true
-  seccompProfile:
-    type: RuntimeDefault
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
 
 # replica count
 replicaCount: 1
