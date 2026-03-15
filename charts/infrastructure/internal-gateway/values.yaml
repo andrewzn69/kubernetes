@@ -3,7 +3,7 @@ tailscale:
 
 gateway:
   name: internal
-  namespace: kube-system
+  namespace: gateway-system
   gatewayClassName: cilium-internal
   controllerName: io.cilium/gateway-controller
   loadBalancerClass: tailscale

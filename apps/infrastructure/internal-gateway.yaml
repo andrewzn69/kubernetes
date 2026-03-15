@@ -13,10 +13,10 @@ spec:
     path: charts/infrastructure/internal-gateway
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: gateway-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=false
+      - CreateNamespace=true

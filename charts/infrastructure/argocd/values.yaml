@@ -77,7 +77,7 @@ argo-cd:
 
 gateway:
   name: internal
-  namespace: kube-system
+  namespace: gateway-system
 
 route:
   hostname: argocd.internal.zemn.xyz
