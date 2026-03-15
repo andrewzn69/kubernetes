@@ -9,8 +9,6 @@ argo-cd:
 
   server:
     insecure: true
-    extraArgs:
-      - --grpc-web
     replicas: 1
     resources:
       requests:
