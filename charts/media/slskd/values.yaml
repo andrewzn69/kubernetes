@@ -39,6 +39,8 @@ volumes:
   emptyDir:
     - name: dotnet
       mountPath: /.net
+    - name: tmp
+      mountPath: /tmp
 
 resources:
   requests:
