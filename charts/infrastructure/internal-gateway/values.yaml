@@ -8,6 +8,11 @@ gateway:
   controllerName: io.cilium/gateway-controller
   loadBalancerClass: tailscale
   listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces: All
     - name: https
       port: 443
       protocol: HTTPS
@@ -16,3 +21,9 @@ gateway:
         secretNamespace: cert-manager
   allowedRoutes:
     namespaces: All
+
+redirect:
+  enabled: true
+  hostnames:
+    - "*.internal.zemn.xyz"
+  statusCode: 301
