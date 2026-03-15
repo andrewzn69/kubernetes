@@ -75,6 +75,9 @@ jobs:
     name: Validate ArgoCD Applications
     runs-on: ubuntu-latest
     needs: setup-kubeconform
+    permissions:
+      contents: read
+      actions: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
