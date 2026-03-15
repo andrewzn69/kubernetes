@@ -1,1 +1,28 @@
-charts/minecraft
+# longhorn - distributed block storage (csi driver)
+
+# readOnlyRootFilesystem - csi components need writable fs
+KSV-0014 charts/infrastructure/longhorn
+
+# privileged containers - required for volume management
+KSV-0017 charts/infrastructure/longhorn
+
+# manage secrets - backup credentials, encryption keys
+KSV-0041 charts/infrastructure/longhorn
+
+# wildcard verbs - dynamic volume provisioning
+KSV-0045 charts/infrastructure/longhorn
+
+# rbac escalation - create volume-specific service accounts
+KSV-0050 charts/infrastructure/longhorn
+
+# networking permissions - volume endpoints, services
+KSV-0056 charts/infrastructure/longhorn
+
+# configmap secrets - backup target credential references
+KSV-0109 charts/infrastructure/longhorn
+
+# manage webhooks - admission control
+KSV-0114 charts/infrastructure/longhorn
+
+# default security context - longhorn-manager needs root
+KSV-0118 charts/infrastructure/longhorn
