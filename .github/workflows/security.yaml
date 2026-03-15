@@ -49,7 +49,7 @@ jobs:
           category: "trivy"
 
       - name: Run KICS security scan
-        uses: checkmarx/kics-github-action@v2.1.2
+        uses: checkmarx/kics-github-action@v2.1.20
         with:
           path: "."
           output_path: "kics-results"
