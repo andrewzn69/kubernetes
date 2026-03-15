@@ -49,6 +49,8 @@ securityContext:
 replicaCount: 1
 
 env:
+  - name: HOME
+    value: /tmp
   - name: LOG_LEVEL
     value: "info"
   - name: "TZ"
