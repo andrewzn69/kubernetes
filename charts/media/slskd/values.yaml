@@ -45,19 +45,15 @@ resources:
     cpu: 200m
 
 securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
-  capabilities:
-    drop:
-      - ALL
-
-podSecurityContext:
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
   runAsNonRoot: true
-  seccompProfile:
-    type: RuntimeDefault
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
 
 env:
   - name: SLSKD_REMOTE_CONFIGURATION
