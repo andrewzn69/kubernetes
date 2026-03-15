@@ -65,7 +65,7 @@ securityContext:
   fsGroup: 1000
   runAsNonRoot: true
   allowPrivilegeEscalation: false
-  readOnlyRootFileSystem: true
+  readOnlyRootFilesystem: true
   capabilities:
     drop:
       - ALL
