@@ -1,4 +1,4 @@
-argo-cd:
+grgo-cd:
   global:
     domain: argocd.internal.zemn.xyz
 
@@ -9,6 +9,8 @@ argo-cd:
 
   server:
     insecure: true
+    extraArgs:
+      - --grpc-web
     replicas: 1
     resources:
       requests:
