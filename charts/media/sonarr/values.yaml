@@ -1,7 +1,7 @@
 namespace: media
 
 image:
-  repository: docker.io/linuxserver/sonarr
+  repository: ghcr.io/home-operations/radarr
   tag: "4.0.16"
   pullPolicy: IfNotPresent
 
