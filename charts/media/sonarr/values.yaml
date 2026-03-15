@@ -50,10 +50,6 @@ resources:
     cpu: 500m
 
 env:
-  - name: PUID
-    value: "10001"
-  - name: PGID
-    value: "10001"
   - name: TZ
     value: "Europe/Prague"
 
