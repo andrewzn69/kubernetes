@@ -12,6 +12,9 @@ KSV-0041 charts/infrastructure/longhorn
 # wildcard verbs - dynamic volume provisioning
 KSV-0045 charts/infrastructure/longhorn
 
+# manage workloads - volume attachment, pod scheduling
+KSV-0048 charts/infrastructure/longhorn
+
 # manage configmaps - driver config, settings
 KSV-0049 charts/infrastructure/longhorn
 
