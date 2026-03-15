@@ -43,6 +43,10 @@ volumes:
       path: "/storage/media/shows"
       readOnly: true
 
+  emptyDir:
+    - name: tmp
+      mountPath: /tmp
+
 # cf tunnels ingress
 cloudflare:
   enabled: true
