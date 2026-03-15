@@ -8,5 +8,5 @@ maintainers:
   - name: andrewzn69
 dependencies:
   - name: common
-    version: 1.0.8
+    version: 1.0.9
     repository: oci://ghcr.io/andrewzn69
