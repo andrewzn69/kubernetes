@@ -26,17 +26,13 @@ volumes:
       accessMode: ReadWriteOnce
       storageClassName: local-path
 
-podSecurityContext:
+securityContext:
   runAsUser: 1000
   runAsGroup: 1000
   fsGroup: 1000
   runAsNonRoot: true
-  seccompProfile:
-    type: RuntimeDefault
-
-securityContext:
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
+  readOnlyRootFileSystem: true
   capabilities:
     drop:
       - ALL
