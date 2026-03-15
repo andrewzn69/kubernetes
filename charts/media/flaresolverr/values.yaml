@@ -26,6 +26,8 @@ volumes:
       mountPath: /tmp
     - name: local
       mountPath: /.local
+    - name: app
+      mountPath: /app
 
 resources:
   requests:
