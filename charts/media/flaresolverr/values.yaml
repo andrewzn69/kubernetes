@@ -20,6 +20,11 @@ gateway:
   path: /
   pathType: PathPrefix
 
+volumes:
+  emptyDir:
+    - name: tmp
+      mountPath: /tmp
+
 resources:
   requests:
     memory: 256Mi
