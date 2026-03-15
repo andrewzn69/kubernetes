@@ -21,6 +21,9 @@ KSV-0056 charts/infrastructure/longhorn
 # configmap secrets - backup target credential references
 KSV-0109 charts/infrastructure/longhorn
 
+# manage ns secrets - encryption keys, backup creds
+KSV-0113 charts/infrastructure/longhorn
+
 # manage webhooks - admission control
 KSV-0114 charts/infrastructure/longhorn
 
