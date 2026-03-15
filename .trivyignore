@@ -27,6 +27,9 @@ KSV-0050 charts/infrastructure/longhorn
 # networking permissions - volume endpoints, services
 KSV-0056 charts/infrastructure/longhorn
 
+# seccomp profiles - upstream chart does not set runtimedefault
+KSV-0104 charts/infrastructure/longhorn
+
 # configmap secrets - backup target credential references
 KSV-0109 charts/infrastructure/longhorn
 
