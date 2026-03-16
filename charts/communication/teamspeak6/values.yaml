@@ -32,6 +32,8 @@ env:
     value: "accept"
   - name: TSSERVER_QUERY_HTTP_ENABLED
     value: "true"
+  - name: TSSERVER_FILE_TRANSFER_IP
+    value: "0.0.0.0"
 
 resources:
   requests:
