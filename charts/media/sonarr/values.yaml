@@ -2,7 +2,7 @@ namespace: media
 
 image:
   repository: ghcr.io/home-operations/sonarr
-  tag: "4.0.16"
+  tag: "4.0.17"
   pullPolicy: IfNotPresent
 
 service:
