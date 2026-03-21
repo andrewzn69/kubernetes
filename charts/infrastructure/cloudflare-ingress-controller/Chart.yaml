@@ -8,5 +8,5 @@ dependencies:
     version: 1.0.9
     repository: oci://ghcr.io/andrewzn69
   - name: cloudflare-tunnel-ingress-controller
-    version: 0.0.22
+    version: 0.0.23
     repository: https://helm.strrl.dev
