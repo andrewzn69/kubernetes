@@ -7,5 +7,5 @@ appVersion: "0.10.25"
 
 dependencies:
   - name: secrets-operator
-    version: 0.10.26
+    version: 0.10.28
     repository: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
