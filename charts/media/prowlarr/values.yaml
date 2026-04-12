@@ -2,7 +2,7 @@ namespace: media
 
 image:
   repository: ghcr.io/home-operations/prowlarr
-  tag: "2.3.5"
+  tag: "2.3.6"
   pullPolicy: IfNotPresent
 
 service:
