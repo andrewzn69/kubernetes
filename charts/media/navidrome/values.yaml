@@ -56,7 +56,7 @@ env:
   - name: ND_SCANSCHEDULE
     value: "@hourly"
 
-replicaCount: 1
+replicaCount: 0
 
 securityContext:
   runAsUser: 10001

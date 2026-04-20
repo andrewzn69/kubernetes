@@ -58,7 +58,7 @@ resources:
     memory: 1Gi
     cpu: 1000m
 
-replicaCount: 1
+replicaCount: 0
 
 configMap:
   enabled: false

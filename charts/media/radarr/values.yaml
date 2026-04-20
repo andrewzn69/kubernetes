@@ -49,7 +49,7 @@ resources:
     memory: 512Mi
     cpu: 200m
 
-replicaCount: 1
+replicaCount: 0
 
 securityContext:
   runAsUser: 10001

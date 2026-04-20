@@ -40,7 +40,7 @@ env:
   - name: TZ
     value: "Europe/Prague"
 
-replicaCount: 1
+replicaCount: 0
 
 securityContext:
   runAsUser: 10001
