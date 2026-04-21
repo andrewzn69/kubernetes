@@ -54,7 +54,7 @@ argo-cd:
         memory: 32Mi
         cpu: 100m
       limits:
-        memory: 64Mi
+        memory: 128Mi
         cpu: 200m
 
   notifications:
@@ -72,7 +72,7 @@ argo-cd:
         memory: 512Mi
         cpu: 250m
       limits:
-        memory: 640Mi
+        memory: 1Gi
         cpu: 500m
 
 gateway:
