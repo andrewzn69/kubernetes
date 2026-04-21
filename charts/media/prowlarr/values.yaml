@@ -30,10 +30,10 @@ volumes:
 
 resources:
   requests:
-    memory: 256Mi
+    memory: 192Mi
     cpu: 25m
   limits:
-    memory: 512Mi
+    memory: 384Mi
     cpu: 200m
 
 env:
