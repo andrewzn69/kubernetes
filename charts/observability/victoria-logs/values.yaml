@@ -15,7 +15,7 @@ service:
 gateway:
   enabled: true
   gatewayName: internal
-  gatewayNamespace: kube-system
+  gatewayNamespace: gateway-system
   hostname: victoria-logs.internal.zemn.xyz
   path: /
   pathType: PathPrefix

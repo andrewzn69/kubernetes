@@ -15,7 +15,7 @@ service:
 gateway:
   enabled: true
   gatewayName: internal
-  gatewayNamespace: kube-system
+  gatewayNamespace: gateway-system
   hostname: grafana.internal.zemn.xyz
   path: /
   pathType: PathPrefix
