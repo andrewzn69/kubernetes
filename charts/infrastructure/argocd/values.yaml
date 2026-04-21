@@ -22,20 +22,20 @@ argo-cd:
     replicas: 1
     resources:
       requests:
-        memory: 256Mi
+        memory: 128Mi
         cpu: 100m
       limits:
-        memory: 512Mi
+        memory: 256Mi
         cpu: 250m
 
   applicationSet:
     replicas: 1
     resources:
       requests:
-        memory: 128Mi
+        memory: 64Mi
         cpu: 100m
       limits:
-        memory: 256Mi
+        memory: 128Mi
         cpu: 200m
 
   dex:
@@ -51,10 +51,10 @@ argo-cd:
   redis:
     resources:
       requests:
-        memory: 128Mi
+        memory: 32Mi
         cpu: 100m
       limits:
-        memory: 256Mi
+        memory: 64Mi
         cpu: 200m
 
   notifications:
@@ -72,7 +72,7 @@ argo-cd:
         memory: 512Mi
         cpu: 250m
       limits:
-        memory: 1Gi
+        memory: 640Mi
         cpu: 500m
 
 gateway:

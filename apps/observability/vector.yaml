@@ -24,7 +24,7 @@ spec:
             memory: 64Mi
             cpu: 25m
           limits:
-            memory: 256Mi
+            memory: 384Mi
             cpu: 200m
 
         customConfig:
