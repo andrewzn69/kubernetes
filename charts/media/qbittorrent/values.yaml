@@ -48,7 +48,7 @@ env:
   - name: WEBUI_PORT
     value: "8080"
 
-replicaCount: 0
+replicaCount: 1
 
 securityContext:
   runAsUser: 10001
