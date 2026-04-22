@@ -5,7 +5,7 @@ type: application
 version: 0.1.0
 dependencies:
   - name: common
-    version: 1.0.10
+    version: 2.0.0
     repository: oci://ghcr.io/andrewzn69
   - name: cloudflare-tunnel-ingress-controller
     version: 0.0.23

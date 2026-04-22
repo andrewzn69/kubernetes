@@ -1,86 +1,85 @@
 namespace: communication
 
-image:
-  repository: codeberg.org/indogermane/teamspeak6-server-arm
-  tag: "beta8"
-  pullPolicy: IfNotPresent
+components:
+  teamspeak6:
+    image:
+      repository: codeberg.org/indogermane/teamspeak6-server-arm
+      tag: "beta8"
+      pullPolicy: IfNotPresent
 
-service:
-  type: LoadBalancer
-  port: 9987
-  targetPort: 9987
-  protocol: UDP
-  name: voice
-  annotations:
-    oci.oraclecloud.com/load-balancer-type: "nlb"
-  additionalPorts:
-    - name: filetransfer
-      port: 30033
-      targetPort: 30033
-      protocol: TCP
+    service:
+      type: LoadBalancer
+      port: 9987
+      targetPort: 9987
+      protocol: UDP
+      name: voice
+      annotations:
+        oci.oraclecloud.com/load-balancer-type: "nlb"
+      additionalPorts:
+        - name: filetransfer
+          port: 30033
+          targetPort: 30033
+          protocol: TCP
 
-volumes:
-  pvc:
-    - name: data
-      mountPath: /data
-      size: 5Gi
-      accessMode: ReadWriteOnce
-      storageClassName: local-path
+    volumes:
+      pvc:
+        - name: data
+          mountPath: /data
+          size: 5Gi
+          accessMode: ReadWriteOnce
+          storageClassName: local-path
 
-env:
-  - name: TSSERVER_LICENSE_ACCEPTED
-    value: "accept"
-  - name: TSSERVER_QUERY_HTTP_ENABLED
-    value: "true"
-  - name: TSSERVER_FILE_TRANSFER_IP
-    value: "0.0.0.0"
+    env:
+      - name: TSSERVER_LICENSE_ACCEPTED
+        value: "accept"
+      - name: TSSERVER_QUERY_HTTP_ENABLED
+        value: "true"
+      - name: TSSERVER_FILE_TRANSFER_IP
+        value: "0.0.0.0"
 
-resources:
-  requests:
-    memory: 2Gi
-    cpu: 1000m
-  limits:
-    memory: 4Gi
-    cpu: 2000m
+    resources:
+      requests:
+        memory: 2Gi
+        cpu: 1000m
+      limits:
+        memory: 4Gi
+        cpu: 2000m
 
-replicaCount: 1
+    replicaCount: 1
 
-podSecurityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  runAsNonRoot: true
-  seccompProfile:
-    type: RuntimeDefault
+    podSecurityContext:
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
 
-securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false
-  capabilities:
-    drop:
-      - ALL
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: false
+      capabilities:
+        drop:
+          - ALL
 
-configMap:
-  enabled: true
-  mountPath: /ts6/config
-  files:
-    query_ip_allowlist.txt: |
-      10.244.0.0/24
+    configMap:
+      enabled: true
+      mountPath: /ts6/config
+      files:
+        query_ip_allowlist.txt: |
+          10.244.0.0/24
 
-secrets:
-  enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
 
-initContainers:
-  fixPermissions:
-    enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-probes:
-  liveness:
-    enabled: false
-  readiness:
-    enabled: false
-  startup:
-    enabled: false
-
-metrics:
-  enabled: false
+    metrics:
+      enabled: false

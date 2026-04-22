@@ -1,76 +1,78 @@
 namespace: media
 
-image:
-  repository: docker.io/flaresolverr/flaresolverr
-  tag: "v3.4.6"
-  pullPolicy: IfNotPresent
+components:
+  flaresolverr:
+    image:
+      repository: docker.io/flaresolverr/flaresolverr
+      tag: "v3.4.6"
+      pullPolicy: IfNotPresent
 
-service:
-  type: ClusterIP
-  port: 8191
-  targetPort: 8191
-  protocol: TCP
-  name: http
+    service:
+      type: ClusterIP
+      port: 8191
+      targetPort: 8191
+      protocol: TCP
+      name: http
 
-gateway:
-  enabled: true
-  gatewayName: internal
-  gatewayNamespace: gateway-system
-  hostname: flaresolverr.internal.zemn.xyz
-  path: /
-  pathType: PathPrefix
+    gateway:
+      enabled: true
+      gatewayName: internal
+      gatewayNamespace: gateway-system
+      hostname: flaresolverr.internal.zemn.xyz
+      path: /
+      pathType: PathPrefix
 
-volumes:
-  emptyDir:
-    - name: tmp
-      mountPath: /tmp
-    - name: local
-      mountPath: /.local
-    - name: app
-      mountPath: /app
-
-initContainers:
-  custom:
-    - name: copy-app
-      image: docker.io/flaresolverr/flaresolverr:v3.4.6
-      command: ["sh", "-c", "cp -r /app/. /app-copy"]
-      volumeMounts:
+    volumes:
+      emptyDir:
+        - name: tmp
+          mountPath: /tmp
+        - name: local
+          mountPath: /.local
         - name: app
-          mountPath: /app-copy
-      securityContext:
-        runAsUser: 10001
-        runAsGroup: 10001
-        runAsNonRoot: true
-        allowPrivilegeEscalation: false
-        capabilities:
-          drop:
-            - ALL
+          mountPath: /app
 
-resources:
-  requests:
-    memory: 128Mi
-    cpu: 25m
-  limits:
-    memory: 256Mi
-    cpu: 200m
+    initContainers:
+      custom:
+        - name: copy-app
+          image: docker.io/flaresolverr/flaresolverr:v3.4.6
+          command: ["sh", "-c", "cp -r /app/. /app-copy"]
+          volumeMounts:
+            - name: app
+              mountPath: /app-copy
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
 
-securityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  capabilities:
-    drop:
-      - ALL
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 25m
+      limits:
+        memory: 256Mi
+        cpu: 200m
 
-replicaCount: 1
+    securityContext:
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
 
-env:
-  - name: HOME
-    value: /tmp
-  - name: LOG_LEVEL
-    value: "info"
-  - name: "TZ"
-    value: "Europe/Prague"
+    replicaCount: 1
+
+    env:
+      - name: HOME
+        value: /tmp
+      - name: LOG_LEVEL
+        value: "info"
+      - name: "TZ"
+        value: "Europe/Prague"

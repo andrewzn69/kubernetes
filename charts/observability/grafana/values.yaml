@@ -1,54 +1,5 @@
 namespace: observability
 
-image:
-  repository: grafana/grafana
-  tag: "13.0.1"
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 3000
-  targetPort: 3000
-  protocol: TCP
-  name: http
-
-gateway:
-  enabled: true
-  gatewayName: internal
-  gatewayNamespace: gateway-system
-  hostname: grafana.internal.zemn.xyz
-  path: /
-  pathType: PathPrefix
-
-volumes:
-  pvc:
-    - name: data
-      mountPath: /var/lib/grafana
-      size: 10Gi
-      accessMode: ReadWriteOnce
-      storageClassName: longhorn
-
-  emptyDir:
-    - name: tmp
-      mountPath: /tmp
-
-configMap:
-  enabled: true
-  mountPath: /etc/grafana/provisioning/datasources
-  files:
-    datasources.yaml: |
-      apiVersion: 1
-      datasources:
-        - name: VictoriaMetrics
-          type: prometheus
-          url: http://victoria-metrics.observability.svc:8428
-          isDefault: true
-        - name: VictoriaLogs
-          type: loki
-          url: http://victoria-logs.observability.svc:9428
-          access: proxy
-          isDefault: false
-
 secrets:
   enabled: true
   type: infisical
@@ -63,56 +14,107 @@ secrets:
     managedSecret:
       creationPolicy: Owner
 
-env:
-  - name: GF_SECURITY_ADMIN_USER
-    valueFrom:
-      secretKeyRef:
-        name: grafana
-        key: GF_SECURITY_ADMIN_USER
-  - name: GF_SECURITY_ADMIN_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: grafana
-        key: GF_SECURITY_ADMIN_PASSWORD
-  - name: GF_PATHS_PROVISIONING
-    value: /etc/grafana/provisioning
+components:
+  grafana:
+    image:
+      repository: grafana/grafana
+      tag: "13.0.1"
+      pullPolicy: IfNotPresent
 
-podSecurityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  runAsNonRoot: true
-  seccompProfile:
-    type: RuntimeDefault
+    service:
+      type: ClusterIP
+      port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
 
-securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  capabilities:
-    drop:
-      - ALL
+    gateway:
+      enabled: true
+      gatewayName: internal
+      gatewayNamespace: gateway-system
+      hostname: grafana.internal.zemn.xyz
+      path: /
+      pathType: PathPrefix
 
-resources:
-  requests:
-    memory: 128Mi
-    cpu: 100m
-  limits:
-    memory: 512Mi
-    cpu: 500m
+    volumes:
+      pvc:
+        - name: data
+          mountPath: /var/lib/grafana
+          size: 10Gi
+          accessMode: ReadWriteOnce
+          storageClassName: longhorn
 
-replicaCount: 1
+      emptyDir:
+        - name: tmp
+          mountPath: /tmp
 
-initContainers:
-  fixPermissions:
-    enabled: false
+    configMap:
+      enabled: true
+      mountPath: /etc/grafana/provisioning/datasources
+      files:
+        datasources.yaml: |
+          apiVersion: 1
+          datasources:
+            - name: VictoriaMetrics
+              type: prometheus
+              url: http://victoria-metrics.observability.svc:8428
+              isDefault: true
+            - name: VictoriaLogs
+              type: loki
+              url: http://victoria-logs.observability.svc:9428
+              access: proxy
+              isDefault: false
 
-probes:
-  liveness:
-    enabled: false
-  readiness:
-    enabled: false
-  startup:
-    enabled: false
+    env:
+      - name: GF_SECURITY_ADMIN_USER
+        valueFrom:
+          secretKeyRef:
+            name: grafana
+            key: GF_SECURITY_ADMIN_USER
+      - name: GF_SECURITY_ADMIN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: grafana
+            key: GF_SECURITY_ADMIN_PASSWORD
+      - name: GF_PATHS_PROVISIONING
+        value: /etc/grafana/provisioning
 
-metrics:
-  enabled: false
+    podSecurityContext:
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
+
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    replicaCount: 1
+
+    initContainers:
+      fixPermissions:
+        enabled: false
+
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+
+    metrics:
+      enabled: false

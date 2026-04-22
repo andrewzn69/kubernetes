@@ -1,113 +1,99 @@
-# kubernetes namespace
 namespace: media
 
-# container image configuration
-image:
-  repository: docker.io/jellyfin/jellyfin
-  tag: "10.11.8"
-  pullPolicy: IfNotPresent
+components:
+  jellyfin:
+    image:
+      repository: docker.io/jellyfin/jellyfin
+      tag: "10.11.8"
+      pullPolicy: IfNotPresent
 
-# service config
-service:
-  type: ClusterIP
-  port: 8096
-  targetPort: 8096
-  protocol: TCP
-  name: http
-  nodePort: ""
-  loadBalancerIP: ""
-  annotations: {}
-  additionalPorts: []
+    service:
+      type: ClusterIP
+      port: 8096
+      targetPort: 8096
+      protocol: TCP
+      name: http
+      nodePort: ""
+      loadBalancerIP: ""
+      annotations: {}
+      additionalPorts: []
 
-# volume config
-volumes:
-  pvc:
-    - name: config
-      mountPath: /config
-      size: 10Gi
-      accessMode: ReadWriteOnce
-    - name: cache
-      mountPath: /cache
-      size: 20Gi
-      accessMode: ReadWriteOnce
+    volumes:
+      pvc:
+        - name: config
+          mountPath: /config
+          size: 10Gi
+          accessMode: ReadWriteOnce
+        - name: cache
+          mountPath: /cache
+          size: 20Gi
+          accessMode: ReadWriteOnce
 
-  nfs:
-    - name: movies
-      mountPath: /media/Movies
-      server: "100.64.100.64"
-      path: "/storage/media/movies"
-      readOnly: true
-    - name: shows
-      mountPath: /media/Shows
-      server: "100.64.100.64"
-      path: "/storage/media/shows"
-      readOnly: true
+      nfs:
+        - name: movies
+          mountPath: /media/Movies
+          server: "100.64.100.64"
+          path: "/storage/media/movies"
+          readOnly: true
+        - name: shows
+          mountPath: /media/Shows
+          server: "100.64.100.64"
+          path: "/storage/media/shows"
+          readOnly: true
 
-  emptyDir:
-    - name: tmp
-      mountPath: /tmp
+      emptyDir:
+        - name: tmp
+          mountPath: /tmp
 
-# cf tunnels ingress
-cloudflare:
-  enabled: true
-  hostname: jellyfin.zemn.xyz
-  path: /
-  pathType: Prefix
+    cloudflare:
+      enabled: true
+      hostname: jellyfin.zemn.xyz
+      path: /
+      pathType: Prefix
 
-# resource limits/requests
-resources:
-  requests:
-    memory: 512Mi
-    cpu: 500m
-  limits:
-    memory: 3Gi
-    cpu: 3000m
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 500m
+      limits:
+        memory: 3Gi
+        cpu: 3000m
 
-securityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  capabilities:
-    drop:
-      - ALL
+    securityContext:
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
 
-# replica count
-replicaCount: 1
+    replicaCount: 1
 
-# env variables
-env: []
+    env: []
 
-# config map
-configMap:
-  enabled: false
+    configMap:
+      enabled: false
 
-# secrets
-secrets:
-  enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
 
-# init containers
-initContainers:
-  fixPermissions:
-    enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-# probes
-probes:
-  liveness:
-    enabled: false
-  readiness:
-    enabled: false
-  startup:
-    enabled: false
-
-# metrics
-metrics:
-  enabled: false
-  port: 9090
-  path: /metrics
-  serviceAnnotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "9090"
-    prometheus.io/path: "/metrics"
+    metrics:
+      enabled: false
+      port: 9090
+      path: /metrics
+      serviceAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"

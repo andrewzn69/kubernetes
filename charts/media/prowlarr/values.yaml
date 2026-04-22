@@ -1,72 +1,74 @@
 namespace: media
 
-image:
-  repository: ghcr.io/home-operations/prowlarr
-  tag: "2.3.6"
-  pullPolicy: IfNotPresent
+components:
+  prowlarr:
+    image:
+      repository: ghcr.io/home-operations/prowlarr
+      tag: "2.3.6"
+      pullPolicy: IfNotPresent
 
-service:
-  type: ClusterIP
-  port: 9696
-  targetPort: 9696
-  protocol: TCP
-  name: http
+    service:
+      type: ClusterIP
+      port: 9696
+      targetPort: 9696
+      protocol: TCP
+      name: http
 
-gateway:
-  enabled: true
-  gatewayName: internal
-  gatewayNamespace: gateway-system
-  hostname: prowlarr.internal.zemn.xyz
-  path: /
-  pathType: PathPrefix
+    gateway:
+      enabled: true
+      gatewayName: internal
+      gatewayNamespace: gateway-system
+      hostname: prowlarr.internal.zemn.xyz
+      path: /
+      pathType: PathPrefix
 
-volumes:
-  pvc:
-    - name: config
-      mountPath: /config
-      size: 5Gi
-      accessMode: ReadWriteMany
-      storageClassName: longhorn
+    volumes:
+      pvc:
+        - name: config
+          mountPath: /config
+          size: 5Gi
+          accessMode: ReadWriteMany
+          storageClassName: longhorn
 
-resources:
-  requests:
-    memory: 192Mi
-    cpu: 25m
-  limits:
-    memory: 384Mi
-    cpu: 500m
+    resources:
+      requests:
+        memory: 192Mi
+        cpu: 25m
+      limits:
+        memory: 384Mi
+        cpu: 500m
 
-env:
-  - name: TZ
-    value: "Europe/Prague"
+    env:
+      - name: TZ
+        value: "Europe/Prague"
 
-replicaCount: 1
+    replicaCount: 1
 
-securityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  capabilities:
-    drop:
-      - ALL
+    securityContext:
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
 
-configMap:
-  enabled: false
+    configMap:
+      enabled: false
 
-initContainers:
-  fixPermissions:
-    enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
 
-probes:
-  liveness:
-    enabled: false
-  readiness:
-    enabled: false
-  startup:
-    enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-metrics:
-  enabled: false
+    metrics:
+      enabled: false

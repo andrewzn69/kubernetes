@@ -1,70 +1,72 @@
 namespace: media
 
-image:
-  repository: ghcr.io/seerr-team/seerr
-  tag: "v3.2.0"
-  pullPolicy: IfNotPresent
+components:
+  seerr:
+    image:
+      repository: ghcr.io/seerr-team/seerr
+      tag: "v3.2.0"
+      pullPolicy: IfNotPresent
 
-service:
-  type: ClusterIP
-  port: 5055
-  targetPort: 5055
-  protocol: TCP
-  name: http
+    service:
+      type: ClusterIP
+      port: 5055
+      targetPort: 5055
+      protocol: TCP
+      name: http
 
-cloudflare:
-  enabled: true
-  hostname: seerr.zemn.xyz
-  path: /
-  pathType: Prefix
+    cloudflare:
+      enabled: true
+      hostname: seerr.zemn.xyz
+      path: /
+      pathType: Prefix
 
-volumes:
-  pvc:
-    - name: config
-      mountPath: /app/config
-      size: 5Gi
-      accessMode: ReadWriteOnce
-      storageClassName: local-path
+    volumes:
+      pvc:
+        - name: config
+          mountPath: /app/config
+          size: 5Gi
+          accessMode: ReadWriteOnce
+          storageClassName: local-path
 
-securityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  capabilities:
-    drop:
-      - ALL
+    securityContext:
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
 
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 200m
-  limits:
-    memory: 512Mi
-    cpu: 500m
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 200m
+      limits:
+        memory: 512Mi
+        cpu: 500m
 
-env:
-  - name: TZ
-    value: "Europe/Prague"
+    env:
+      - name: TZ
+        value: "Europe/Prague"
 
-replicaCount: 1
+    replicaCount: 1
 
-configMap:
-  enabled: false
+    configMap:
+      enabled: false
 
-initContainers:
-  fixPermissions:
-    enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
 
-probes:
-  liveness:
-    enabled: false
-  readiness:
-    enabled: false
-  startup:
-    enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-metrics:
-  enabled: false
+    metrics:
+      enabled: false

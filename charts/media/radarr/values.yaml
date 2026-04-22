@@ -1,81 +1,83 @@
 namespace: media
 
-image:
-  repository: ghcr.io/home-operations/radarr
-  tag: "6.1"
-  pullPolicy: IfNotPresent
+components:
+  radarr:
+    image:
+      repository: ghcr.io/home-operations/radarr
+      tag: "6.1"
+      pullPolicy: IfNotPresent
 
-service:
-  type: ClusterIP
-  port: 7878
-  targetPort: 7878
-  protocol: TCP
-  name: http
+    service:
+      type: ClusterIP
+      port: 7878
+      targetPort: 7878
+      protocol: TCP
+      name: http
 
-gateway:
-  enabled: true
-  gatewayName: internal
-  gatewayNamespace: gateway-system
-  hostname: radarr.internal.zemn.xyz
-  path: /
-  pathType: PathPrefix
+    gateway:
+      enabled: true
+      gatewayName: internal
+      gatewayNamespace: gateway-system
+      hostname: radarr.internal.zemn.xyz
+      path: /
+      pathType: PathPrefix
 
-volumes:
-  pvc:
-    - name: config
-      mountPath: /config
-      size: 5Gi
-      readOnly: false
-      accessMode: ReadWriteOnce
-      storageClassName: longhorn
+    volumes:
+      pvc:
+        - name: config
+          mountPath: /config
+          size: 5Gi
+          readOnly: false
+          accessMode: ReadWriteOnce
+          storageClassName: longhorn
 
-  nfs:
-    - name: movies
-      mountPath: /movies
-      server: "100.64.100.64"
-      path: "/storage/media/movies"
-      readOnly: false
-    - name: downloads
-      mountPath: /downloads
-      server: "100.64.100.64"
-      path: "/storage/downloads"
-      readOnly: false
+      nfs:
+        - name: movies
+          mountPath: /movies
+          server: "100.64.100.64"
+          path: "/storage/media/movies"
+          readOnly: false
+        - name: downloads
+          mountPath: /downloads
+          server: "100.64.100.64"
+          path: "/storage/downloads"
+          readOnly: false
 
-resources:
-  requests:
-    memory: 192Mi
-    cpu: 25m
-  limits:
-    memory: 384Mi
-    cpu: 200m
+    resources:
+      requests:
+        memory: 192Mi
+        cpu: 25m
+      limits:
+        memory: 384Mi
+        cpu: 200m
 
-replicaCount: 1
+    replicaCount: 1
 
-securityContext:
-  runAsUser: 10001
-  runAsGroup: 10001
-  fsGroup: 10001
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
-  capabilities:
-    drop:
-      - ALL
+    securityContext:
+      runAsUser: 10001
+      runAsGroup: 10001
+      fsGroup: 10001
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      capabilities:
+        drop:
+          - ALL
 
-configMap:
-  enabled: false
+    configMap:
+      enabled: false
 
-initContainers:
-  fixPermissions:
-    enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
 
-probes:
-  liveness:
-    enabled: false
-  readiness:
-    enabled: false
-  startup:
-    enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
 
-metrics:
-  enabled: false
+    metrics:
+      enabled: false
