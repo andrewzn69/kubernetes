@@ -1,4 +1,5 @@
 charts/*/charts/*.tgz
+charts/*/*/charts/
 
 # secrets and creds
 *.key
