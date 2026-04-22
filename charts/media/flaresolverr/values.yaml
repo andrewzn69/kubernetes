@@ -48,10 +48,10 @@ initContainers:
 
 resources:
   requests:
-    memory: 256Mi
+    memory: 128Mi
     cpu: 25m
   limits:
-    memory: 512Mi
+    memory: 256Mi
     cpu: 200m
 
 securityContext:
