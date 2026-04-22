@@ -36,7 +36,7 @@ volumes:
 
 resources:
   requests:
-    memory: 128Mi
+    memory: 192Mi
     cpu: 25m
   limits:
     memory: 256Mi
