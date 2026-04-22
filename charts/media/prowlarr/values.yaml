@@ -34,7 +34,7 @@ resources:
     cpu: 25m
   limits:
     memory: 384Mi
-    cpu: 200m
+    cpu: 500m
 
 env:
   - name: TZ
