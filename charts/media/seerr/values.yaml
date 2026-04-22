@@ -49,7 +49,7 @@ env:
   - name: TZ
     value: "Europe/Prague"
 
-replicaCount: 0
+replicaCount: 1
 
 configMap:
   enabled: false

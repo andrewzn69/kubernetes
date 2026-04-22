@@ -65,7 +65,7 @@ securityContext:
     drop:
       - ALL
 
-replicaCount: 0
+replicaCount: 1
 
 env:
   - name: HOME

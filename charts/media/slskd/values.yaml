@@ -65,7 +65,7 @@ env:
   - name: SLSKD_REMOTE_CONFIGURATION
     value: "true"
 
-replicaCount: 0
+replicaCount: 1
 
 configMap:
   enabled: false
