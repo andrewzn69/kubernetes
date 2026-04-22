@@ -36,6 +36,10 @@ volumes:
       path: "/storage/media/music"
       readOnly: true
 
+  emptyDir:
+    - name: tmp
+      mountPath: /tmp
+
 resources:
   requests:
     memory: 128Mi
