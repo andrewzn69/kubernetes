@@ -1,0 +1,402 @@
+namespace: productivity
+
+# shared env vars injected into all app components
+# DATABASE_URL and AMQP_URL contain passwords so they live in Infisical.
+# REDIS_URL has no auth so it stays as a plain value.
+# MINIO creds use AWS_* naming because plane uses the S3 SDK pointed at MinIO.
+globalEnv:
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: plane
+        key: DATABASE_URL
+  - name: AMQP_URL
+    valueFrom:
+      secretKeyRef:
+        name: plane
+        key: AMQP_URL
+  - name: REDIS_URL
+    value: "redis://plane-valkey-master:6379"
+  - name: AWS_REGION
+    value: "us-east-1"
+  - name: AWS_S3_ENDPOINT_URL
+    value: "http://plane-minio:9000"
+  - name: AWS_S3_BUCKET_NAME
+    value: "uploads"
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        name: plane
+        key: MINIO_ROOT_USER
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: plane
+        key: MINIO_ROOT_PASSWORD
+  - name: SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: plane
+        key: SECRET_KEY
+
+secrets:
+  enabled: true
+  type: infisical
+  infisical:
+    hostAPI: https://eu.infisical.com
+    projectSlug: novigrad
+    envSlug: prod
+    secretsPath: /productivity/plane
+    auth:
+      credentialsSecretName: infisical-universal-auth
+      credentialsSecretNamespace: infisical-system
+    managedSecret:
+      creationPolicy: Owner
+
+components:
+  web:
+    image:
+      repository: docker.io/makeplane/plane-frontend
+      tag: "v1.3.0"
+      pullPolicy: IfNotPresent
+
+    service:
+      type: ClusterIP
+      port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+
+    cloudflare:
+      enabled: true
+      hostname: plane.zemn.xyz
+      paths:
+        - path: /
+          pathType: Prefix
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
+  space:
+    image:
+      repository: docker.io/makeplane/plane-space
+      tag: "v1.3.0"
+      pullPolicy: IfNotPresent
+
+    service:
+      type: ClusterIP
+      port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+
+    cloudflare:
+      enabled: true
+      hostname: plane.zemn.xyz
+      paths:
+        - path: /spaces
+          pathType: Prefix
+
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 50m
+      limits:
+        memory: 256Mi
+        cpu: 250m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
+  admin:
+    image:
+      repository: docker.io/makeplane/plane-admin
+      tag: "v1.3.0"
+      pullPolicy: IfNotPresent
+
+    service:
+      type: ClusterIP
+      port: 3000
+      targetPort: 3000
+      protocol: TCP
+      name: http
+
+    cloudflare:
+      enabled: true
+      hostname: plane.zemn.xyz
+      paths:
+        - path: /god-mode
+          pathType: Prefix
+
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 50m
+      limits:
+        memory: 256Mi
+        cpu: 250m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
+  live:
+    image:
+      repository: docker.io/makeplane/plane-live
+      tag: "v1.3.0"
+      pullPolicy: IfNotPresent
+
+    service:
+      type: ClusterIP
+      port: 3003
+      targetPort: 3003
+      protocol: TCP
+      name: http
+
+    cloudflare:
+      enabled: false
+
+    resources:
+      requests:
+        memory: 128Mi
+        cpu: 50m
+      limits:
+        memory: 256Mi
+        cpu: 250m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
+  api:
+    image:
+      repository: docker.io/makeplane/plane-backend
+      tag: "v1.3.0"
+      pullPolicy: IfNotPresent
+
+    command:
+      - ./bin/docker-entrypoint-api.sh
+
+    service:
+      type: ClusterIP
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+      name: http
+
+    cloudflare:
+      enabled: true
+      hostname: plane.zemn.xyz
+      paths:
+        - path: /api
+          pathType: Prefix
+        - path: /auth
+          pathType: Prefix
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
+  worker:
+    image:
+      repository: docker.io/makeplane/plane-backend
+      tag: "v1.3.0"
+      pullPolicy: IfNotPresent
+
+    command:
+      - ./bin/docker-entrypoint-worker.sh
+
+    service:
+      enabled: false
+
+    cloudflare:
+      enabled: false
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
+  beat-worker:
+    image:
+      repository: docker.io/makeplane/plane-backend
+      tag: "v1.3.0"
+      pullPolicy: IfNotPresent
+
+    command:
+      - ./bin/docker-entrypoint-beat.sh
+
+    service:
+      enabled: false
+
+    cloudflare:
+      enabled: false
+
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 50m
+      limits:
+        memory: 128Mi
+        cpu: 100m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
+# bitnami/postgresql sub-chart config
+postgresql:
+  auth:
+    username: plane
+    database: plane
+    existingSecret: plane
+    secretKeys:
+      userPasswordKey: DB_PASSWORD
+      adminPasswordKey: DB_PASSWORD
+  primary:
+    persistence:
+      enabled: true
+      storageClass: local-path
+      size: 10Gi
+
+# bitnami/valkey sub-chart config
+valkey:
+  auth:
+    enabled: false
+  primary:
+    persistence:
+      enabled: true
+      storageClass: local-path
+      size: 1Gi
+
+# bitnami/rabbitmq sub-chart config
+rabbitmq:
+  auth:
+    username: plane
+    existingPasswordSecret: plane
+    existingSecretPasswordKey: RABBITMQ_PASSWORD
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 2Gi
+
+# bitnami/minio sub-chart config
+minio:
+  auth:
+    existingSecret: plane
+    rootUserSecretKey: MINIO_ROOT_USER
+    rootPasswordSecretKey: MINIO_ROOT_PASSWORD
+  defaultBuckets: "uploads"
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 20Gi
