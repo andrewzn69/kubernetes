@@ -83,6 +83,12 @@ components:
         cpu: 500m
 
     replicaCount: 1
+    volumes:
+      emptyDir:
+        - name: nginx-cache
+          mountPath: /var/cache/nginx
+        - name: nginx-run
+          mountPath: /var/run
     configMap:
       enabled: false
     initContainers:
@@ -127,6 +133,12 @@ components:
         cpu: 250m
 
     replicaCount: 1
+    volumes:
+      emptyDir:
+        - name: nginx-cache
+          mountPath: /var/cache/nginx
+        - name: nginx-run
+          mountPath: /var/run
     configMap:
       enabled: false
     initContainers:
@@ -171,6 +183,12 @@ components:
         cpu: 250m
 
     replicaCount: 1
+    volumes:
+      emptyDir:
+        - name: nginx-cache
+          mountPath: /var/cache/nginx
+        - name: nginx-run
+          mountPath: /var/run
     configMap:
       enabled: false
     initContainers:
