@@ -385,6 +385,8 @@ global:
 
 # bitnami/postgresql sub-chart config
 postgresql:
+  image:
+    tag: "18.3.0-debian-12-r13"
   auth:
     username: plane
     database: plane
@@ -400,6 +402,8 @@ postgresql:
 
 # bitnami/valkey sub-chart config
 valkey:
+  image:
+    tag: "9.0.3-debian-12-r4"
   auth:
     enabled: false
   primary:
@@ -412,6 +416,8 @@ valkey:
 
 # bitnami/rabbitmq sub-chart config
 rabbitmq:
+  image:
+    tag: "4.3.0-debian-12-r0"
   auth:
     username: plane
     existingPasswordSecret: plane
