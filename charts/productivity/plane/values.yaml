@@ -376,6 +376,10 @@ components:
     metrics:
       enabled: false
 
+global:
+  security:
+    allowInsecureImages: true
+
 # bitnami/postgresql sub-chart config
 postgresql:
   auth:
