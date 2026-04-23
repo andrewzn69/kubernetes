@@ -2,11 +2,8 @@ dependencies:
 - name: common
   repository: oci://ghcr.io/andrewzn69
   version: 3.0.2
-- name: valkey
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 5.5.0
 - name: minio
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 17.0.21
-digest: sha256:ec15eda5f7f04714336486d5865c2106e7ed01fb07204dad882f76f4d1c0c6a3
-generated: "2026-04-24T00:51:20.307007149+02:00"
+digest: sha256:0c10465fd8c827cab8bd712e5fd4e17d8a8e947ac03af60c3e30296c71727127
+generated: "2026-04-24T01:47:35.511934002+02:00"

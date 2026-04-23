@@ -16,7 +16,7 @@ globalEnv:
         name: plane
         key: AMQP_URL
   - name: REDIS_URL
-    value: "redis://plane-valkey-master:6379"
+    value: "redis://plane-valkey:6379"
   - name: AWS_REGION
     value: "us-east-1"
   - name: AWS_S3_ENDPOINT_URL
@@ -518,23 +518,61 @@ components:
     metrics:
       enabled: false
 
+  valkey:
+    image:
+      repository: docker.io/valkey/valkey
+      tag: "9.0.3"
+      pullPolicy: IfNotPresent
+
+    service:
+      type: ClusterIP
+      port: 6379
+      targetPort: 6379
+      protocol: TCP
+      name: redis
+
+    cloudflare:
+      enabled: false
+
+    args:
+      - --save ""
+      - --appendonly no
+
+    volumes:
+      pvc:
+        - name: data
+          mountPath: /data
+          size: 1Gi
+          accessMode: ReadWriteOnce
+          storageClassName: local-path
+
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 50m
+      limits:
+        memory: 128Mi
+        cpu: 100m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
 global:
   security:
     allowInsecureImages: true
-
-# bitnami/valkey sub-chart config
-valkey:
-  image:
-    tag: "9.0.3-debian-12-r4"
-  auth:
-    enabled: false
-  primary:
-    persistence:
-      enabled: true
-      storageClass: local-path
-      size: 1Gi
-  replica:
-    replicaCount: 0
 
 # bitnami/minio sub-chart config
 minio:
