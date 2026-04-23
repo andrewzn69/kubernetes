@@ -437,7 +437,7 @@ components:
     metrics:
       enabled: false
 
-  postgresql:
+  postgres:
     image:
       repository: docker.io/library/postgres
       tag: "18.3-alpine3.22"
