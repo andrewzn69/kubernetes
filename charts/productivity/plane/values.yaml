@@ -377,6 +377,8 @@ valkey:
       enabled: true
       storageClass: local-path
       size: 1Gi
+  replica:
+    replicaCount: 0
 
 # bitnami/rabbitmq sub-chart config
 rabbitmq:
@@ -391,6 +393,8 @@ rabbitmq:
 
 # bitnami/minio sub-chart config
 minio:
+  console:
+    enabled: false
   auth:
     existingSecret: plane
     rootUserSecretKey: MINIO_ROOT_USER
