@@ -473,6 +473,9 @@ components:
           size: 10Gi
           accessMode: ReadWriteOnce
           storageClassName: local-path
+      emptyDir:
+        - name: run
+          mountPath: /var/run/postgresql
 
     podSecurityContext:
       runAsUser: 999
