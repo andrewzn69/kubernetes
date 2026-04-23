@@ -38,6 +38,11 @@ globalEnv:
       secretKeyRef:
         name: plane
         key: SECRET_KEY
+  - name: LIVE_SERVER_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: plane
+        key: LIVE_SERVER_SECRET_KEY
 
 secrets:
   enabled: true
