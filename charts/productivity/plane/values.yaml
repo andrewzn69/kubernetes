@@ -43,6 +43,8 @@ globalEnv:
       secretKeyRef:
         name: plane
         key: LIVE_SERVER_SECRET_KEY
+  - name: API_BASE_URL
+    value: "http://plane-api:8000"
 
 secrets:
   enabled: true
