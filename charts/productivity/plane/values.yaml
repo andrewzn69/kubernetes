@@ -416,6 +416,9 @@ rabbitmq:
 
 # bitnami/minio sub-chart config
 minio:
+  image:
+    registry: public.ecr.aws
+    tag: "2025.10.15-debian-12-r12"
   console:
     enabled: false
   auth:
