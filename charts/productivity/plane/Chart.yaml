@@ -21,9 +21,6 @@ dependencies:
   - name: valkey
     version: 5.5.0
     repository: oci://registry-1.docker.io/bitnamicharts
-  - name: rabbitmq
-    version: 16.0.14
-    repository: oci://registry-1.docker.io/bitnamicharts
   - name: minio
     version: 17.0.21
     repository: oci://registry-1.docker.io/bitnamicharts

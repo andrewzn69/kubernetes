@@ -378,8 +378,66 @@ components:
     metrics:
       enabled: false
 
+  rabbitmq:
+    image:
+      repository: rabbitmq
+      tag: "4.3.0-management-alpine"
+      pullPolicy: IfNotPresent
+
+    service:
+      type: ClusterIP
+      port: 5672
+      targetPort: 5672
+      protocol: TCP
+      name: amqp
+
+    cloudflare:
+      enabled: false
+
+    env:
+      - name: RABBITMQ_DEFAULT_USER
+        value: "plane"
+      - name: RABBITMQ_DEFAULT_PASS
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: RABBITMQ_PASSWORD
+      - name: RABBITMQ_DEFAULT_VHOST
+        value: "plane"
+
+    volumes:
+      pvc:
+        - name: data
+          mountPath: /var/lib/rabbitmq
+          size: 2Gi
+          accessMode: ReadWriteOnce
+          storageClassName: local-path
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
 global:
-  imageRegistry: public.ecr.aws
   security:
     allowInsecureImages: true
 
@@ -414,22 +472,10 @@ valkey:
   replica:
     replicaCount: 0
 
-# bitnami/rabbitmq sub-chart config
-rabbitmq:
-  image:
-    tag: "4.3.0-debian-12-r0"
-  auth:
-    username: plane
-    existingPasswordSecret: plane
-    existingSecretPasswordKey: RABBITMQ_PASSWORD
-  persistence:
-    enabled: true
-    storageClass: local-path
-    size: 2Gi
-
 # bitnami/minio sub-chart config
 minio:
   image:
+    registry: public.ecr.aws
     tag: "2025.10.15-debian-12-r12"
   console:
     enabled: false
