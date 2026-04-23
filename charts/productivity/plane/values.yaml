@@ -380,7 +380,7 @@ components:
 
   rabbitmq:
     image:
-      repository: rabbitmq
+      repository: docker.io/library/rabbitmq
       tag: "4.3.0-management-alpine"
       pullPolicy: IfNotPresent
 
