@@ -15,9 +15,6 @@ dependencies:
   - name: common
     version: 3.0.2
     repository: oci://ghcr.io/andrewzn69
-  - name: postgresql
-    version: 18.6.1
-    repository: oci://registry-1.docker.io/bitnamicharts
   - name: valkey
     version: 5.5.0
     repository: oci://registry-1.docker.io/bitnamicharts

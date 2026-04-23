@@ -2,14 +2,11 @@ dependencies:
 - name: common
   repository: oci://ghcr.io/andrewzn69
   version: 3.0.2
-- name: postgresql
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 18.6.1
 - name: valkey
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 5.5.0
 - name: minio
   repository: oci://registry-1.docker.io/bitnamicharts
   version: 17.0.21
-digest: sha256:6d493f3fd2fa98e4ab0c815aa01a73ffa83d8d51d106f5a0d854976228ef2ed8
-generated: "2026-04-24T00:25:29.381713028+02:00"
+digest: sha256:ec15eda5f7f04714336486d5865c2106e7ed01fb07204dad882f76f4d1c0c6a3
+generated: "2026-04-24T00:51:20.307007149+02:00"

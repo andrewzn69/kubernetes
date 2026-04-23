@@ -437,26 +437,70 @@ components:
     metrics:
       enabled: false
 
+  postgresql:
+    image:
+      repository: docker.io/library/postgres
+      tag: "18.3-alpine3.22"
+      pullPolicy: IfNotPresent
+
+    service:
+      type: ClusterIP
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+      name: postgres
+
+    cloudflare:
+      enabled: false
+
+    env:
+      - name: POSTGRES_USER
+        value: "plane"
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: DB_BASSWORD
+      - name: POSTGRES_DB
+        value: "plane"
+      - name: PGDATA
+        value: "/var/lib/postgresql/data/pgdata"
+
+    volumes:
+      pvc:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+          size: 10Gi
+          accessMode: ReadWriteOnce
+          storageClassName: local-path
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false
+
 global:
   security:
     allowInsecureImages: true
-
-# bitnami/postgresql sub-chart config
-postgresql:
-  image:
-    tag: "18.3.0-debian-12-r13"
-  auth:
-    username: plane
-    database: plane
-    existingSecret: plane
-    secretKeys:
-      userPasswordKey: DB_PASSWORD
-      adminPasswordKey: DB_PASSWORD
-  primary:
-    persistence:
-      enabled: true
-      storageClass: local-path
-      size: 10Gi
 
 # bitnami/valkey sub-chart config
 valkey:
