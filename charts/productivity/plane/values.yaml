@@ -474,6 +474,23 @@ components:
           accessMode: ReadWriteOnce
           storageClassName: local-path
 
+    podSecurityContext:
+      runAsUser: 999
+      runAsGroup: 999
+      fsGroup: 999
+      runAsNonRoot: true
+      seccompProfile:
+        type: RuntimeDefault
+
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: false
+      runAsUser: 999
+      runAsGroup: 999
+      capabilities:
+        drop:
+          - ALL
+
     resources:
       requests:
         memory: 256Mi
