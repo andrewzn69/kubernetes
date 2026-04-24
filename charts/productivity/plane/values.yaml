@@ -331,7 +331,7 @@ components:
       paths:
         - path: /api
           pathType: Prefix
-        - path: /auth
+        - path: /auth/
           pathType: Prefix
 
     resources:
