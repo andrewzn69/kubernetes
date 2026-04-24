@@ -331,7 +331,7 @@ components:
       enabled: true
       hostname: plane.zemn.xyz
       paths:
-        - path: /api
+        - path: /api/
           pathType: Prefix
         - path: /auth/
           pathType: Prefix
