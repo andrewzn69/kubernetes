@@ -45,6 +45,8 @@ globalEnv:
         key: LIVE_SERVER_SECRET_KEY
   - name: API_BASE_URL
     value: "http://plane-api:8000"
+  - name: USE_MINIO
+    value: "1"
   - name: WEB_URL
     value: "https://plane.zemn.xyz"
   - name: APP_BASE_URL
@@ -693,7 +695,11 @@ components:
       name: s3
 
     cloudflare:
-      enabled: false
+      enabled: true
+      hostname: plane.zemn.xyz
+      paths:
+        - path: /uploads
+          pathType: Prefix
 
     env:
       - name: MINIO_ROOT_USER
