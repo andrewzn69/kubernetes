@@ -291,6 +291,16 @@ components:
       fixPermissions:
         enabled: false
       custom:
+        - name: migrator
+          image: docker.io/makeplane/plane-backend:v1.3.0
+          command:
+            - ./bin/docker-entrypoint-migrator.sh
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: plane
+                  key: DATABASE_URL
         - name: create-minio-bucket
           image: quay.io/minio/mc:latest
           command:
