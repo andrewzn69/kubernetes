@@ -260,6 +260,10 @@ components:
     command:
       - ./bin/docker-entrypoint-api.sh
 
+    env:
+      - name: GUNICORN_WORKERS
+        value: "2"
+
     service:
       type: ClusterIP
       port: 8000
