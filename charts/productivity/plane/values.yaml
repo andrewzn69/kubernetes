@@ -45,6 +45,20 @@ globalEnv:
         key: LIVE_SERVER_SECRET_KEY
   - name: API_BASE_URL
     value: "http://plane-api:8000"
+  - name: WEB_URL
+    value: "https://plane.zemn.xyz"
+  - name: APP_BASE_URL
+    value: "https://plane.zemn.xyz"
+  - name: ADMIN_BASE_URL
+    value: "https://plane.zemn.xyz"
+  - name: ADMIN_BASE_PATH
+    value: "/god-mode"
+  - name: SPACE_BASE_URL
+    value: "https://plane.zemn.xyz"
+  - name: SPACE_BASE_PATH
+    value: "/spaces"
+  - name: CORS_ALLOWED_ORIGINS
+    value: "https://plane.zemn.xyz"
 
 secrets:
   enabled: true
