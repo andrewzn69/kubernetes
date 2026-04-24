@@ -15,6 +15,3 @@ dependencies:
   - name: common
     version: 3.0.2
     repository: oci://ghcr.io/andrewzn69
-  - name: minio
-    version: 17.0.21
-    repository: oci://registry-1.docker.io/bitnamicharts

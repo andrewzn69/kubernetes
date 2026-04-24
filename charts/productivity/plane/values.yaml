@@ -290,6 +290,29 @@ components:
     initContainers:
       fixPermissions:
         enabled: false
+      custom:
+        - name: create-minio-bucket
+          image: quay.io/minio/mc:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until mc alias set myminio http://plane-minio:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD; do
+                echo "waiting for minio..."
+                sleep 3
+              done
+              mc mb --ignore-existing myminio/uploads
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: plane
+                  key: MINIO_ROOT_USER
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: plane
+                  key: MINIO_ROOT_PASSWORD
     probes:
       liveness:
         enabled: false
@@ -570,23 +593,68 @@ components:
     metrics:
       enabled: false
 
-global:
-  security:
-    allowInsecureImages: true
+  minio:
+    image:
+      repository: quay.io/minio/minio
+      tag: "RELEASE.2025-09-07T16-13-09Z"
+      pullPolicy: IfNotPresent
 
-# bitnami/minio sub-chart config
-minio:
-  image:
-    registry: public.ecr.aws
-    tag: "2025.10.15-debian-12-r12"
-  console:
-    enabled: false
-  auth:
-    existingSecret: plane
-    rootUserSecretKey: MINIO_ROOT_USER
-    rootPasswordSecretKey: MINIO_ROOT_PASSWORD
-  defaultBuckets: "uploads"
-  persistence:
-    enabled: true
-    storageClass: local-path
-    size: 20Gi
+    args:
+      - server
+      - /data
+      - --console-address
+      - ":9001"
+
+    service:
+      type: ClusterIP
+      port: 9000
+      targetPort: 9000
+      protocol: TCP
+      name: s3
+
+    cloudflare:
+      enabled: false
+
+    env:
+      - name: MINIO_ROOT_USER
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: MINIO_ROOT_USER
+      - name: MINIO_ROOT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: MINIO_ROOT_PASSWORD
+
+    volumes:
+      pvc:
+        - name: data
+          mountPath: /data
+          size: 20Gi
+          accessMode: ReadWriteOnce
+          storageClassName: local-path
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    replicaCount: 1
+    configMap:
+      enabled: false
+    initContainers:
+      fixPermissions:
+        enabled: false
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    metrics:
+      enabled: false

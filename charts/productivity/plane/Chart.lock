@@ -2,8 +2,5 @@ dependencies:
 - name: common
   repository: oci://ghcr.io/andrewzn69
   version: 3.0.2
-- name: minio
-  repository: oci://registry-1.docker.io/bitnamicharts
-  version: 17.0.21
-digest: sha256:0c10465fd8c827cab8bd712e5fd4e17d8a8e947ac03af60c3e30296c71727127
-generated: "2026-04-24T01:47:35.511934002+02:00"
+digest: sha256:f82e06e59adb68e38c6c52d1b0e02b4bc0fa0e904f892e5ffcc0d36a53fd0bec
+generated: "2026-04-24T02:21:52.443604707+02:00"
