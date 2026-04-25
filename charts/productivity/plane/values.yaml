@@ -1,7 +1,9 @@
 namespace: productivity
 
 # shared env vars injected into all app components
-# DATABASE_URL and AMQP_URL contain passwords so they live in Infisical.
+# DATABASE_URL contains password so it lives in Infisical.
+# AMQP_URL is per-component: api/worker/beat-worker use AMQP_URL secret key (/plane vhost),
+# silo uses SILO_AMQP_URL secret key (default vhost, required by silo-commercial).
 # REDIS_URL has no auth so it stays as a plain value.
 # MINIO creds use AWS_* naming because plane uses the S3 SDK pointed at MinIO.
 globalEnv:
@@ -10,11 +12,6 @@ globalEnv:
       secretKeyRef:
         name: plane
         key: DATABASE_URL
-  - name: AMQP_URL
-    valueFrom:
-      secretKeyRef:
-        name: plane
-        key: AMQP_URL
   - name: REDIS_URL
     value: "redis://plane-valkey:6379"
   - name: AWS_REGION
@@ -319,6 +316,11 @@ components:
     env:
       - name: GUNICORN_WORKERS
         value: "2"
+      - name: AMQP_URL
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: AMQP_URL
 
     service:
       type: ClusterIP
@@ -414,6 +416,13 @@ components:
     command:
       - ./bin/docker-entrypoint-worker.sh
 
+    env:
+      - name: AMQP_URL
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: AMQP_URL
+
     service:
       enabled: false
 
@@ -452,6 +461,13 @@ components:
 
     command:
       - ./bin/docker-entrypoint-beat.sh
+
+    env:
+      - name: AMQP_URL
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: AMQP_URL
 
     service:
       enabled: false
