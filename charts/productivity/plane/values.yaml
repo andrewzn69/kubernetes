@@ -533,7 +533,7 @@ components:
         valueFrom:
           secretKeyRef:
             name: plane
-            key: AMQP_URL
+            key: SILO_AMQP_URL
       - name: SILO_HMAC_SECRET_KEY
         valueFrom:
           secretKeyRef:
