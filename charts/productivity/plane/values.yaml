@@ -2,8 +2,7 @@ namespace: productivity
 
 # shared env vars injected into all app components
 # DATABASE_URL contains password so it lives in Infisical.
-# AMQP_URL is per-component: api/worker/beat-worker use AMQP_URL secret key (/plane vhost),
-# silo uses SILO_AMQP_URL secret key (default vhost, required by silo-commercial).
+# AMQP_URL is per-component: all components use AMQP_URL secret key (default / vhost, no vhost suffix).
 # REDIS_URL has no auth so it stays as a plain value.
 # MINIO creds use AWS_* naming because plane uses the S3 SDK pointed at MinIO.
 globalEnv:
@@ -549,7 +548,7 @@ components:
         valueFrom:
           secretKeyRef:
             name: plane
-            key: SILO_AMQP_URL
+            key: AMQP_URL
       - name: SILO_HMAC_SECRET_KEY
         valueFrom:
           secretKeyRef:
@@ -640,7 +639,7 @@ components:
             name: plane
             key: RABBITMQ_PASSWORD
       - name: RABBITMQ_DEFAULT_VHOST
-        value: "plane"
+        value: "/"
 
     volumes:
       pvc:
