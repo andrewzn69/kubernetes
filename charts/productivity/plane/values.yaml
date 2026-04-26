@@ -305,8 +305,8 @@ components:
 
   api:
     image:
-      repository: docker.io/makeplane/plane-backend
-      tag: "v1.3.0"
+      repository: docker.io/makeplane/backend-commercial
+      tag: "v2.5.3"
       pullPolicy: IfNotPresent
 
     command:
@@ -353,7 +353,7 @@ components:
         enabled: false
       custom:
         - name: migrator
-          image: docker.io/makeplane/plane-backend:v1.3.0
+          image: docker.io/makeplane/backend-commercial:v2.5.3
           command:
             - ./bin/docker-entrypoint-migrator.sh
           env:
@@ -408,8 +408,8 @@ components:
 
   worker:
     image:
-      repository: docker.io/makeplane/plane-backend
-      tag: "v1.3.0"
+      repository: docker.io/makeplane/backend-commercial
+      tag: "v2.5.3"
       pullPolicy: IfNotPresent
 
     command:
@@ -454,8 +454,8 @@ components:
 
   beat-worker:
     image:
-      repository: docker.io/makeplane/plane-backend
-      tag: "v1.3.0"
+      repository: docker.io/makeplane/backend-commercial
+      tag: "v2.5.3"
       pullPolicy: IfNotPresent
 
     command:
