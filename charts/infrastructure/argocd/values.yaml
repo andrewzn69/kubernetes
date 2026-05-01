@@ -25,7 +25,7 @@ argo-cd:
         memory: 128Mi
         cpu: 100m
       limits:
-        memory: 256Mi
+        memory: 384Mi
         cpu: 250m
 
   applicationSet:
