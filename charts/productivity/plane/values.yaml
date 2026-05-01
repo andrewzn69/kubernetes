@@ -374,6 +374,11 @@ components:
                 secretKeyRef:
                   name: plane
                   key: SECRET_KEY
+            - name: AES_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: plane
+                  key: AES_SECRET_KEY
         - name: create-minio-bucket
           image: quay.io/minio/mc:latest
           command:
