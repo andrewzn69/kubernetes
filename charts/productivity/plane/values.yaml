@@ -353,6 +353,10 @@ components:
     replicaCount: 1
     configMap:
       enabled: false
+    volumes:
+      emptyDir:
+        - name: static-assets
+          mountPath: /code/plane/static-assets
     initContainers:
       fixPermissions:
         enabled: false
