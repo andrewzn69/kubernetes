@@ -320,6 +320,11 @@ components:
           secretKeyRef:
             name: plane
             key: AMQP_URL
+      - name: AES_SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: plane
+            key: AES_SECRET_KEY
 
     service:
       type: ClusterIP
