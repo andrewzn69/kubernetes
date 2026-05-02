@@ -75,8 +75,8 @@ secrets:
 components:
   web:
     image:
-      repository: docker.io/makeplane/plane-frontend
-      tag: "v1.3.0"
+      repository: docker.io/makeplane/web-commercial
+      tag: "v2.5.4"
       pullPolicy: IfNotPresent
 
     service:
