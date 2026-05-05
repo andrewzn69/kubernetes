@@ -1,9 +1,9 @@
 dependencies:
 - name: common
   repository: oci://ghcr.io/andrewzn69
-  version: 2.0.0
+  version: 3.0.7
 - name: cloudflare-tunnel-ingress-controller
   repository: https://helm.strrl.dev
   version: 0.0.23
-digest: sha256:f4092db5bfb58f627654e4c34f463a768b8fe9fcac424ebd6785d6c5cb5727de
-generated: "2026-04-23T01:20:16.440208566+02:00"
+digest: sha256:5d4e8489e904f27c9a4e9f1e6263dbbf0701194c28e6448df5e84ebc88604fde
+generated: "2026-05-05T15:12:15.169153261Z"
