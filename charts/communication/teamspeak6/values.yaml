@@ -24,7 +24,7 @@ components:
     volumes:
       pvc:
         - name: data
-          mountPath: /data
+          mountPath: /var/tsserver
           size: 5Gi
           accessMode: ReadWriteOnce
           storageClassName: local-path
@@ -64,7 +64,7 @@ components:
 
     configMap:
       enabled: true
-      mountPath: /ts6/config
+      mountPath: /var/tsserver
       files:
         query_ip_allowlist.txt: |
           10.244.0.0/24
