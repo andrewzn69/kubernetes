@@ -19,6 +19,13 @@ spec:
           repository: docker.io/busybox
         storageClass:
           defaultClass: true
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
   destination:
     server: https://130.162.228.5:6443
     namespace: local-path-provisioner
