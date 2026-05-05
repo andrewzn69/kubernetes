@@ -48,8 +48,9 @@ components:
     cloudflare:
       enabled: true
       hostname: jellyfin.zemn.xyz
-      path: /
-      pathType: Prefix
+      paths:
+        - path: /
+          pathType: Prefix
 
     resources:
       requests:

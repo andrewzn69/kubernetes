@@ -17,8 +17,9 @@ components:
     cloudflare:
       enabled: true
       hostname: seerr.zemn.xyz
-      path: /
-      pathType: Prefix
+      paths:
+        - path: /
+          pathType: Prefix
 
     volumes:
       pvc:
