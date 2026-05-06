@@ -19,8 +19,9 @@ components:
       gatewayName: internal
       gatewayNamespace: gateway-system
       hostname: victoria-metrics.internal.zemn.xyz
-      path: /
-      pathType: PathPrefix
+      paths:
+        - path: /
+          pathType: PathPrefix
 
     args:
       - -retentionPeriod=5y

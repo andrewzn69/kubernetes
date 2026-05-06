@@ -33,8 +33,9 @@ components:
       gatewayName: internal
       gatewayNamespace: gateway-system
       hostname: grafana.internal.zemn.xyz
-      path: /
-      pathType: PathPrefix
+      paths:
+        - path: /
+          pathType: PathPrefix
 
     volumes:
       pvc:

@@ -19,8 +19,9 @@ components:
       gatewayName: internal
       gatewayNamespace: gateway-system
       hostname: victoria-logs.internal.zemn.xyz
-      path: /
-      pathType: PathPrefix
+      paths:
+        - path: /
+          pathType: PathPrefix
 
     args:
       - -retentionPeriod=90d

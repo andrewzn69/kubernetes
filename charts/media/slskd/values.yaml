@@ -19,8 +19,9 @@ components:
       gatewayName: internal
       gatewayNamespace: gateway-system
       hostname: slskd.internal.zemn.xyz
-      path: /
-      pathType: PathPrefix
+      paths:
+        - path: /
+          pathType: PathPrefix
 
     volumes:
       pvc:
