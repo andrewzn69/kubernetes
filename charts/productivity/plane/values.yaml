@@ -633,7 +633,7 @@ components:
       repository: docker.io/library/rabbitmq
       # locked to 3.13.x — silo-commercial uses transient_nonexcl_queues which was removed in RabbitMQ 4.x.
       # do not upgrade until plane officially supports RabbitMQ 4.x.
-      tag: "3.13.6-management-alpine"
+      tag: "3.13.7-management-alpine"
       pullPolicy: IfNotPresent
 
     service:
