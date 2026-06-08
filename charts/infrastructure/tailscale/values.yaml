@@ -27,3 +27,5 @@ connector:
 tailscale-operator:
   operatorConfig:
     hostname: "vizima-k8s-operator"
+  proxyConfig:
+    defaultTags: "tag:k8s-operator"
