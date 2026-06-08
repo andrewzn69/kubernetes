@@ -31,7 +31,7 @@ cert-manager:
 infisical:
   enabled: true
   hostAPI: https://eu.infisical.com
-  projectId: "481ebc3e-b9ed-40e7-9417-07aafe84aad1"
+  projectId: "bebbc4ce-ab00-4776-aaba-0f3c89a93d1c"
   envSlug: prod
   secretsPath: "/infrastructure/cert-manager"
   resyncInterval: 60

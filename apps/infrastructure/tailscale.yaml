@@ -15,7 +15,7 @@ spec:
       releaseName: tailscale-operator
       values: |
         infisical:
-          projectId: "481ebc3e-b9ed-40e7-9417-07aafe84aad1"
+          projectId: "bebbc4ce-ab00-4776-aaba-0f3c89a93d1c"
   destination:
     server: https://kubernetes.default.svc
     namespace: tailscale-system
