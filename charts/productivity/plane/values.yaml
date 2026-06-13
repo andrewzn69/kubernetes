@@ -176,7 +176,7 @@ components:
   admin:
     image:
       repository: docker.io/makeplane/plane-admin
-      tag: "v1.3.0"
+      tag: "v1.3.1"
       pullPolicy: IfNotPresent
 
     service:
