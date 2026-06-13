@@ -266,7 +266,7 @@ components:
   live:
     image:
       repository: docker.io/makeplane/plane-live
-      tag: "v1.3.0"
+      tag: "v1.3.1"
       pullPolicy: IfNotPresent
 
     service:
