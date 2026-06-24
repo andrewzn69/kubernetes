@@ -515,7 +515,7 @@ components:
   silo:
     image:
       repository: docker.io/makeplane/silo-commercial
-      tag: "v2.5.3"
+      tag: "v2.11.1"
       pullPolicy: IfNotPresent
 
     service:
