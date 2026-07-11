@@ -4,7 +4,7 @@ components:
   navidrome:
     image:
       repository: deluan/navidrome
-      tag: "0.61.2"
+      tag: "0.63.2"
       pullPolicy: IfNotPresent
 
     service:
