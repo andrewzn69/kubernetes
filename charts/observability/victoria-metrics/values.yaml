@@ -4,7 +4,7 @@ components:
   victoria-metrics:
     image:
       repository: victoriametrics/victoria-metrics
-      tag: "v1.139.0"
+      tag: "v1.151.0"
       pullPolicy: IfNotPresent
 
     service:
